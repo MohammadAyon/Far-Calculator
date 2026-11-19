@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "name": "Name this verified ruleset",
+  "jurisdiction": "Bangladesh",
+  "calculationMode": null,
+  "roadFarCombination": "existing",
+  "plotAreaBasis": "gross",
+  "blocks": [],
+  "roadFar": [],
+  "occupancies": [],
+  "incentives": [],
+  "designInputs": [],
+  "reportFields": [],
+  "sources": []
+}

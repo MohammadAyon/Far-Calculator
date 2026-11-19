@@ -1,0 +1,5423 @@
+{
+  "schemaVersion": 1,
+  "name": "Dhaka Metropolitan Building Construction Rules, 2025 — FAR Ruleset (Rule 47–48 + DAP Table 3.28)",
+  "jurisdiction": "RAJUK / Dhaka Metropolitan Area, Bangladesh",
+  "calculationMode": "dap-2025",
+  "areaUnitSqft": {
+    "katha": 720,
+    "decimal": 435.6,
+    "chatak": 45,
+    "bigha": 14400,
+    "acre": 43560,
+    "hectare": 107639.104167
+  },
+  "roadFarCombination": "average",
+  "plotAreaBasis": "net-after-surrender",
+  "mixedOccupancyCapMethod": "weighted-average",
+  "blocks": [
+    {
+      "id": "Block-01",
+      "label": "সংরক্ষিত (Biman Bondar)",
+      "zone": "Z1 Central",
+      "typeCode": "N",
+      "areaFar": 0,
+      "buildable": false
+    },
+    {
+      "id": "Block-02",
+      "label": "জিজিরা, কালিন্দি, আগানগর",
+      "zone": "Z2 Outer",
+      "typeCode": "S",
+      "areaFar": 3.0,
+      "buildable": true,
+      "densityPerAcre": 220.0
+    },
+    {
+      "id": "Block-03",
+      "label": "বসুন্ধরা আবাসিক *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 4.1,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-04",
+      "label": "দক্ষিণখান",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.1,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-05",
+      "label": "ফরিদাবাদ",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.1,
+      "buildable": true,
+      "densityPerAcre": 300.0
+    },
+    {
+      "id": "Block-06",
+      "label": "কাউলা",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.2,
+      "buildable": true,
+      "densityPerAcre": 220.0
+    },
+    {
+      "id": "Block-07",
+      "label": "উত্তরা ১ম ও ২য় পর্ব *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 4.5,
+      "buildable": true,
+      "densityPerAcre": 300.0
+    },
+    {
+      "id": "Block-08",
+      "label": "কামারপাড়া",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.1,
+      "buildable": true,
+      "densityPerAcre": 280.0
+    },
+    {
+      "id": "Block-09",
+      "label": "মিরপুর *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 3.4,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-10",
+      "label": "কেরানীগঞ্জ, তারানগর, ভাকুর্তা, কোভা",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 2.5,
+      "buildable": true,
+      "densityPerAcre": 200.0
+    },
+    {
+      "id": "Block-11",
+      "label": "আনন্দনগর বেড়িবাঁধ",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 2.6,
+      "buildable": true,
+      "densityPerAcre": 220.0
+    },
+    {
+      "id": "Block-12",
+      "label": "শেওড়াপাড়া",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.0,
+      "buildable": true,
+      "densityPerAcre": 300.0
+    },
+    {
+      "id": "Block-13",
+      "label": "ইব্রাহীমপুর পূর্ব শেওড়াপাড়া",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.0,
+      "buildable": true,
+      "densityPerAcre": 300.0
+    },
+    {
+      "id": "Block-14",
+      "label": "বাউনিয়া",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.5,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-15",
+      "label": "খিলক্ষেত ভাটারা",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.1,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-16",
+      "label": "বারিধারা *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 4.7,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-17",
+      "label": "গুলশান বনানী *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 5.5,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-18",
+      "label": "বাইপাইল, আশুলিয়া, ধামসোনা, ইয়ারপুর",
+      "zone": "Z3 Suburban",
+      "typeCode": "S",
+      "areaFar": 2.7,
+      "buildable": true,
+      "densityPerAcre": 200.0
+    },
+    {
+      "id": "Block-19",
+      "label": "করাইল",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 2.0,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-20",
+      "label": "মহাখালী ডিওএইচএস *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 4.4,
+      "buildable": true,
+      "densityPerAcre": 200.0
+    },
+    {
+      "id": "Block-21",
+      "label": "নিকেতন",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.8,
+      "buildable": true,
+      "densityPerAcre": 280.0
+    },
+    {
+      "id": "Block-22",
+      "label": "মহাখালী",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.3,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-23",
+      "label": "রামপুরা",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.6,
+      "buildable": true,
+      "densityPerAcre": 300.0
+    },
+    {
+      "id": "Block-24",
+      "label": "তেজগাঁও আই এ",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.3,
+      "buildable": true,
+      "densityPerAcre": 220.0
+    },
+    {
+      "id": "Block-25",
+      "label": "মোহাম্মদপুর *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 3.4,
+      "buildable": true,
+      "densityPerAcre": 300.0
+    },
+    {
+      "id": "Block-26",
+      "label": "বনগ্রাম",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 2.1,
+      "buildable": true,
+      "densityPerAcre": 150.0
+    },
+    {
+      "id": "Block-27",
+      "label": "বায়তুল আমান",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.2,
+      "buildable": true,
+      "densityPerAcre": 300.0
+    },
+    {
+      "id": "Block-28",
+      "label": "মগবাজার",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.2,
+      "buildable": true,
+      "densityPerAcre": 300.0
+    },
+    {
+      "id": "Block-29a",
+      "label": "পুরাতন ঢাকা",
+      "zone": "Z1 Central",
+      "typeCode": "O",
+      "areaFar": 3.3,
+      "buildable": true,
+      "densityPerAcre": 300.0
+    },
+    {
+      "id": "Block-29b",
+      "label": "দিনিয়া-মুরাদপুর",
+      "zone": "Z1 Central",
+      "typeCode": "O",
+      "areaFar": 3.3,
+      "buildable": true,
+      "densityPerAcre": 300.0
+    },
+    {
+      "id": "Block-30",
+      "label": "গ্রীন মডেল টাউন *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 3.9,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-31",
+      "label": "সাতারকুল, নাসিরাবাদ",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 1.9,
+      "buildable": true,
+      "densityPerAcre": 220.0
+    },
+    {
+      "id": "Block-32",
+      "label": "বাসাবো, খিলগাঁও",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.4,
+      "buildable": true,
+      "densityPerAcre": 300.0
+    },
+    {
+      "id": "Block-33",
+      "label": "বন্দর, মোগরাপাড়া, কাচপুর",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 2.5,
+      "buildable": true,
+      "densityPerAcre": 200.0
+    },
+    {
+      "id": "Block-34",
+      "label": "রমনা, ঢাকা বিশ্ববিদ্যালয়",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.3,
+      "buildable": true,
+      "densityPerAcre": 220.0
+    },
+    {
+      "id": "Block-35",
+      "label": "পান্থপথ",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.4,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-36",
+      "label": "ধানমন্ডি আবাসিক *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 5.0,
+      "buildable": true,
+      "densityPerAcre": 220.0
+    },
+    {
+      "id": "Block-37",
+      "label": "নারায়ণগঞ্জ সেন্টার",
+      "zone": "Z2 Outer",
+      "typeCode": "S",
+      "areaFar": 3.5,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-38",
+      "label": "টঙ্গী",
+      "zone": "Z2 Outer",
+      "typeCode": "S",
+      "areaFar": 3.2,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-39",
+      "label": "বিরুলিয়া",
+      "zone": "Z3 Suburban",
+      "typeCode": "S",
+      "areaFar": 2.4,
+      "buildable": true,
+      "densityPerAcre": 175.0
+    },
+    {
+      "id": "Block-40",
+      "label": "গোগনগর, এনসিসি ২৭",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 2.7,
+      "buildable": true,
+      "densityPerAcre": 200.0
+    },
+    {
+      "id": "Block-41",
+      "label": "দাশেরকান্দি, কায়েতপাড়া",
+      "zone": "Z3 Suburban",
+      "typeCode": "S",
+      "areaFar": 2.4,
+      "buildable": true,
+      "densityPerAcre": 175.0
+    },
+    {
+      "id": "Block-42a",
+      "label": "মাতুয়াইল, সারুলিয়া",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.4,
+      "buildable": true,
+      "densityPerAcre": 200.0
+    },
+    {
+      "id": "Block-42b",
+      "label": "কুতুবপুর, ফতুল্লা",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.4,
+      "buildable": true,
+      "densityPerAcre": 200.0
+    },
+    {
+      "id": "Block-43",
+      "label": "পাথালিয়া",
+      "zone": "Z3 Suburban",
+      "typeCode": "S",
+      "areaFar": 2.7,
+      "buildable": true,
+      "densityPerAcre": 200.0
+    },
+    {
+      "id": "Block-44",
+      "label": "রূপগঞ্জ, ইসাপুর",
+      "zone": "Z3 Suburban",
+      "typeCode": "S",
+      "areaFar": 2.7,
+      "buildable": true,
+      "densityPerAcre": 200.0
+    },
+    {
+      "id": "Block-45",
+      "label": "ভুলতা, গোলাকান্দাইল",
+      "zone": "Z3 Suburban",
+      "typeCode": "S",
+      "areaFar": 2.7,
+      "buildable": true,
+      "densityPerAcre": 200.0
+    },
+    {
+      "id": "Block-46",
+      "label": "সাভার পৌরসভা",
+      "zone": "Z2 Outer",
+      "typeCode": "S",
+      "areaFar": 3.4,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-47",
+      "label": "ঝিলমিল আবাসিক *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 4.3,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-48",
+      "label": "হেমায়েতপুর, তেতুলঝোড়া",
+      "zone": "Z3 Suburban",
+      "typeCode": "S",
+      "areaFar": 2.8,
+      "buildable": true,
+      "densityPerAcre": 220.0
+    },
+    {
+      "id": "Block-49",
+      "label": "তারাবো পৌরসভা",
+      "zone": "Z2 Outer",
+      "typeCode": "S",
+      "areaFar": 3.0,
+      "buildable": true,
+      "densityPerAcre": 220.0
+    },
+    {
+      "id": "Block-50",
+      "label": "জলসিঁড়ি *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 4.1,
+      "buildable": true,
+      "densityPerAcre": 200.0
+    },
+    {
+      "id": "Block-51",
+      "label": "বাড্ডা",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.4,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-52",
+      "label": "আফতাবনগর, বনশ্রী *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 3.7,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-53",
+      "label": "ইউনাইটেড, সান্দ্যালী *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 3.7,
+      "buildable": true,
+      "densityPerAcre": 300.0
+    },
+    {
+      "id": "Block-54",
+      "label": "পূর্বাচল আবাসিক *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 4.5,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-55",
+      "label": "উত্তরা ৩য় পর্ব *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 4.7,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-56",
+      "label": "পি ও এইচ এস ও স্বর্ণালী *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 4.1,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-57",
+      "label": "নলডোয়াগ",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 2.6,
+      "buildable": true,
+      "densityPerAcre": 220.0
+    },
+    {
+      "id": "Block-58",
+      "label": "কল্যাণপুর-রিটেনশন",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 0,
+      "buildable": false
+    },
+    {
+      "id": "Block-59",
+      "label": "বিসিলা, চন্দ্রিমা",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.1,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-60",
+      "label": "খিলক্ষেত আবাসিক *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 4.4,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-61",
+      "label": "মিরপুর ডিআইজি ও এইচ এস *",
+      "zone": "Z1 Central",
+      "typeCode": "P",
+      "areaFar": 4.8,
+      "buildable": true,
+      "densityPerAcre": 220.0
+    },
+    {
+      "id": "Block-62",
+      "label": "পাইকপাড়া, টেলারবাগ",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.3,
+      "buildable": true,
+      "densityPerAcre": 300.0
+    },
+    {
+      "id": "Block-63",
+      "label": "কাউদিয়া, আমিনবাজার",
+      "zone": "Z3 Suburban",
+      "typeCode": "S",
+      "areaFar": 2.0,
+      "buildable": true,
+      "densityPerAcre": 175.0
+    },
+    {
+      "id": "Block-64",
+      "label": "কাচকুড়া মইনারটেক",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 2.6,
+      "buildable": true,
+      "densityPerAcre": 200.0
+    },
+    {
+      "id": "Block-65",
+      "label": "পল্লবী ২",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.3,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-66",
+      "label": "ঘাটারচর",
+      "zone": "Z2 Outer",
+      "typeCode": "S",
+      "areaFar": 3.2,
+      "buildable": true,
+      "densityPerAcre": 220.0
+    },
+    {
+      "id": "Block-67",
+      "label": "ডেমরা, কোনাপাড়া",
+      "zone": "Z1 Central",
+      "typeCode": "S",
+      "areaFar": 3.2,
+      "buildable": true,
+      "densityPerAcre": 250.0
+    },
+    {
+      "id": "Block-68",
+      "label": "সুবাড্ডা, আরাকুল, বেয়ারা",
+      "zone": "Z3 Suburban",
+      "typeCode": "S",
+      "areaFar": 2.7,
+      "buildable": true,
+      "densityPerAcre": 200.0
+    }
+  ],
+  "roadFar": [
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.25,
+      "occupancyCode": "A1",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 1.5,
+      "occupancyCode": "A1",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.75,
+      "occupancyCode": "A1",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.0,
+      "occupancyCode": "A1",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.5,
+      "occupancyCode": "A1",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.0,
+      "occupancyCode": "A1",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.5,
+      "occupancyCode": "A1",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.75,
+      "occupancyCode": "A1",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.25,
+      "occupancyCode": "A1",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.0,
+      "occupancyCode": "A1",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 1.25,
+      "occupancyCode": "A1",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.5,
+      "occupancyCode": "A1",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 1.75,
+      "occupancyCode": "A1",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.25,
+      "occupancyCode": "A1",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 2.75,
+      "occupancyCode": "A1",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.25,
+      "occupancyCode": "A1",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.5,
+      "occupancyCode": "A1",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.0,
+      "occupancyCode": "A1",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.0,
+      "occupancyCode": "A1",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 1.25,
+      "occupancyCode": "A1",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.5,
+      "occupancyCode": "A1",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 1.75,
+      "occupancyCode": "A1",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.25,
+      "occupancyCode": "A1",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 2.75,
+      "occupancyCode": "A1",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.25,
+      "occupancyCode": "A1",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.5,
+      "occupancyCode": "A1",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.0,
+      "occupancyCode": "A1",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.25,
+      "occupancyCode": "A2",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 1.5,
+      "occupancyCode": "A2",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.75,
+      "occupancyCode": "A2",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.0,
+      "occupancyCode": "A2",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.5,
+      "occupancyCode": "A2",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.0,
+      "occupancyCode": "A2",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.5,
+      "occupancyCode": "A2",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.75,
+      "occupancyCode": "A2",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.25,
+      "occupancyCode": "A2",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.0,
+      "occupancyCode": "A2",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 1.25,
+      "occupancyCode": "A2",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.5,
+      "occupancyCode": "A2",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 1.75,
+      "occupancyCode": "A2",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.25,
+      "occupancyCode": "A2",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 2.75,
+      "occupancyCode": "A2",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.25,
+      "occupancyCode": "A2",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.5,
+      "occupancyCode": "A2",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.0,
+      "occupancyCode": "A2",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.0,
+      "occupancyCode": "A2",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 1.25,
+      "occupancyCode": "A2",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.5,
+      "occupancyCode": "A2",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 1.75,
+      "occupancyCode": "A2",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.25,
+      "occupancyCode": "A2",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 2.75,
+      "occupancyCode": "A2",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.25,
+      "occupancyCode": "A2",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.5,
+      "occupancyCode": "A2",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.0,
+      "occupancyCode": "A2",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.25,
+      "occupancyCode": "A3",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 1.75,
+      "occupancyCode": "A3",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 2.0,
+      "occupancyCode": "A3",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.25,
+      "occupancyCode": "A3",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.25,
+      "occupancyCode": "A3",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.5,
+      "occupancyCode": "A3",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.0,
+      "occupancyCode": "A3",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 4.25,
+      "occupancyCode": "A3",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.75,
+      "occupancyCode": "A3",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.25,
+      "occupancyCode": "A3",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 1.5,
+      "occupancyCode": "A3",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.75,
+      "occupancyCode": "A3",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.0,
+      "occupancyCode": "A3",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.5,
+      "occupancyCode": "A3",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.0,
+      "occupancyCode": "A3",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.5,
+      "occupancyCode": "A3",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.75,
+      "occupancyCode": "A3",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.25,
+      "occupancyCode": "A3",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.0,
+      "occupancyCode": "A3",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 1.25,
+      "occupancyCode": "A3",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.5,
+      "occupancyCode": "A3",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 1.75,
+      "occupancyCode": "A3",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.3,
+      "occupancyCode": "A3",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 2.8,
+      "occupancyCode": "A3",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.3,
+      "occupancyCode": "A3",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.5,
+      "occupancyCode": "A3",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.0,
+      "occupancyCode": "A3",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "A4",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 2.0,
+      "occupancyCode": "A4",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 2.25,
+      "occupancyCode": "A4",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.5,
+      "occupancyCode": "A4",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.0,
+      "occupancyCode": "A4",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.5,
+      "occupancyCode": "A4",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.0,
+      "occupancyCode": "A4",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 4.5,
+      "occupancyCode": "A4",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 5.5,
+      "occupancyCode": "A4",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.25,
+      "occupancyCode": "A4",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 1.75,
+      "occupancyCode": "A4",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 2.0,
+      "occupancyCode": "A4",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.25,
+      "occupancyCode": "A4",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.75,
+      "occupancyCode": "A4",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.25,
+      "occupancyCode": "A4",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.75,
+      "occupancyCode": "A4",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 4.25,
+      "occupancyCode": "A4",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.75,
+      "occupancyCode": "A4",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.0,
+      "occupancyCode": "A4",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 1.5,
+      "occupancyCode": "A4",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.75,
+      "occupancyCode": "A4",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.0,
+      "occupancyCode": "A4",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.5,
+      "occupancyCode": "A4",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.0,
+      "occupancyCode": "A4",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.5,
+      "occupancyCode": "A4",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 4.0,
+      "occupancyCode": "A4",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.5,
+      "occupancyCode": "A4",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "A5",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "A5",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "A5",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "A5",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 4.0,
+      "occupancyCode": "A5",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 4.5,
+      "occupancyCode": "A5",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 5.0,
+      "occupancyCode": "A5",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 6.0,
+      "occupancyCode": "A5",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 7.0,
+      "occupancyCode": "A5",
+      "zone": "Z1",
+      "unrestrictedPlotAreaMinSqft": 43560
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "A5",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "A5",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "A5",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "A5",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.75,
+      "occupancyCode": "A5",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 4.25,
+      "occupancyCode": "A5",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.75,
+      "occupancyCode": "A5",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.75,
+      "occupancyCode": "A5",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.75,
+      "occupancyCode": "A5",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "A5",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "A5",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "A5",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "A5",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.5,
+      "occupancyCode": "A5",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 4.0,
+      "occupancyCode": "A5",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.5,
+      "occupancyCode": "A5",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.5,
+      "occupancyCode": "A5",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.5,
+      "occupancyCode": "A5",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.5,
+      "occupancyCode": "A6",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 2.0,
+      "occupancyCode": "A6",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 2.25,
+      "occupancyCode": "A6",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.5,
+      "occupancyCode": "A6",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.0,
+      "occupancyCode": "A6",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.25,
+      "occupancyCode": "A6",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.75,
+      "occupancyCode": "A6",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 4.0,
+      "occupancyCode": "A6",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.25,
+      "occupancyCode": "A6",
+      "zone": "Z1"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.5,
+      "occupancyCode": "A6",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 1.75,
+      "occupancyCode": "A6",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 2.0,
+      "occupancyCode": "A6",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.25,
+      "occupancyCode": "A6",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.75,
+      "occupancyCode": "A6",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.0,
+      "occupancyCode": "A6",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.5,
+      "occupancyCode": "A6",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.75,
+      "occupancyCode": "A6",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.0,
+      "occupancyCode": "A6",
+      "zone": "Z2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": 1.5,
+      "occupancyCode": "A6",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": 1.75,
+      "occupancyCode": "A6",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 2.0,
+      "occupancyCode": "A6",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.25,
+      "occupancyCode": "A6",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.75,
+      "occupancyCode": "A6",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.0,
+      "occupancyCode": "A6",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.5,
+      "occupancyCode": "A6",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.75,
+      "occupancyCode": "A6",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.0,
+      "occupancyCode": "A6",
+      "zone": "Z3"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "B1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "B1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "B1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "B1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.5,
+      "occupancyCode": "B1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.0,
+      "occupancyCode": "B1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.5,
+      "occupancyCode": "B1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 4.5,
+      "occupancyCode": "B1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 5.5,
+      "occupancyCode": "B1"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "B2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "B2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "B2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "B2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.5,
+      "occupancyCode": "B2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.5,
+      "occupancyCode": "B2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.0,
+      "occupancyCode": "B2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 6.0,
+      "occupancyCode": "B2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 7.0,
+      "occupancyCode": "B2",
+      "unrestrictedPlotAreaMinSqft": 130680
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "B3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "B3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "B3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.0,
+      "occupancyCode": "B3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.5,
+      "occupancyCode": "B3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.0,
+      "occupancyCode": "B3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.5,
+      "occupancyCode": "B3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 4.5,
+      "occupancyCode": "B3"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 5.5,
+      "occupancyCode": "B3"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "C1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "C1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 2.0,
+      "occupancyCode": "C1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.5,
+      "occupancyCode": "C1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.0,
+      "occupancyCode": "C1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.5,
+      "occupancyCode": "C1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.0,
+      "occupancyCode": "C1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.0,
+      "occupancyCode": "C1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.0,
+      "occupancyCode": "C1"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "C2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "C2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "C2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.5,
+      "occupancyCode": "C2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.0,
+      "occupancyCode": "C2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.5,
+      "occupancyCode": "C2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.0,
+      "occupancyCode": "C2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.0,
+      "occupancyCode": "C2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.0,
+      "occupancyCode": "C2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "C3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "C3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "C3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "C3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.0,
+      "occupancyCode": "C3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.5,
+      "occupancyCode": "C3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.0,
+      "occupancyCode": "C3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.0,
+      "occupancyCode": "C3"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.0,
+      "occupancyCode": "C3"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "C4"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "C4"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "C4"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "C4"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.0,
+      "occupancyCode": "C4"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.5,
+      "occupancyCode": "C4"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.0,
+      "occupancyCode": "C4"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.0,
+      "occupancyCode": "C4"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.0,
+      "occupancyCode": "C4",
+      "unrestrictedPlotAreaMinSqft": 14400
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "C5"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "C5"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "C5"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "C5"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.0,
+      "occupancyCode": "C5"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.5,
+      "occupancyCode": "C5"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.0,
+      "occupancyCode": "C5"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.0,
+      "occupancyCode": "C5"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.0,
+      "occupancyCode": "C5",
+      "unrestrictedPlotAreaMinSqft": 14400
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "D1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "D1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "D1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "D1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.0,
+      "occupancyCode": "D1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 4.0,
+      "occupancyCode": "D1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.5,
+      "occupancyCode": "D1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.5,
+      "occupancyCode": "D1",
+      "unrestrictedPlotAreaMinSqft": 14400
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.5,
+      "occupancyCode": "D1",
+      "unrestrictedPlotAreaMinSqft": 14400
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "D2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "D2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "D2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "D2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": null,
+      "occupancyCode": "D2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 4.0,
+      "occupancyCode": "D2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.5,
+      "occupancyCode": "D2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.5,
+      "occupancyCode": "D2",
+      "unrestrictedPlotAreaMinSqft": 14400
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.5,
+      "occupancyCode": "D2",
+      "unrestrictedPlotAreaMinSqft": 14400
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "D3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "D3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "D3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 1.5,
+      "occupancyCode": "D3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.5,
+      "occupancyCode": "D3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.0,
+      "occupancyCode": "D3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.5,
+      "occupancyCode": "D3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 4.0,
+      "occupancyCode": "D3"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.5,
+      "occupancyCode": "D3"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "E1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "E1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.5,
+      "occupancyCode": "E1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.0,
+      "occupancyCode": "E1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.0,
+      "occupancyCode": "E1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 4.0,
+      "occupancyCode": "E1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.0,
+      "occupancyCode": "E1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.5,
+      "occupancyCode": "E1",
+      "unrestrictedPlotAreaMinSqft": 14400
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.5,
+      "occupancyCode": "E1",
+      "unrestrictedPlotAreaMinSqft": 14400
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "E2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "E2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "E2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "E2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.5,
+      "occupancyCode": "E2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.0,
+      "occupancyCode": "E2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.0,
+      "occupancyCode": "E2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.0,
+      "occupancyCode": "E2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.0,
+      "occupancyCode": "E2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "E3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "E3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.5,
+      "occupancyCode": "E3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.0,
+      "occupancyCode": "E3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.0,
+      "occupancyCode": "E3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 4.0,
+      "occupancyCode": "E3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.0,
+      "occupancyCode": "E3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.5,
+      "occupancyCode": "E3",
+      "unrestrictedPlotAreaMinSqft": 14400
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.5,
+      "occupancyCode": "E3",
+      "unrestrictedPlotAreaMinSqft": 14400
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "F1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "F1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.0,
+      "occupancyCode": "F1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 1.75,
+      "occupancyCode": "F1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.0,
+      "occupancyCode": "F1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 2.25,
+      "occupancyCode": "F1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 2.5,
+      "occupancyCode": "F1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 2.75,
+      "occupancyCode": "F1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 3.0,
+      "occupancyCode": "F1"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "F2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "F2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "F2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "F2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.0,
+      "occupancyCode": "F2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 4.0,
+      "occupancyCode": "F2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.5,
+      "occupancyCode": "F2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.5,
+      "occupancyCode": "F2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.5,
+      "occupancyCode": "F2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "F3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "F3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "F3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "F3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": null,
+      "occupancyCode": "F3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 1.25,
+      "occupancyCode": "F3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 1.5,
+      "occupancyCode": "F3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 1.75,
+      "occupancyCode": "F3"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 2.0,
+      "occupancyCode": "F3"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "G1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "G1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "G1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "G1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.0,
+      "occupancyCode": "G1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 4.0,
+      "occupancyCode": "G1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.5,
+      "occupancyCode": "G1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.5,
+      "occupancyCode": "G1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 5.5,
+      "occupancyCode": "G1"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "G2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "G2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "G2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "G2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.0,
+      "occupancyCode": "G2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 4.0,
+      "occupancyCode": "G2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.5,
+      "occupancyCode": "G2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.0,
+      "occupancyCode": "G2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 5.5,
+      "occupancyCode": "G2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "H1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "H1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "H1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 1.0,
+      "occupancyCode": "H1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.0,
+      "occupancyCode": "H1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 2.5,
+      "occupancyCode": "H1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.5,
+      "occupancyCode": "H1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 4.5,
+      "occupancyCode": "H1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 5.0,
+      "occupancyCode": "H1"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "H2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "H2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "H2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "H2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 1.5,
+      "occupancyCode": "H2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 2.0,
+      "occupancyCode": "H2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 3.0,
+      "occupancyCode": "H2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 4.5,
+      "occupancyCode": "H2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 5.0,
+      "occupancyCode": "H2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "I1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "I1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "I1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "I1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": null,
+      "occupancyCode": "I1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.5,
+      "occupancyCode": "I1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.5,
+      "occupancyCode": "I1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.5,
+      "occupancyCode": "I1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.5,
+      "occupancyCode": "I1"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "I2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "I2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "I2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "I2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.0,
+      "occupancyCode": "I2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.0,
+      "occupancyCode": "I2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.0,
+      "occupancyCode": "I2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.0,
+      "occupancyCode": "I2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.0,
+      "occupancyCode": "I2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "I3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "I3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "I3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 1.5,
+      "occupancyCode": "I3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.5,
+      "occupancyCode": "I3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 3.5,
+      "occupancyCode": "I3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 4.5,
+      "occupancyCode": "I3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 5.5,
+      "occupancyCode": "I3"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.5,
+      "occupancyCode": "I3"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "I4"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "I4"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "I4"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 1.5,
+      "occupancyCode": "I4"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 1.75,
+      "occupancyCode": "I4"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 2.0,
+      "occupancyCode": "I4"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 2.25,
+      "occupancyCode": "I4"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 2.5,
+      "occupancyCode": "I4"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 2.75,
+      "occupancyCode": "I4"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "I5"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "I5"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.5,
+      "occupancyCode": "I5"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 2.0,
+      "occupancyCode": "I5"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.0,
+      "occupancyCode": "I5"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 4.0,
+      "occupancyCode": "I5"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 5.0,
+      "occupancyCode": "I5"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 6.0,
+      "occupancyCode": "I5"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 7.0,
+      "occupancyCode": "I5"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "J1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "J1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "J1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "J1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": null,
+      "occupancyCode": "J1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 2.0,
+      "occupancyCode": "J1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 2.5,
+      "occupancyCode": "J1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.25,
+      "occupancyCode": "J1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.25,
+      "occupancyCode": "J1"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "J2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "J2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "J2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "J2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": null,
+      "occupancyCode": "J2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": null,
+      "occupancyCode": "J2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": null,
+      "occupancyCode": "J2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.0,
+      "occupancyCode": "J2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.0,
+      "occupancyCode": "J2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "J3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "J3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "J3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "J3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": null,
+      "occupancyCode": "J3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": null,
+      "occupancyCode": "J3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": null,
+      "occupancyCode": "J3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.0,
+      "occupancyCode": "J3"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.0,
+      "occupancyCode": "J3"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "J4"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "J4"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "J4"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "J4"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": null,
+      "occupancyCode": "J4"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": null,
+      "occupancyCode": "J4"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": null,
+      "occupancyCode": "J4"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.0,
+      "occupancyCode": "J4"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.0,
+      "occupancyCode": "J4"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "K1"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "K1"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "K1"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "K1"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.5,
+      "occupancyCode": "K1"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 4.0,
+      "occupancyCode": "K1"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 5.5,
+      "occupancyCode": "K1"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 6.0,
+      "occupancyCode": "K1"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.5,
+      "occupancyCode": "K1"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "K2"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "K2"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": 1.0,
+      "occupancyCode": "K2"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": 1.5,
+      "occupancyCode": "K2"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 3.5,
+      "occupancyCode": "K2"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 4.0,
+      "occupancyCode": "K2"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 5.5,
+      "occupancyCode": "K2"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 6.0,
+      "occupancyCode": "K2"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 6.5,
+      "occupancyCode": "K2"
+    },
+    {
+      "minRoadWidthFt": 6.0,
+      "far": null,
+      "occupancyCode": "K3"
+    },
+    {
+      "minRoadWidthFt": 8.0,
+      "far": null,
+      "occupancyCode": "K3"
+    },
+    {
+      "minRoadWidthFt": 12.0,
+      "far": null,
+      "occupancyCode": "K3"
+    },
+    {
+      "minRoadWidthFt": 16.0,
+      "far": null,
+      "occupancyCode": "K3"
+    },
+    {
+      "minRoadWidthFt": 20.0,
+      "far": 2.0,
+      "occupancyCode": "K3"
+    },
+    {
+      "minRoadWidthFt": 30.0,
+      "far": 2.25,
+      "occupancyCode": "K3"
+    },
+    {
+      "minRoadWidthFt": 39.0,
+      "far": 2.5,
+      "occupancyCode": "K3"
+    },
+    {
+      "minRoadWidthFt": 59.0,
+      "far": 3.0,
+      "occupancyCode": "K3"
+    },
+    {
+      "minRoadWidthFt": 79.0,
+      "far": 4.0,
+      "occupancyCode": "K3"
+    }
+  ],
+  "occupancies": [
+    {
+      "code": "A1",
+      "label": "Single family / detached",
+      "group": "A",
+      "farTreatment": "area-road"
+    },
+    {
+      "code": "A2",
+      "label": "Two-family house",
+      "group": "A",
+      "farTreatment": "area-road"
+    },
+    {
+      "code": "A3",
+      "label": "Flat & apartment",
+      "group": "A",
+      "farTreatment": "area-road"
+    },
+    {
+      "code": "A4",
+      "label": "Mess, boarding, hostel",
+      "group": "A",
+      "farTreatment": "area-road"
+    },
+    {
+      "code": "A5",
+      "label": "Hotel, motel, service apt",
+      "group": "A",
+      "farTreatment": "area-road"
+    },
+    {
+      "code": "A6",
+      "label": "Affordable housing",
+      "group": "A",
+      "farTreatment": "area-road"
+    },
+    {
+      "code": "B1",
+      "label": "School / college (≤grade 12)",
+      "group": "B",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "B2",
+      "label": "University, medical college",
+      "group": "B",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "B3",
+      "label": "Pre-school",
+      "group": "B",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "C1",
+      "label": "Child care / institutional",
+      "group": "C",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "C2",
+      "label": "Adult care (able)",
+      "group": "C",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "C3",
+      "label": "Adult care (not able)",
+      "group": "C",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "C4",
+      "label": "Penal/mental (children)",
+      "group": "C",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "C5",
+      "label": "Penal/mental (adults)",
+      "group": "C",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "D1",
+      "label": "Hospital, clinic, nursing home",
+      "group": "D",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "D2",
+      "label": "Emergency health facility & diagnostic centre",
+      "group": "D",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "D3",
+      "label": "Doctor chamber, pathological lab & pharmacy",
+      "group": "D",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "E1",
+      "label": "Office",
+      "group": "E",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "E2",
+      "label": "Research institution",
+      "group": "E",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "E3",
+      "label": "Bank, post, services",
+      "group": "E",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "F1",
+      "label": "Small shop (<300 sqm)",
+      "group": "F",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "F2",
+      "label": "Large shop (≥300 sqm)",
+      "group": "F",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "F3",
+      "label": "Restaurant / filling station",
+      "group": "F",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "G1",
+      "label": "Low-hazard factory",
+      "group": "G",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "G2",
+      "label": "Medium-hazard factory",
+      "group": "G",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "H1",
+      "label": "Low-hazard warehouse",
+      "group": "H",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "H2",
+      "label": "General warehouse",
+      "group": "H",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "I1",
+      "label": "Large assembly (≥1000 seats)",
+      "group": "I",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "I2",
+      "label": "Small assembly (<1000 seats)",
+      "group": "I",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "I3",
+      "label": "Large assembly (non-fixed)",
+      "group": "I",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "I4",
+      "label": "Community / party centre",
+      "group": "I",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "I5",
+      "label": "Religious / cultural",
+      "group": "I",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "J1",
+      "label": "Explosive hazard",
+      "group": "J",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "J2",
+      "label": "Chemical hazard",
+      "group": "J",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "J3",
+      "label": "Biological hazard",
+      "group": "J",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "J4",
+      "label": "Radiation hazard",
+      "group": "J",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "K1",
+      "label": "Commercial parking",
+      "group": "K",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "K2",
+      "label": "Private parking",
+      "group": "K",
+      "farTreatment": "road-only"
+    },
+    {
+      "code": "K3",
+      "label": "Repair garage",
+      "group": "K",
+      "farTreatment": "road-only"
+    }
+  ],
+  "incentives": [
+    {
+      "id": "plot-amalgamation",
+      "label": "Group #1: Plot Amalgamation",
+      "group": "DAP Table 3.28 row 1 — plot size (katha)",
+      "automatic": true,
+      "minPlotAreaSqft": 2160,
+      "occupancyCodes": [
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6"
+      ],
+      "calculation": {
+        "mode": "plot-area-tier",
+        "tiers": [
+          {
+            "minPlotAreaSqft": 2160,
+            "maxPlotAreaSqft": 4320,
+            "farBonus": 0.2
+          },
+          {
+            "minPlotAreaSqft": 4320,
+            "maxPlotAreaSqft": 7200,
+            "farBonus": 0.35
+          },
+          {
+            "minPlotAreaSqft": 7200,
+            "maxPlotAreaSqft": 10800,
+            "farBonus": 0.5
+          },
+          {
+            "minPlotAreaSqft": 10800,
+            "maxPlotAreaSqft": 14400,
+            "farBonus": 0.65
+          },
+          {
+            "minPlotAreaSqft": 14400,
+            "farBonus": 0.75
+          }
+        ]
+      }
+    },
+    {
+      "id": "road-width-incentive",
+      "label": "Road > 30ft",
+      "group": "DAP Table 3.28 row 2 — road width (0.02 FAR per ft above 30 ft, max 1.00 at 80 ft)",
+      "automatic": true,
+      "occupancyCodes": [
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6"
+      ],
+      "calculation": {
+        "mode": "road-width",
+        "thresholdFt": 30,
+        "farPerFoot": 0.02,
+        "maxFarBonus": 1.0
+      }
+    },
+    {
+      "id": "green-building",
+      "label": "Green building certification",
+      "group": "DAP Table 3.28 row 4 — up to 0.50 FAR",
+      "automatic": false,
+      "calculation": {
+        "mode": "input",
+        "inputId": "greenBuildingBonus",
+        "maxFarBonus": 0.5
+      }
+    },
+    {
+      "id": "public-open-space",
+      "label": "Public open space",
+      "group": "DAP Table 3.28 — plot at least 10 katha",
+      "automatic": false,
+      "calculation": {
+        "mode": "input",
+        "inputId": "publicOpenSpaceBonus",
+        "maxFarBonus": 0.5
+      },
+      "minPlotAreaSqft": 7200
+    },
+    {
+      "id": "temporary-housing-four-units",
+      "label": "Temporary accommodation — four units",
+      "group": "DAP Table 3.28 — non-planned plot at least 10 katha",
+      "automatic": false,
+      "calculation": {
+        "mode": "input",
+        "inputId": "temporaryHousingFourUnits",
+        "maxFarBonus": 0.5
+      },
+      "minPlotAreaSqft": 7200,
+      "occupancyCodes": [
+        "A3",
+        "A6"
+      ],
+      "blockTypeCodes": [
+        "S"
+      ],
+      "exclusiveGroup": "temporary-accommodation"
+    },
+    {
+      "id": "temporary-housing-floor-area",
+      "label": "Temporary accommodation — 40% floor-area increase",
+      "group": "DAP Table 3.28 — non-planned plot at least 20 katha",
+      "automatic": false,
+      "calculation": {
+        "mode": "input",
+        "inputId": "temporaryHousingFloorArea",
+        "maxFarBonus": 0.75
+      },
+      "minPlotAreaSqft": 14400,
+      "occupancyCodes": [
+        "A3",
+        "A6"
+      ],
+      "blockTypeCodes": [
+        "S"
+      ],
+      "exclusiveGroup": "temporary-accommodation"
+    },
+    {
+      "id": "integrated-school",
+      "label": "Integrated educational institution",
+      "group": "DAP Table 3.28 — up to 0.25 FAR",
+      "automatic": false,
+      "calculation": {
+        "mode": "input",
+        "inputId": "integratedSchoolBonus",
+        "maxFarBonus": 0.25
+      }
+    },
+    {
+      "id": "integrated-playground",
+      "label": "Integrated playground or park",
+      "group": "DAP Table 3.28 — up to 0.25 FAR",
+      "automatic": false,
+      "calculation": {
+        "mode": "input",
+        "inputId": "integratedPlaygroundBonus",
+        "maxFarBonus": 0.25
+      }
+    },
+    {
+      "id": "dap-exceptional-far-excess",
+      "label": "Block development / urban regeneration / TDR FAR above Maximum FAR",
+      "group": "DAP Article 3.6.4.1 — only with applicable approval",
+      "automatic": false,
+      "allowsFarAboveMaximum": true,
+      "calculation": {
+        "mode": "input",
+        "inputId": "dapExceptionalFarExcess",
+        "maxFarBonus": 0.5
+      }
+    },
+    {
+      "id": "tod-redevelopment-incentive",
+      "label": "Transit-oriented development / redevelopment incentive",
+      "group": "DAP Table 3.28 — amount set by TOD Guideline 2025",
+      "automatic": false,
+      "calculation": {
+        "mode": "input",
+        "inputId": "todRedevelopmentBonus"
+      }
+    },
+    {
+      "id": "tdr-incentive",
+      "label": "Transfer of development rights incentive",
+      "group": "DAP Table 3.28 — amount set by relevant policy",
+      "automatic": false,
+      "calculation": {
+        "mode": "input",
+        "inputId": "tdrBonus"
+      }
+    },
+    {
+      "id": "far-purchase-incentive",
+      "label": "FAR purchased from the Authority",
+      "group": "DAP Table 3.28 — amount set by RAJUK",
+      "automatic": false,
+      "calculation": {
+        "mode": "input",
+        "inputId": "authorityFarPurchaseBonus"
+      }
+    }
+  ],
+  "designInputs": [
+    {
+      "id": "greenBuildingBonus",
+      "label": "Green building certification — verified FAR amount",
+      "section": "incentives",
+      "unit": "FAR",
+      "min": 0,
+      "max": 0.5,
+      "step": 0.01,
+      "hint": "Enter the amount supported by the required recognized certification.",
+      "defaultValue": 0.5
+    },
+    {
+      "id": "publicOpenSpaceBonus",
+      "label": "Public open space — verified FAR amount",
+      "section": "incentives",
+      "unit": "FAR",
+      "min": 0,
+      "max": 0.5,
+      "step": 0.01,
+      "hint": "Requires 10% of the plot leveled and kept connected to an existing road."
+    },
+    {
+      "id": "temporaryHousingFourUnits",
+      "label": "Temporary accommodation — four units — verified FAR amount",
+      "section": "incentives",
+      "unit": "FAR",
+      "min": 0,
+      "max": 0.5,
+      "step": 0.01,
+      "hint": "A6 with A3 or A6; non-planned block; 10 katha minimum. Select only one temporary-accommodation option."
+    },
+    {
+      "id": "temporaryHousingFloorArea",
+      "label": "Temporary accommodation — 40% floor-area increase — verified FAR amount",
+      "section": "incentives",
+      "unit": "FAR",
+      "min": 0,
+      "max": 0.75,
+      "step": 0.01,
+      "hint": "A6 with A3 or A6; non-planned block; 20 katha minimum. Select only one temporary-accommodation option."
+    },
+    {
+      "id": "integratedSchoolBonus",
+      "label": "Integrated educational institution — verified FAR amount",
+      "section": "incentives",
+      "unit": "FAR",
+      "min": 0,
+      "max": 0.25,
+      "step": 0.01,
+      "hint": "Requires the new institution listed in the DAP civic-amenities schedule."
+    },
+    {
+      "id": "integratedPlaygroundBonus",
+      "label": "Integrated playground or park — verified FAR amount",
+      "section": "incentives",
+      "unit": "FAR",
+      "min": 0,
+      "max": 0.25,
+      "step": 0.01,
+      "hint": "Requires the new playground or park listed in the DAP civic-amenities schedule."
+    },
+    {
+      "id": "dapExceptionalFarExcess",
+      "label": "Verified FAR excess above Maximum FAR",
+      "section": "incentives",
+      "unit": "FAR",
+      "min": 0,
+      "max": 0.5,
+      "step": 0.01,
+      "hint": "Only for eligible block-based development, urban regeneration, or TDR with the applicable approval. This amount applies above Maximum FAR only after the ordinary maximum is reached."
+    },
+    {
+      "id": "todRedevelopmentBonus",
+      "label": "Transit-oriented development / redevelopment incentive — approved FAR amount",
+      "section": "incentives",
+      "unit": "FAR",
+      "min": 0,
+      "step": 0.01,
+      "hint": "Enter the amount approved under the applicable TOD or redevelopment guideline."
+    },
+    {
+      "id": "tdrBonus",
+      "label": "Transfer of development rights incentive — approved FAR amount",
+      "section": "incentives",
+      "unit": "FAR",
+      "min": 0,
+      "step": 0.01,
+      "hint": "Enter the FAR amount approved under the applicable TDR policy."
+    },
+    {
+      "id": "authorityFarPurchaseBonus",
+      "label": "FAR purchased from the Authority — approved FAR amount",
+      "section": "incentives",
+      "unit": "FAR",
+      "min": 0,
+      "step": 0.01,
+      "hint": "Enter only the FAR amount authorized by the applicable government notification."
+    },
+    {
+      "id": "dwellingUnits",
+      "label": "Dwelling units",
+      "section": "layout",
+      "unit": "units",
+      "defaultValue": 8,
+      "min": 1,
+      "step": 1,
+      "hint": "Units on the upper floors. The ground floor is assumed to hold parking, lobby and circulation only."
+    },
+    {
+      "id": "avgUnitSizeSqft",
+      "label": "Average unit size",
+      "section": "layout",
+      "unit": "sft",
+      "defaultValue": 1600,
+      "min": 100,
+      "step": 10
+    },
+    {
+      "id": "totalFloors",
+      "label": "Total floors (G+8 = 9)",
+      "section": "layout",
+      "unit": "floors",
+      "defaultValue": 9,
+      "min": 2,
+      "step": 1
+    },
+    {
+      "id": "floorHeightM",
+      "label": "Average floor height",
+      "section": "layout",
+      "unit": "m",
+      "defaultValue": 3.667,
+      "min": 2.4,
+      "max": 6,
+      "step": 0.01,
+      "hint": "No storey-height rule is in the reference. 3.667 m reproduces 33.0 m for 9 floors; confirm your real assumption."
+    },
+    {
+      "id": "unitsPerKatha",
+      "label": "Units per katha (UPK)",
+      "section": "layout",
+      "unit": "units/katha",
+      "defaultValue": 2,
+      "min": 0.1,
+      "step": 0.1,
+      "hint": "Appendix 3.6 lists a UPK cap per block; enter the one for the selected block."
+    }
+  ],
+  "reportFields": [
+    {
+      "id": "far-incentive-headroom",
+      "label": "Incentive headroom (Max FAR − Base FAR)",
+      "section": "far",
+      "unit": "FAR",
+      "precision": 2,
+      "formula": {
+        "type": "operation",
+        "operator": "subtract",
+        "operands": [
+          {
+            "type": "input",
+            "key": "farCap"
+          },
+          {
+            "type": "input",
+            "key": "baseFar"
+          }
+        ]
+      }
+    },
+    {
+      "id": "far-incentive-usable",
+      "label": "Incentive FAR actually usable (after cap)",
+      "section": "far",
+      "unit": "FAR",
+      "precision": 2,
+      "formula": {
+        "type": "operation",
+        "operator": "min",
+        "operands": [
+          {
+            "type": "input",
+            "key": "totalBonusFar"
+          },
+          {
+            "type": "operation",
+            "operator": "subtract",
+            "operands": [
+              {
+                "type": "input",
+                "key": "farCap"
+              },
+              {
+                "type": "input",
+                "key": "baseFar"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "far-incentive-unused",
+      "label": "Incentive FAR above the cap (not usable)",
+      "section": "far",
+      "unit": "FAR",
+      "precision": 2,
+      "formula": {
+        "type": "operation",
+        "operator": "max",
+        "operands": [
+          {
+            "type": "constant",
+            "value": 0
+          },
+          {
+            "type": "operation",
+            "operator": "subtract",
+            "operands": [
+              {
+                "type": "input",
+                "key": "totalBonusFar"
+              },
+              {
+                "type": "operation",
+                "operator": "subtract",
+                "operands": [
+                  {
+                    "type": "input",
+                    "key": "farCap"
+                  },
+                  {
+                    "type": "input",
+                    "key": "baseFar"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "far-floor-area-sqm",
+      "label": "Permissible floor area",
+      "section": "far",
+      "unit": "sqm",
+      "precision": 1,
+      "formula": {
+        "type": "operation",
+        "operator": "multiply",
+        "operands": [
+          {
+            "type": "input",
+            "key": "floorAreaSqft"
+          },
+          {
+            "type": "constant",
+            "value": 0.09290304
+          }
+        ]
+      }
+    },
+    {
+      "id": "gc-applied-pct",
+      "label": "Applied Ground Coverage",
+      "section": "groundCoverage",
+      "unit": "%",
+      "precision": 2,
+      "formula": {
+        "type": "operation",
+        "operator": "multiply",
+        "operands": [
+          {
+            "type": "operation",
+            "operator": "divide",
+            "operands": [
+              {
+                "type": "operation",
+                "operator": "add",
+                "operands": [
+                  {
+                    "type": "operation",
+                    "operator": "add",
+                    "operands": [
+                      {
+                        "type": "operation",
+                        "operator": "multiply",
+                        "operands": [
+                          {
+                            "type": "operation",
+                            "operator": "divide",
+                            "operands": [
+                              {
+                                "type": "input",
+                                "key": "dwellingUnits"
+                              },
+                              {
+                                "type": "operation",
+                                "operator": "max",
+                                "operands": [
+                                  {
+                                    "type": "operation",
+                                    "operator": "subtract",
+                                    "operands": [
+                                      {
+                                        "type": "input",
+                                        "key": "totalFloors"
+                                      },
+                                      {
+                                        "type": "constant",
+                                        "value": 1
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "constant",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "input",
+                            "key": "avgUnitSizeSqft"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "operation",
+                        "operator": "max",
+                        "operands": [
+                          {
+                            "type": "constant",
+                            "value": 0
+                          },
+                          {
+                            "type": "operation",
+                            "operator": "divide",
+                            "operands": [
+                              {
+                                "type": "operation",
+                                "operator": "subtract",
+                                "operands": [
+                                  {
+                                    "type": "input",
+                                    "key": "floorAreaSqft"
+                                  },
+                                  {
+                                    "type": "operation",
+                                    "operator": "multiply",
+                                    "operands": [
+                                      {
+                                        "type": "input",
+                                        "key": "dwellingUnits"
+                                      },
+                                      {
+                                        "type": "input",
+                                        "key": "avgUnitSizeSqft"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "input",
+                                "key": "totalFloors"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "operation",
+                    "operator": "multiply",
+                    "operands": [
+                      {
+                        "type": "constant",
+                        "value": 0.025
+                      },
+                      {
+                        "type": "operation",
+                        "operator": "add",
+                        "operands": [
+                          {
+                            "type": "operation",
+                            "operator": "multiply",
+                            "operands": [
+                              {
+                                "type": "operation",
+                                "operator": "divide",
+                                "operands": [
+                                  {
+                                    "type": "input",
+                                    "key": "dwellingUnits"
+                                  },
+                                  {
+                                    "type": "operation",
+                                    "operator": "max",
+                                    "operands": [
+                                      {
+                                        "type": "operation",
+                                        "operator": "subtract",
+                                        "operands": [
+                                          {
+                                            "type": "input",
+                                            "key": "totalFloors"
+                                          },
+                                          {
+                                            "type": "constant",
+                                            "value": 1
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "constant",
+                                        "value": 1
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "input",
+                                "key": "avgUnitSizeSqft"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "operation",
+                            "operator": "max",
+                            "operands": [
+                              {
+                                "type": "constant",
+                                "value": 0
+                              },
+                              {
+                                "type": "operation",
+                                "operator": "divide",
+                                "operands": [
+                                  {
+                                    "type": "operation",
+                                    "operator": "subtract",
+                                    "operands": [
+                                      {
+                                        "type": "input",
+                                        "key": "floorAreaSqft"
+                                      },
+                                      {
+                                        "type": "operation",
+                                        "operator": "multiply",
+                                        "operands": [
+                                          {
+                                            "type": "input",
+                                            "key": "dwellingUnits"
+                                          },
+                                          {
+                                            "type": "input",
+                                            "key": "avgUnitSizeSqft"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "input",
+                                    "key": "totalFloors"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "input",
+                "key": "netPlotAreaSqft"
+              }
+            ]
+          },
+          {
+            "type": "constant",
+            "value": 100
+          }
+        ]
+      }
+    },
+    {
+      "id": "gc-applied-sqft",
+      "label": "Applied Ground Coverage (area)",
+      "section": "groundCoverage",
+      "unit": "sft",
+      "precision": 1,
+      "formula": {
+        "type": "operation",
+        "operator": "add",
+        "operands": [
+          {
+            "type": "operation",
+            "operator": "add",
+            "operands": [
+              {
+                "type": "operation",
+                "operator": "multiply",
+                "operands": [
+                  {
+                    "type": "operation",
+                    "operator": "divide",
+                    "operands": [
+                      {
+                        "type": "input",
+                        "key": "dwellingUnits"
+                      },
+                      {
+                        "type": "operation",
+                        "operator": "max",
+                        "operands": [
+                          {
+                            "type": "operation",
+                            "operator": "subtract",
+                            "operands": [
+                              {
+                                "type": "input",
+                                "key": "totalFloors"
+                              },
+                              {
+                                "type": "constant",
+                                "value": 1
+                              }
+                            ]
+                          },
+                          {
+                            "type": "constant",
+                            "value": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "input",
+                    "key": "avgUnitSizeSqft"
+                  }
+                ]
+              },
+              {
+                "type": "operation",
+                "operator": "max",
+                "operands": [
+                  {
+                    "type": "constant",
+                    "value": 0
+                  },
+                  {
+                    "type": "operation",
+                    "operator": "divide",
+                    "operands": [
+                      {
+                        "type": "operation",
+                        "operator": "subtract",
+                        "operands": [
+                          {
+                            "type": "input",
+                            "key": "floorAreaSqft"
+                          },
+                          {
+                            "type": "operation",
+                            "operator": "multiply",
+                            "operands": [
+                              {
+                                "type": "input",
+                                "key": "dwellingUnits"
+                              },
+                              {
+                                "type": "input",
+                                "key": "avgUnitSizeSqft"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "input",
+                        "key": "totalFloors"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "operation",
+            "operator": "multiply",
+            "operands": [
+              {
+                "type": "constant",
+                "value": 0.025
+              },
+              {
+                "type": "operation",
+                "operator": "add",
+                "operands": [
+                  {
+                    "type": "operation",
+                    "operator": "multiply",
+                    "operands": [
+                      {
+                        "type": "operation",
+                        "operator": "divide",
+                        "operands": [
+                          {
+                            "type": "input",
+                            "key": "dwellingUnits"
+                          },
+                          {
+                            "type": "operation",
+                            "operator": "max",
+                            "operands": [
+                              {
+                                "type": "operation",
+                                "operator": "subtract",
+                                "operands": [
+                                  {
+                                    "type": "input",
+                                    "key": "totalFloors"
+                                  },
+                                  {
+                                    "type": "constant",
+                                    "value": 1
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "constant",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "input",
+                        "key": "avgUnitSizeSqft"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "operation",
+                    "operator": "max",
+                    "operands": [
+                      {
+                        "type": "constant",
+                        "value": 0
+                      },
+                      {
+                        "type": "operation",
+                        "operator": "divide",
+                        "operands": [
+                          {
+                            "type": "operation",
+                            "operator": "subtract",
+                            "operands": [
+                              {
+                                "type": "input",
+                                "key": "floorAreaSqft"
+                              },
+                              {
+                                "type": "operation",
+                                "operator": "multiply",
+                                "operands": [
+                                  {
+                                    "type": "input",
+                                    "key": "dwellingUnits"
+                                  },
+                                  {
+                                    "type": "input",
+                                    "key": "avgUnitSizeSqft"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "input",
+                            "key": "totalFloors"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "gc-min-pct",
+      "label": "Min Ground Coverage (Min MGC, 0 = none)",
+      "section": "groundCoverage",
+      "unit": "%",
+      "precision": 2,
+      "formula": {
+        "type": "input",
+        "key": "minGroundCoveragePercent"
+      }
+    },
+    {
+      "id": "gc-min-sqft",
+      "label": "Min Ground Coverage (area)",
+      "section": "groundCoverage",
+      "unit": "sft",
+      "precision": 1,
+      "formula": {
+        "type": "operation",
+        "operator": "divide",
+        "operands": [
+          {
+            "type": "operation",
+            "operator": "multiply",
+            "operands": [
+              {
+                "type": "input",
+                "key": "netPlotAreaSqft"
+              },
+              {
+                "type": "input",
+                "key": "minGroundCoveragePercent"
+              }
+            ]
+          },
+          {
+            "type": "constant",
+            "value": 100
+          }
+        ]
+      }
+    },
+    {
+      "id": "gc-max-pct",
+      "label": "Max Ground Coverage Cap (Max MGC)",
+      "section": "groundCoverage",
+      "unit": "%",
+      "precision": 2,
+      "formula": {
+        "type": "input",
+        "key": "maxGroundCoveragePercent"
+      }
+    },
+    {
+      "id": "gc-max-sqft",
+      "label": "Max Ground Coverage Cap (area)",
+      "section": "groundCoverage",
+      "unit": "sft",
+      "precision": 1,
+      "formula": {
+        "type": "operation",
+        "operator": "divide",
+        "operands": [
+          {
+            "type": "operation",
+            "operator": "multiply",
+            "operands": [
+              {
+                "type": "input",
+                "key": "netPlotAreaSqft"
+              },
+              {
+                "type": "input",
+                "key": "maxGroundCoveragePercent"
+              }
+            ]
+          },
+          {
+            "type": "constant",
+            "value": 100
+          }
+        ]
+      }
+    },
+    {
+      "id": "gc-open-pct",
+      "label": "Mandatory Open Space",
+      "section": "groundCoverage",
+      "unit": "%",
+      "precision": 2,
+      "formula": {
+        "type": "input",
+        "key": "mandatoryOpenSpacePercent"
+      }
+    },
+    {
+      "id": "gc-open-sqft",
+      "label": "Mandatory Open Space (area)",
+      "section": "groundCoverage",
+      "unit": "sft",
+      "precision": 1,
+      "formula": {
+        "type": "operation",
+        "operator": "divide",
+        "operands": [
+          {
+            "type": "operation",
+            "operator": "multiply",
+            "operands": [
+              {
+                "type": "input",
+                "key": "netPlotAreaSqft"
+              },
+              {
+                "type": "input",
+                "key": "mandatoryOpenSpacePercent"
+              }
+            ]
+          },
+          {
+            "type": "constant",
+            "value": 100
+          }
+        ]
+      }
+    },
+    {
+      "id": "gc-rain-pct",
+      "label": "Min Permeable (Rainwater)",
+      "section": "groundCoverage",
+      "unit": "%",
+      "precision": 2,
+      "formula": {
+        "type": "input",
+        "key": "rainwaterAbsorptionPercent"
+      }
+    },
+    {
+      "id": "gc-rain-sqft",
+      "label": "Min Permeable (area)",
+      "section": "groundCoverage",
+      "unit": "sft",
+      "precision": 1,
+      "formula": {
+        "type": "operation",
+        "operator": "divide",
+        "operands": [
+          {
+            "type": "operation",
+            "operator": "multiply",
+            "operands": [
+              {
+                "type": "input",
+                "key": "netPlotAreaSqft"
+              },
+              {
+                "type": "input",
+                "key": "rainwaterAbsorptionPercent"
+              }
+            ]
+          },
+          {
+            "type": "constant",
+            "value": 100
+          }
+        ]
+      }
+    },
+    {
+      "id": "gc-extra-pct",
+      "label": "Max Extra Coverage (Table 3 exception)",
+      "section": "groundCoverage",
+      "unit": "%",
+      "precision": 2,
+      "formula": {
+        "type": "input",
+        "key": "additionalGroundCoveragePercent"
+      }
+    },
+    {
+      "id": "gc-extra-sqft",
+      "label": "Max Extra Coverage (area)",
+      "section": "groundCoverage",
+      "unit": "sft",
+      "precision": 1,
+      "formula": {
+        "type": "operation",
+        "operator": "divide",
+        "operands": [
+          {
+            "type": "operation",
+            "operator": "multiply",
+            "operands": [
+              {
+                "type": "input",
+                "key": "netPlotAreaSqft"
+              },
+              {
+                "type": "input",
+                "key": "additionalGroundCoveragePercent"
+              }
+            ]
+          },
+          {
+            "type": "constant",
+            "value": 100
+          }
+        ]
+      }
+    },
+    {
+      "id": "upper-floors",
+      "label": "Floor count (G + n): n",
+      "section": "groundCoverage",
+      "unit": "floors",
+      "precision": 0,
+      "formula": {
+        "type": "operation",
+        "operator": "subtract",
+        "operands": [
+          {
+            "type": "input",
+            "key": "totalFloors"
+          },
+          {
+            "type": "constant",
+            "value": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "total-floors",
+      "label": "Total floors",
+      "section": "groundCoverage",
+      "unit": "floors",
+      "precision": 0,
+      "formula": {
+        "type": "input",
+        "key": "totalFloors"
+      }
+    },
+    {
+      "id": "height-m",
+      "label": "Total Building Height",
+      "section": "groundCoverage",
+      "unit": "m",
+      "precision": 1,
+      "formula": {
+        "type": "operation",
+        "operator": "multiply",
+        "operands": [
+          {
+            "type": "input",
+            "key": "totalFloors"
+          },
+          {
+            "type": "input",
+            "key": "floorHeightM"
+          }
+        ]
+      }
+    },
+    {
+      "id": "height-ft",
+      "label": "Total Building Height",
+      "section": "groundCoverage",
+      "unit": "ft",
+      "precision": 1,
+      "formula": {
+        "type": "operation",
+        "operator": "multiply",
+        "operands": [
+          {
+            "type": "input",
+            "key": "totalFloors"
+          },
+          {
+            "type": "input",
+            "key": "floorHeightM"
+          },
+          {
+            "type": "constant",
+            "value": 3.280839895
+          }
+        ]
+      }
+    },
+    {
+      "id": "dwelling-units",
+      "label": "Dwelling units",
+      "section": "layout",
+      "unit": "units",
+      "precision": 0,
+      "formula": {
+        "type": "input",
+        "key": "dwellingUnits"
+      }
+    },
+    {
+      "id": "dwelling-units-max",
+      "label": "Max dwelling units (UPK × katha + 10%)",
+      "section": "layout",
+      "unit": "units",
+      "precision": 0,
+      "formula": {
+        "type": "operation",
+        "operator": "floor",
+        "operands": [
+          {
+            "type": "operation",
+            "operator": "add",
+            "operands": [
+              {
+                "type": "operation",
+                "operator": "multiply",
+                "operands": [
+                  {
+                    "type": "operation",
+                    "operator": "divide",
+                    "operands": [
+                      {
+                        "type": "input",
+                        "key": "netPlotAreaSqft"
+                      },
+                      {
+                        "type": "constant",
+                        "value": 720
+                      }
+                    ]
+                  },
+                  {
+                    "type": "input",
+                    "key": "unitsPerKatha"
+                  },
+                  {
+                    "type": "constant",
+                    "value": 1.1
+                  }
+                ]
+              },
+              {
+                "type": "constant",
+                "value": 1e-06
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "units-per-floor",
+      "label": "Units per floor",
+      "section": "layout",
+      "unit": "units",
+      "precision": 2,
+      "formula": {
+        "type": "operation",
+        "operator": "divide",
+        "operands": [
+          {
+            "type": "input",
+            "key": "dwellingUnits"
+          },
+          {
+            "type": "operation",
+            "operator": "max",
+            "operands": [
+              {
+                "type": "operation",
+                "operator": "subtract",
+                "operands": [
+                  {
+                    "type": "input",
+                    "key": "totalFloors"
+                  },
+                  {
+                    "type": "constant",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "type": "constant",
+                "value": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "avg-unit-size",
+      "label": "Average unit size",
+      "section": "layout",
+      "unit": "sft",
+      "precision": 0,
+      "formula": {
+        "type": "input",
+        "key": "avgUnitSizeSqft"
+      }
+    },
+    {
+      "id": "balcony-per-floor",
+      "label": "Side balcony per floor (2.5% of base area)",
+      "section": "layout",
+      "unit": "sft",
+      "precision": 1,
+      "formula": {
+        "type": "operation",
+        "operator": "multiply",
+        "operands": [
+          {
+            "type": "constant",
+            "value": 0.025
+          },
+          {
+            "type": "operation",
+            "operator": "add",
+            "operands": [
+              {
+                "type": "operation",
+                "operator": "multiply",
+                "operands": [
+                  {
+                    "type": "operation",
+                    "operator": "divide",
+                    "operands": [
+                      {
+                        "type": "input",
+                        "key": "dwellingUnits"
+                      },
+                      {
+                        "type": "operation",
+                        "operator": "max",
+                        "operands": [
+                          {
+                            "type": "operation",
+                            "operator": "subtract",
+                            "operands": [
+                              {
+                                "type": "input",
+                                "key": "totalFloors"
+                              },
+                              {
+                                "type": "constant",
+                                "value": 1
+                              }
+                            ]
+                          },
+                          {
+                            "type": "constant",
+                            "value": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "input",
+                    "key": "avgUnitSizeSqft"
+                  }
+                ]
+              },
+              {
+                "type": "operation",
+                "operator": "max",
+                "operands": [
+                  {
+                    "type": "constant",
+                    "value": 0
+                  },
+                  {
+                    "type": "operation",
+                    "operator": "divide",
+                    "operands": [
+                      {
+                        "type": "operation",
+                        "operator": "subtract",
+                        "operands": [
+                          {
+                            "type": "input",
+                            "key": "floorAreaSqft"
+                          },
+                          {
+                            "type": "operation",
+                            "operator": "multiply",
+                            "operands": [
+                              {
+                                "type": "input",
+                                "key": "dwellingUnits"
+                              },
+                              {
+                                "type": "input",
+                                "key": "avgUnitSizeSqft"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "input",
+                        "key": "totalFloors"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "balcony-per-unit",
+      "label": "Side balcony per unit",
+      "section": "layout",
+      "unit": "sft",
+      "precision": 1,
+      "formula": {
+        "type": "operation",
+        "operator": "divide",
+        "operands": [
+          {
+            "type": "operation",
+            "operator": "multiply",
+            "operands": [
+              {
+                "type": "constant",
+                "value": 0.025
+              },
+              {
+                "type": "operation",
+                "operator": "add",
+                "operands": [
+                  {
+                    "type": "operation",
+                    "operator": "multiply",
+                    "operands": [
+                      {
+                        "type": "operation",
+                        "operator": "divide",
+                        "operands": [
+                          {
+                            "type": "input",
+                            "key": "dwellingUnits"
+                          },
+                          {
+                            "type": "operation",
+                            "operator": "max",
+                            "operands": [
+                              {
+                                "type": "operation",
+                                "operator": "subtract",
+                                "operands": [
+                                  {
+                                    "type": "input",
+                                    "key": "totalFloors"
+                                  },
+                                  {
+                                    "type": "constant",
+                                    "value": 1
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "constant",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "input",
+                        "key": "avgUnitSizeSqft"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "operation",
+                    "operator": "max",
+                    "operands": [
+                      {
+                        "type": "constant",
+                        "value": 0
+                      },
+                      {
+                        "type": "operation",
+                        "operator": "divide",
+                        "operands": [
+                          {
+                            "type": "operation",
+                            "operator": "subtract",
+                            "operands": [
+                              {
+                                "type": "input",
+                                "key": "floorAreaSqft"
+                              },
+                              {
+                                "type": "operation",
+                                "operator": "multiply",
+                                "operands": [
+                                  {
+                                    "type": "input",
+                                    "key": "dwellingUnits"
+                                  },
+                                  {
+                                    "type": "input",
+                                    "key": "avgUnitSizeSqft"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "input",
+                            "key": "totalFloors"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "operation",
+            "operator": "divide",
+            "operands": [
+              {
+                "type": "input",
+                "key": "dwellingUnits"
+              },
+              {
+                "type": "operation",
+                "operator": "max",
+                "operands": [
+                  {
+                    "type": "operation",
+                    "operator": "subtract",
+                    "operands": [
+                      {
+                        "type": "input",
+                        "key": "totalFloors"
+                      },
+                      {
+                        "type": "constant",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "constant",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "gross-unit-size",
+      "label": "Gross unit size (reference only)",
+      "section": "layout",
+      "unit": "sft",
+      "precision": 0,
+      "formula": {
+        "type": "operation",
+        "operator": "divide",
+        "operands": [
+          {
+            "type": "operation",
+            "operator": "add",
+            "operands": [
+              {
+                "type": "operation",
+                "operator": "add",
+                "operands": [
+                  {
+                    "type": "operation",
+                    "operator": "multiply",
+                    "operands": [
+                      {
+                        "type": "operation",
+                        "operator": "divide",
+                        "operands": [
+                          {
+                            "type": "input",
+                            "key": "dwellingUnits"
+                          },
+                          {
+                            "type": "operation",
+                            "operator": "max",
+                            "operands": [
+                              {
+                                "type": "operation",
+                                "operator": "subtract",
+                                "operands": [
+                                  {
+                                    "type": "input",
+                                    "key": "totalFloors"
+                                  },
+                                  {
+                                    "type": "constant",
+                                    "value": 1
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "constant",
+                                "value": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "input",
+                        "key": "avgUnitSizeSqft"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "operation",
+                    "operator": "max",
+                    "operands": [
+                      {
+                        "type": "constant",
+                        "value": 0
+                      },
+                      {
+                        "type": "operation",
+                        "operator": "divide",
+                        "operands": [
+                          {
+                            "type": "operation",
+                            "operator": "subtract",
+                            "operands": [
+                              {
+                                "type": "input",
+                                "key": "floorAreaSqft"
+                              },
+                              {
+                                "type": "operation",
+                                "operator": "multiply",
+                                "operands": [
+                                  {
+                                    "type": "input",
+                                    "key": "dwellingUnits"
+                                  },
+                                  {
+                                    "type": "input",
+                                    "key": "avgUnitSizeSqft"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "input",
+                            "key": "totalFloors"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "operation",
+                "operator": "multiply",
+                "operands": [
+                  {
+                    "type": "constant",
+                    "value": 0.025
+                  },
+                  {
+                    "type": "operation",
+                    "operator": "add",
+                    "operands": [
+                      {
+                        "type": "operation",
+                        "operator": "multiply",
+                        "operands": [
+                          {
+                            "type": "operation",
+                            "operator": "divide",
+                            "operands": [
+                              {
+                                "type": "input",
+                                "key": "dwellingUnits"
+                              },
+                              {
+                                "type": "operation",
+                                "operator": "max",
+                                "operands": [
+                                  {
+                                    "type": "operation",
+                                    "operator": "subtract",
+                                    "operands": [
+                                      {
+                                        "type": "input",
+                                        "key": "totalFloors"
+                                      },
+                                      {
+                                        "type": "constant",
+                                        "value": 1
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "constant",
+                                    "value": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "input",
+                            "key": "avgUnitSizeSqft"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "operation",
+                        "operator": "max",
+                        "operands": [
+                          {
+                            "type": "constant",
+                            "value": 0
+                          },
+                          {
+                            "type": "operation",
+                            "operator": "divide",
+                            "operands": [
+                              {
+                                "type": "operation",
+                                "operator": "subtract",
+                                "operands": [
+                                  {
+                                    "type": "input",
+                                    "key": "floorAreaSqft"
+                                  },
+                                  {
+                                    "type": "operation",
+                                    "operator": "multiply",
+                                    "operands": [
+                                      {
+                                        "type": "input",
+                                        "key": "dwellingUnits"
+                                      },
+                                      {
+                                        "type": "input",
+                                        "key": "avgUnitSizeSqft"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "input",
+                                "key": "totalFloors"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "operation",
+            "operator": "divide",
+            "operands": [
+              {
+                "type": "input",
+                "key": "dwellingUnits"
+              },
+              {
+                "type": "operation",
+                "operator": "max",
+                "operands": [
+                  {
+                    "type": "operation",
+                    "operator": "subtract",
+                    "operands": [
+                      {
+                        "type": "input",
+                        "key": "totalFloors"
+                      },
+                      {
+                        "type": "constant",
+                        "value": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "constant",
+                    "value": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "circulation-per-floor",
+      "label": "Circulation area per floor (FAR-counted)",
+      "section": "layout",
+      "unit": "sft",
+      "precision": 0,
+      "formula": {
+        "type": "operation",
+        "operator": "max",
+        "operands": [
+          {
+            "type": "constant",
+            "value": 0
+          },
+          {
+            "type": "operation",
+            "operator": "divide",
+            "operands": [
+              {
+                "type": "operation",
+                "operator": "subtract",
+                "operands": [
+                  {
+                    "type": "input",
+                    "key": "floorAreaSqft"
+                  },
+                  {
+                    "type": "operation",
+                    "operator": "multiply",
+                    "operands": [
+                      {
+                        "type": "input",
+                        "key": "dwellingUnits"
+                      },
+                      {
+                        "type": "input",
+                        "key": "avgUnitSizeSqft"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "input",
+                "key": "totalFloors"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "circulation-gf",
+      "label": "Ground-floor circulation",
+      "section": "layout",
+      "unit": "sft",
+      "precision": 0,
+      "formula": {
+        "type": "operation",
+        "operator": "max",
+        "operands": [
+          {
+            "type": "constant",
+            "value": 0
+          },
+          {
+            "type": "operation",
+            "operator": "divide",
+            "operands": [
+              {
+                "type": "operation",
+                "operator": "subtract",
+                "operands": [
+                  {
+                    "type": "input",
+                    "key": "floorAreaSqft"
+                  },
+                  {
+                    "type": "operation",
+                    "operator": "multiply",
+                    "operands": [
+                      {
+                        "type": "input",
+                        "key": "dwellingUnits"
+                      },
+                      {
+                        "type": "input",
+                        "key": "avgUnitSizeSqft"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "input",
+                "key": "totalFloors"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "siteCoverage": {
+    "maxTotalGroundCoveragePercent": 75,
+    "groundCoverageCapExemptOccupancyCodes": [
+      "A6"
+    ],
+    "tiers": [
+      {
+        "minPlotAreaSqft": 0,
+        "minGroundCoveragePercent": 62.5,
+        "maxGroundCoveragePercent": 70,
+        "mandatoryOpenSpacePercent": 30,
+        "additionalGroundCoveragePercent": 15,
+        "rainwaterAbsorptionPercent": 15,
+        "maxPlotAreaSqft": 1440
+      },
+      {
+        "minPlotAreaSqft": 1440,
+        "minGroundCoveragePercent": 60,
+        "maxGroundCoveragePercent": 69.5,
+        "mandatoryOpenSpacePercent": 32.5,
+        "additionalGroundCoveragePercent": 16.25,
+        "rainwaterAbsorptionPercent": 16.25,
+        "maxPlotAreaSqft": 2160
+      },
+      {
+        "minPlotAreaSqft": 2160,
+        "minGroundCoveragePercent": 57.5,
+        "maxGroundCoveragePercent": 65,
+        "mandatoryOpenSpacePercent": 35,
+        "additionalGroundCoveragePercent": 17.5,
+        "rainwaterAbsorptionPercent": 17.5,
+        "maxPlotAreaSqft": 2880
+      },
+      {
+        "minPlotAreaSqft": 2880,
+        "minGroundCoveragePercent": 56.5,
+        "maxGroundCoveragePercent": 62.5,
+        "mandatoryOpenSpacePercent": 37.5,
+        "additionalGroundCoveragePercent": 18.75,
+        "rainwaterAbsorptionPercent": 18.75,
+        "maxPlotAreaSqft": 4320
+      },
+      {
+        "minPlotAreaSqft": 4320,
+        "minGroundCoveragePercent": 55,
+        "maxGroundCoveragePercent": 60,
+        "mandatoryOpenSpacePercent": 40,
+        "additionalGroundCoveragePercent": 20,
+        "rainwaterAbsorptionPercent": 20,
+        "maxPlotAreaSqft": 7200
+      },
+      {
+        "minPlotAreaSqft": 7200,
+        "minGroundCoveragePercent": null,
+        "maxGroundCoveragePercent": 55,
+        "mandatoryOpenSpacePercent": 45,
+        "additionalGroundCoveragePercent": 22.5,
+        "rainwaterAbsorptionPercent": 22.5,
+        "maxPlotAreaSqft": 10080
+      },
+      {
+        "minPlotAreaSqft": 10080,
+        "minGroundCoveragePercent": null,
+        "maxGroundCoveragePercent": 50,
+        "mandatoryOpenSpacePercent": 50,
+        "additionalGroundCoveragePercent": 25,
+        "rainwaterAbsorptionPercent": 25,
+        "maxPlotAreaSqft": 14400
+      },
+      {
+        "minPlotAreaSqft": 14400,
+        "minGroundCoveragePercent": null,
+        "maxGroundCoveragePercent": 45,
+        "mandatoryOpenSpacePercent": 55,
+        "additionalGroundCoveragePercent": 27.5,
+        "rainwaterAbsorptionPercent": 27.5,
+        "maxPlotAreaSqft": 28800
+      },
+      {
+        "minPlotAreaSqft": 28800,
+        "minGroundCoveragePercent": null,
+        "maxGroundCoveragePercent": 40,
+        "mandatoryOpenSpacePercent": 60,
+        "additionalGroundCoveragePercent": 30,
+        "rainwaterAbsorptionPercent": 30
+      }
+    ],
+    "occupancyOverrides": [
+      {
+        "occupancyCodes": [
+          "A6"
+        ],
+        "maxGroundCoveragePercent": 75,
+        "additionalGroundCoveragePercent": 12.5,
+        "mandatoryOpenSpacePercent": 25,
+        "rainwaterAbsorptionPercent": 12.5,
+        "minGroundCoveragePercent": 52
+      },
+      {
+        "occupancyCodes": [
+          "B1",
+          "B2"
+        ],
+        "maxGroundCoveragePercent": 45,
+        "minGroundCoveragePercent": null
+      },
+      {
+        "occupancyCodes": [
+          "J1",
+          "J2",
+          "J3",
+          "J4"
+        ],
+        "maxGroundCoveragePercent": 30,
+        "minGroundCoveragePercent": null
+      },
+      {
+        "occupancyCodes": [
+          "G1",
+          "G2"
+        ],
+        "minPlotAreaSqft": 4320,
+        "maxGroundCoveragePercent": 60
+      }
+    ]
+  },
+  "roadWidening": {
+    "minRoadWidthFt": 8.202099737500001,
+    "maxRoadWidthFt": 19.685039370000002,
+    "targetRoadWidthFt": 19.685039370000002,
+    "requireSurrenderOnWidening": true
+  },
+  "surrenderedAreaCompensationFactor": 3,
+  "sources": [
+    "Dhaka Metropolitan Building Construction Rules, 2025 Reference Tool.html — Rule 47 (FAR index), Rule 48 (total floor area), Table 5 (road-based FAR).",
+    "Same reference — DAP 2022–2035 Article 3.6.4.1–3.6.4.3, Table 3.28 (incentive FAR) and Appendix 3.6 (area-based FAR, 70 blocks).",
+    "Ground-coverage tiers follow Rule 45 Table 3 of the same reference."
+  ],
+  "notes": [
+    "Area FAR comes from the block (Appendix 3.6); Road FAR comes from Table 5 by occupancy, DAP zone and road width (Rule 47(5)). Base FAR = lower of the two; Maximum FAR = higher; incentives lift Base FAR toward Maximum FAR but never above it (Rule 47(3), DAP 3.6.4.1).",
+    "Road FAR between two listed widths is interpolated proportionally (Rule 47(6)). With a widening proposal, Road FAR is the average of existing-road FAR and proposed-road FAR (Rule 47(8)); roadFarCombination is therefore 'average'.",
+    "If Maximum FAR − Base FAR is 0.1 or less, Maximum FAR is granted without incentives (Rule 47(12)).",
+    "Incentive FAR is the sum of the automatic tiers (plot size, road width) plus the incentives the applicant selects. The sum is only usable up to Maximum FAR.",
+    "Plot-size tiers use the lower bound inclusively: 3–6 katha = 2,160 ≤ area < 4,320 sft (1 katha = 720 sft). Plots under 3 katha get no size incentive.",
+    "Road-width incentive: the reference text for DAP Table 3.28 row 2 is ambiguous. It is modelled as 0.02 FAR per foot above 30 ft, capped at 1.00 (reached at 80 ft), which matches the 'maximum 1, up to 80 ft' wording. It is 0.00 at 30 ft. Confirm against the gazette before relying on it for roads wider than 30 ft.",
+    "Green building: amount depends on the recognised certification, maximum 0.50. The default input is 0.50; lower it to the verified amount.",
+    "Floor area = (net plot area after road surrender + 3 × surrendered area) × applied FAR (Rule 48(2), (4); DAP 3.6.4.2). Without any surrender it is plot area × applied FAR.",
+    "Non-residential occupancies (groups B–K) use Road FAR only (Rule 47(4)); occupancies L and M have no Table 5 data and are not offered.",
+    "Where a plot has more than one adjoining road, the widest road governs (Rule 47(10)). A sub-divided plot's approvable FAR is 0.25 lower (Rule 51(10)).",
+    "Rule 47(3) allows up to 0.5 FAR above Maximum FAR for block-based development, urban regeneration and TDR; this is exposed as an approval-dependent input (dapExceptionalFarExcess).",
+    "TOD, TDR and FAR-purchase incentives have no fixed value in the reference; enter only an amount approved under the applicable guideline or notification."
+  ]
+}
