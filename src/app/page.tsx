@@ -44,6 +44,7 @@ type ApiError = {
 type OccupancyShare = { code: string; sharePercent: number };
 type ResultTab = "far" | "design" | "parking";
 type BlockFilter = "all" | "planned" | "spontaneous";
+type FieldErrors = Record<string, string>;
 
 const resultSections: Record<ResultTab, ReportSection[]> = {
   far: ["far", "groundCoverage", "setbacks"],
@@ -112,6 +113,7 @@ export default function Home() {
   const [isLoadingRules, setIsLoadingRules] = useState(true);
   const [loadError, setLoadError] = useState("");
   const [formError, setFormError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [notice, setNotice] = useState("");
   const [areaValue, setAreaValue] = useState("");
   const [areaUnit, setAreaUnit] =
@@ -142,6 +144,8 @@ export default function Home() {
   const [importToken, setImportToken] = useState("");
   const [isImporting, setIsImporting] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
+  const errorSummaryRef = useRef<HTMLDivElement>(null);
+  const resultHeadingRef = useRef<HTMLHeadingElement>(null);
 
   const selectedBlock = useMemo(
     () => dataset.blocks.find((block) => block.id === blockId),
@@ -412,23 +416,30 @@ export default function Home() {
   async function calculate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setFormError("");
+    setFieldErrors({});
     setNotice("");
     setResult(null);
 
+    const fail = (field: string, message: string) => {
+      setFieldErrors({ [field]: message });
+      setFormError(message);
+      window.setTimeout(() => errorSummaryRef.current?.focus(), 0);
+    };
+
     if (!blockId) {
-      setFormError("Select a DAP block for this assessment.");
+      fail("block", "Select a DAP block for this assessment.");
       return;
     }
     if (!areaValue || !Number.isFinite(Number(areaValue)) || Number(areaValue) <= 0) {
-      setFormError("Enter a plot area greater than zero.");
+      fail("plot-area", "Enter a plot area greater than zero.");
       return;
     }
     if (!existingRoadFt || Number(existingRoadFt) <= 0) {
-      setFormError("Enter the existing road width.");
+      fail("existing-road-feet", "Enter the existing road width.");
       return;
     }
     if (proposedRoadRequired && proposedRoadWidthNumber <= 0) {
-      setFormError("Enter the proposed road width required by the DAP.");
+      fail("proposed-road-feet", "Enter the proposed road width required by the DAP.");
       return;
     }
     if (
@@ -437,7 +448,8 @@ export default function Home() {
       dataset.roadWidening &&
       proposedRoadWidthNumber < dataset.roadWidening.targetRoadWidthFt
     ) {
-      setFormError(
+      fail(
+        "proposed-road-feet",
         `This road must be widened to at least ${formatNumber(dataset.roadWidening.targetRoadWidthFt, 2)} ft.`,
       );
       return;
@@ -447,7 +459,8 @@ export default function Home() {
       dataset.roadWidening &&
       proposedRoadWidthNumber < dataset.roadWidening.targetRoadWidthFt
     ) {
-      setFormError(
+      fail(
+        "proposed-road-feet",
         `Roads narrower than 2.5 m are only allowed for Old Dhaka blocks. Enter a proposed road width of at least ${formatNumber(dataset.roadWidening.targetRoadWidthFt, 2)} ft.`,
       );
       return;
@@ -456,14 +469,15 @@ export default function Home() {
       proposedRoadWidthNumber > 0 &&
       proposedRoadWidthNumber < existingRoadWidthNumber
     ) {
-      setFormError("The proposed road width cannot be narrower than the existing road.");
+      fail("proposed-road-feet", "The proposed road width cannot be narrower than the existing road.");
       return;
     }
     if (
       surrenderedLandRequired &&
       (surrenderedPreviewSqft === null || surrenderedPreviewSqft <= 0)
     ) {
-      setFormError(
+      fail(
+        "surrendered-area",
         "Enter the land area surrendered for road widening; floor area is based on the net plot.",
       );
       return;
@@ -473,7 +487,7 @@ export default function Home() {
       areaUnit !== "sqm" &&
       !dataset.areaUnitSqft?.[areaUnit]
     ) {
-      setFormError(`The active dataset needs a square-foot conversion for ${areaUnit}.`);
+      fail("plot-area", `The active dataset needs a square-foot conversion for ${areaUnit}.`);
       return;
     }
     if (
@@ -482,7 +496,8 @@ export default function Home() {
       Number(surrenderedValue) > 0 &&
       !dataset.areaUnitSqft?.[surrenderedUnit]
     ) {
-      setFormError(
+      fail(
+        "surrendered-area",
         `The active dataset needs a square-foot conversion for ${surrenderedUnit}.`,
       );
       return;
@@ -491,7 +506,8 @@ export default function Home() {
       occupancyMode === "mixed" &&
       !dataset.mixedOccupancyCapMethod
     ) {
-      setFormError(
+      fail(
+        "occupancy",
         "Mixed occupancy is not enabled until its FAR cap method is present in the rule data.",
       );
       return;
@@ -501,7 +517,7 @@ export default function Home() {
       Number(surrenderedValue || 0) > 0 &&
       surrenderedPreviewSqft === null
     ) {
-      setFormError("Select an area unit supported by the active ruleset for surrendered land.");
+      fail("surrendered-area", "Select an area unit supported by the active ruleset for surrendered land.");
       return;
     }
     if (
@@ -512,7 +528,7 @@ export default function Home() {
           100,
       ) > 0.01
     ) {
-      setFormError("Choose each occupancy and make the occupancy shares total 100%.");
+      fail("occupancy", "Choose each occupancy and make the occupancy shares total 100%.");
       return;
     }
 
@@ -554,10 +570,15 @@ export default function Home() {
       setResult(body.result);
       setResultTab("far");
       window.setTimeout(
-        () =>
-          document
-            .getElementById("results")
-            ?.scrollIntoView({ behavior: "smooth", block: "start" }),
+        () => {
+          document.getElementById("results")?.scrollIntoView({
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+            block: "start",
+          });
+          if (window.matchMedia("(max-width: 760px)").matches) {
+            resultHeadingRef.current?.focus();
+          }
+        },
         60,
       );
     } catch (error) {
@@ -725,6 +746,7 @@ export default function Home() {
   return (
     <main className="app-shell">
       <header className="topbar">
+        <a className="skip-link" href="#calculator">Skip to calculator</a>
         <Link className="brand" href="/" aria-label="FAR Calculator home">
           <span className="brand-mark">F</span>
           <span>
@@ -747,7 +769,7 @@ export default function Home() {
           <ExternalLink size={14} />
           View reference calculator
         </a>
-        <div className="top-status">
+        <div className="top-status" aria-live="polite">
           <span className={`status-dot ${hasCalculationData ? "ready" : ""}`} />
           {hasCalculationData ? "Rules loaded" : "Awaiting rules"}
         </div>
@@ -833,7 +855,7 @@ export default function Home() {
                 <ChevronDown size={14} />
               </label>
             </div>
-            <div className="block-list">
+            <div className="block-list" id="block">
               {filteredBlocks.length ? filteredBlocks.slice(0, 8).map((block) => (
                 <button
                   aria-pressed={blockId === block.id}
@@ -934,6 +956,8 @@ export default function Home() {
             <div className="area-control">
               <input
                 id="plot-area"
+                aria-describedby={fieldErrors["plot-area"] ? "error-plot-area" : undefined}
+                aria-invalid={Boolean(fieldErrors["plot-area"])}
                 inputMode="decimal"
                 min="0"
                 placeholder="e.g. 5"
@@ -965,6 +989,7 @@ export default function Home() {
               <RoadWidthField
                 id="existing-road"
                 label="Widest adjoining road width"
+                invalid={Boolean(fieldErrors["existing-road-feet"])}
                 valueFt={existingRoadFt}
                 onFeetChange={(value) => {
                   setExistingRoadFt(value);
@@ -981,6 +1006,7 @@ export default function Home() {
               <RoadWidthField
                 id="proposed-road"
                 label="DAP proposed road width"
+                invalid={Boolean(fieldErrors["proposed-road-feet"])}
                 valueFt={proposedRoadFt}
                 onFeetChange={(value) => { setProposedRoadFt(value); setResult(null); }}
                 onMetersChange={(value) => setRoadWidthFromMeters(value, setProposedRoadFt)}
@@ -1027,6 +1053,8 @@ export default function Home() {
               <div className="surrender-control">
                 <input
                   id="surrendered-area"
+                  aria-describedby={fieldErrors["surrendered-area"] ? "error-surrendered-area" : undefined}
+                  aria-invalid={Boolean(fieldErrors["surrendered-area"])}
                   min="0"
                   type="number"
                   value={surrenderedValue}
@@ -1077,7 +1105,7 @@ export default function Home() {
               </p>
             )}
             {occupancyMode === "single" ? (
-              <div className="field">
+              <div className="field" id="occupancy">
                 <label htmlFor="occupancy">Building purpose / occupancy type</label>
                 <Select
                   id="occupancy"
@@ -1321,13 +1349,29 @@ export default function Home() {
           </section>
 
           {(formError || notice || loadError) && (
-            <div className={`alert ${formError || loadError ? "alert-error" : "alert-success"}`} role={formError || loadError ? "alert" : "status"}>
+            <div
+              ref={errorSummaryRef}
+              className={`alert ${formError || loadError ? "alert-error" : "alert-success"}`}
+              role={formError || loadError ? "alert" : "status"}
+              aria-live="polite"
+              tabIndex={formError || loadError ? -1 : undefined}
+            >
+              {Object.entries(fieldErrors).length > 0 && (
+                <ul className="error-summary">
+                  {Object.entries(fieldErrors).map(([field, message]) => (
+                    <li key={field}>
+                      <a href={`#${field}`}>{message}</a>
+                      <span className="visually-hidden" id={`error-${field}`}>{message}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
               {formError || loadError || notice}
             </div>
           )}
           <button
             className="button-primary calculate-button"
-            disabled={!hasCalculationData || isCalculating || isLoadingRules}
+            disabled={isCalculating || isLoadingRules}
             type="submit"
           >
             {isCalculating ? "Calculating..." : "Calculate my plot"}
@@ -1402,12 +1446,12 @@ export default function Home() {
         </div>
 
         <aside className="result-column" id="results">
-          <section className={`result-card ${result ? "has-result" : ""}`}>
+          <section className={`result-card ${result ? "has-result" : ""}`} aria-live="polite">
             <div className="result-topline">
               <span><BadgeCheck size={15} /> PLOT ASSESSMENT</span>
               <span className="result-chip">{result ? "Calculated" : "Ready when you are"}</span>
             </div>
-            <h2>{result ? result.blockLabel : "Your result, clearly summarized."}</h2>
+            <h2 ref={resultHeadingRef} id="results-heading" tabIndex={-1}>{result ? result.blockLabel : "Your result, clearly summarized."}</h2>
             <p className="result-description">
               {result
                 ? result.occupancyLabels.join(" / ")
@@ -1454,17 +1498,33 @@ export default function Home() {
                   ["parking", "Parking & safety"],
                 ] as const).map(([id, label]) => (
                   <button
+                    id={`result-tab-${id}`}
                     aria-selected={resultTab === id}
+                    tabIndex={resultTab === id ? 0 : -1}
                     className={resultTab === id ? "selected" : ""}
                     key={id}
                     onClick={() => setResultTab(id)}
+                    onKeyDown={(event) => {
+                      const tabs: ResultTab[] = ["far", "design", "parking"];
+                      const index = tabs.indexOf(id);
+                      const nextIndex =
+                        event.key === "ArrowRight" ? (index + 1) % tabs.length :
+                        event.key === "ArrowLeft" ? (index + tabs.length - 1) % tabs.length :
+                        event.key === "Home" ? 0 :
+                        event.key === "End" ? tabs.length - 1 : -1;
+                      if (nextIndex >= 0) {
+                        event.preventDefault();
+                        setResultTab(tabs[nextIndex]);
+                        document.getElementById(`result-tab-${tabs[nextIndex]}`)?.focus();
+                      }
+                    }}
                     role="tab"
                     type="button"
                   >{label}</button>
                 ))}
               </div>
               {resultTab === "far" && (
-                <div className="core-result-grid">
+                <div className="core-result-grid" id="result-panel-far" role="tabpanel" aria-labelledby="result-tab-far">
                   <Metric label="Base FAR" value={formatNumber(result.baseFar)} />
                   <Metric
                     label="Maximum FAR cap"
@@ -1546,6 +1606,16 @@ export default function Home() {
           )}
         </aside>
       </form>
+
+      <div className="mobile-action-bar" aria-live="polite">
+        <div>
+          <strong>{result ? `Applied FAR ${formatNumber(result.appliedFar)}` : `${coreDetailsComplete} of 3 core details`}</strong>
+          {result && <span>{formatNumber(result.floorAreaSqft, 0)} sq ft</span>}
+        </div>
+        <button className="button-primary" disabled={isCalculating || isLoadingRules} form="calculator" type="submit">
+          {isCalculating ? "Calculating..." : "Calculate"}
+        </button>
+      </div>
 
       {result && (
         <section className="print-report" aria-hidden="true">
@@ -1634,6 +1704,7 @@ function RoadWidthField({
   onFeetChange,
   onMetersChange,
   optional = false,
+  invalid = false,
 }: {
   id: string;
   label: string;
@@ -1641,6 +1712,7 @@ function RoadWidthField({
   onFeetChange: (value: string) => void;
   onMetersChange: (value: string) => void;
   optional?: boolean;
+  invalid?: boolean;
 }) {
   const meters = valueFt && Number.isFinite(Number(valueFt))
     ? formatNumber(Number(valueFt) / feetPerMeter, 2)
@@ -1653,6 +1725,7 @@ function RoadWidthField({
           <span>Feet</span>
           <input
             id={`${id}-feet`}
+            aria-invalid={invalid}
             min="0"
             onChange={(event) => onFeetChange(event.target.value)}
             placeholder={optional ? "Not entered" : "e.g. 20"}
@@ -1663,6 +1736,7 @@ function RoadWidthField({
         <label>
           <span>Meters</span>
           <input
+            aria-invalid={invalid}
             aria-label={`${label} meters`}
             inputMode="decimal"
             onChange={(event) => onMetersChange(event.target.value)}

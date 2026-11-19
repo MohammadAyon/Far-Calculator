@@ -1,8 +1,8 @@
-import { getDatabase } from "@/lib/database";
+import { checkDatabaseConnection } from "@/lib/database";
 
 export async function GET() {
   try {
-    await getDatabase();
+    await checkDatabaseConnection();
     return Response.json({ status: "ok", database: "connected" });
   } catch (error) {
     console.error("Health check could not connect to the database.", error);

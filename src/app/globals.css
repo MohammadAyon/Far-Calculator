@@ -7,7 +7,21 @@
   --green: #256d59;
   --green-dark: #18513f;
   --green-soft: #e9f4ee;
-  --amber: #b57631;
+  --amber: #8f5a1c;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 
 * {
@@ -48,6 +62,36 @@ select:focus-visible,
 summary:focus-visible {
   outline: 3px solid #91c8b3;
   outline-offset: 2px;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 8px;
+  left: 8px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: var(--green-dark);
+  color: #fff;
+  transform: translateY(-150%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.error-summary {
+  margin: 0 0 8px;
+  padding-left: 18px;
+}
+
+.error-summary a {
+  color: inherit;
+  font-weight: 700;
+}
+
+.mobile-action-bar {
+  display: none;
 }
 
 .app-shell {
@@ -1012,12 +1056,22 @@ summary:focus-visible {
 /* Screenshot-aligned calculator workspace */
 :root {
   --ink: #1d2b28;
-  --muted: #74817b;
+  --muted: #5b6661;
   --line: #e4eae6;
   --paper: #f4f7f4;
   --green: #256d59;
   --green-dark: #18513f;
   --green-soft: #eaf4ee;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --radius-sm: 6px;
+  --radius-md: 9px;
+  --shadow-card: 0 4px 18px rgb(31 56 41 / 3%);
+  --z-sticky: 20;
 }
 
 body {
@@ -1266,6 +1320,7 @@ body {
 }
 
 .filter-pills button {
+  min-height: 44px;
   padding: 7px 10px;
 }
 
@@ -1465,7 +1520,7 @@ body {
 .field-hint,
 .list-hint {
   color: #7a877e;
-  font-size: 10px;
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -1499,7 +1554,7 @@ body {
 .manual-far-field > label,
 .field-label {
   color: #536259;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -1556,6 +1611,7 @@ body {
 }
 
 .mode-toggle button {
+  min-height: 44px;
   padding: 8px 12px;
 }
 
@@ -1610,7 +1666,7 @@ body {
 
 .remove-occupancy,
 .add-occupancy {
-  min-height: 38px;
+  min-height: 44px;
   padding: 0 11px;
   border: 1px solid #e1e9e2;
   border-radius: 7px;
@@ -2114,7 +2170,7 @@ body {
 }
 
 .result-tabs button {
-  min-height: 34px;
+  min-height: 44px;
   padding: 5px;
   font-size: 10px;
 }
@@ -2261,6 +2317,47 @@ body {
 
   .result-card {
     padding: 17px;
+  }
+
+  .mobile-action-bar {
+    position: fixed;
+    z-index: var(--z-sticky);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--line);
+    background: rgb(255 255 255 / 96%);
+    box-shadow: 0 -4px 16px rgb(31 56 41 / 10%);
+  }
+
+  .mobile-action-bar > div {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .mobile-action-bar strong {
+    overflow: hidden;
+    color: var(--green-dark);
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobile-action-bar span {
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .mobile-action-bar .button-primary {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding-inline: 16px;
   }
 }
 

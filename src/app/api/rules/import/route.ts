@@ -1,38 +1,14 @@
-import { timingSafeEqual } from "node:crypto";
+import { createHash } from "node:crypto";
 import { activateRuleDataset } from "@/lib/database";
+import { authorizeDataImport } from "@/lib/data-import-auth";
 import { ruleDatasetSchema } from "@/lib/rules";
 
 const MAX_IMPORT_BYTES = 8 * 1024 * 1024;
 
-function authorized(request: Request): boolean {
-  const configuredToken = process.env.DATA_IMPORT_TOKEN;
-  if (!configuredToken) {
-    return process.env.NODE_ENV !== "production";
-  }
-
-  const suppliedToken = request.headers.get("x-data-import-token");
-  if (!suppliedToken) return false;
-  const expected = Buffer.from(configuredToken);
-  const supplied = Buffer.from(suppliedToken);
-  return (
-    expected.length === supplied.length && timingSafeEqual(expected, supplied)
-  );
-}
-
 export async function POST(request: Request) {
-  if (process.env.NODE_ENV === "production" && !process.env.DATA_IMPORT_TOKEN) {
-    return Response.json(
-      { error: "Data import is disabled until DATA_IMPORT_TOKEN is configured." },
-      { status: 503 },
-    );
-  }
-
-  if (!authorized(request)) {
-    return Response.json(
-      { error: "A valid data import token is required." },
-      { status: 401 },
-    );
-  }
+  // Best-effort on serverless; the Vercel Firewall rate-limit rule is the real control.
+  const denied = authorizeDataImport(request);
+  if (denied) return denied;
 
   const contentLength = Number(request.headers.get("content-length") ?? 0);
   if (contentLength > MAX_IMPORT_BYTES) {
@@ -66,7 +42,12 @@ export async function POST(request: Request) {
       );
     }
 
-    await activateRuleDataset(parsed.data);
+    const sourceIp =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+    await activateRuleDataset(parsed.data, {
+      sha256: createHash("sha256").update(text).digest("hex"),
+      sourceIp,
+    });
     return Response.json({ dataset: parsed.data });
   } catch (error) {
     console.error("Unable to import the rule dataset.", error);

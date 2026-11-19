@@ -1,29 +1,60 @@
 import { z } from "zod";
 
 const positionSchema = z.tuple([z.number(), z.number()]);
-const ringSchema = z.array(positionSchema).min(4);
-const polygonSchema = z.array(ringSchema).min(1);
+const ringSchema = z.array(positionSchema).min(4).max(20_000);
+const polygonSchema = z.array(ringSchema).min(1).max(100);
 
 const geometrySchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("Polygon"), coordinates: polygonSchema }),
   z.object({
     type: z.literal("MultiPolygon"),
-    coordinates: z.array(polygonSchema).min(1),
+    coordinates: z.array(polygonSchema).min(1).max(100),
   }),
 ]);
 
-const calculationExpressionSchema: z.ZodType<CalculationExpression> = z.lazy(
-  () =>
-    z.discriminatedUnion("type", [
-      z.object({ type: z.literal("constant"), value: z.number().finite() }),
-      z.object({ type: z.literal("input"), key: z.string().min(1).max(100) }),
+const MAX_CALCULATION_DEPTH = 10;
+
+function calculationExpressionSchemaAtDepth(
+  depth: number,
+): z.ZodType<CalculationExpression> {
+  return z.lazy(() => {
+    const constant = z.object({
+      type: z.literal("constant"),
+      value: z.number().finite(),
+    });
+    const input = z.object({
+      type: z.literal("input"),
+      key: z.string().min(1).max(100),
+    });
+    if (depth >= MAX_CALCULATION_DEPTH) {
+      return z.discriminatedUnion("type", [constant, input]);
+    }
+    return z.discriminatedUnion("type", [
+      constant,
+      input,
       z.object({
         type: z.literal("operation"),
-        operator: z.enum(["add", "subtract", "multiply", "divide", "min", "max", "floor", "ceil"]),
-        operands: z.array(calculationExpressionSchema).min(1).max(20),
+        operator: z.enum([
+          "add",
+          "subtract",
+          "multiply",
+          "divide",
+          "min",
+          "max",
+          "floor",
+          "ceil",
+        ]),
+        operands: z
+          .array(calculationExpressionSchemaAtDepth(depth + 1))
+          .min(1)
+          .max(20),
       }),
-    ]),
-);
+    ]);
+  });
+}
+
+const calculationExpressionSchema =
+  calculationExpressionSchemaAtDepth(1);
 
 const incentiveCalculationSchema = z.discriminatedUnion("mode", [
   z.object({ mode: z.literal("fixed"), farBonus: z.number().nonnegative() }),
@@ -37,7 +68,8 @@ const incentiveCalculationSchema = z.discriminatedUnion("mode", [
           farBonus: z.number().nonnegative(),
         }),
       )
-      .min(1),
+      .min(1)
+      .max(100),
   }),
   z.object({
     mode: z.literal("road-width"),
@@ -55,7 +87,8 @@ const incentiveCalculationSchema = z.discriminatedUnion("mode", [
           farBonus: z.number().nonnegative(),
         }),
       )
-      .min(1),
+      .min(1)
+      .max(100),
   }),
   z.object({
     mode: z.literal("input"),
@@ -110,7 +143,7 @@ export const ruleDatasetSchema = z
           geometry: geometrySchema.optional(),
         })
         .strict(),
-    ),
+    ).max(500),
     roadFar: z.array(
       z
         .object({
@@ -121,7 +154,7 @@ export const ruleDatasetSchema = z
           unrestrictedPlotAreaMinSqft: z.number().positive().optional(),
         })
         .strict(),
-    ),
+    ).max(500),
     occupancies: z.array(
       z
         .object({
@@ -133,7 +166,7 @@ export const ruleDatasetSchema = z
           farTreatment: z.enum(["area-road", "road-only"]).optional(),
         })
         .strict(),
-    ),
+    ).max(50),
     incentives: z.array(
       z
         .object({
@@ -143,8 +176,14 @@ export const ruleDatasetSchema = z
           automatic: z.boolean().default(false),
           farBonus: z.number().nonnegative().optional(),
           minPlotAreaSqft: z.number().nonnegative().optional(),
-          occupancyCodes: z.array(z.string().trim().min(1)).optional(),
-          blockTypeCodes: z.array(z.string().trim().min(1)).optional(),
+          occupancyCodes: z
+            .array(z.string().trim().min(1).max(40))
+            .max(50)
+            .optional(),
+          blockTypeCodes: z
+            .array(z.string().trim().min(1).max(20))
+            .max(500)
+            .optional(),
           exclusiveGroup: z.string().trim().min(1).max(80).optional(),
           allowsFarAboveMaximum: z.boolean().default(false),
           calculation: incentiveCalculationSchema.optional(),
@@ -154,7 +193,7 @@ export const ruleDatasetSchema = z
           (item) => item.calculation !== undefined || item.farBonus !== undefined,
           { message: "An incentive needs a fixed FAR bonus or a calculation rule." },
         ),
-    ),
+    ).max(100),
     designInputs: z.array(
       z
         .object({
@@ -170,7 +209,7 @@ export const ruleDatasetSchema = z
           hardLockable: z.boolean().default(false),
         })
         .strict(),
-    ).default([]),
+    ).max(50).default([]),
     reportFields: z.array(
       z
         .object({
@@ -182,12 +221,13 @@ export const ruleDatasetSchema = z
           formula: calculationExpressionSchema,
         })
         .strict(),
-    ).default([]),
+    ).max(100).default([]),
     siteCoverage: z
       .object({
         maxTotalGroundCoveragePercent: z.number().min(0).max(100).optional(),
         groundCoverageCapExemptOccupancyCodes: z
-          .array(z.string().trim().min(1))
+          .array(z.string().trim().min(1).max(40))
+          .max(50)
           .default([]),
         tiers: z.array(
           z.object({
@@ -199,10 +239,13 @@ export const ruleDatasetSchema = z
             additionalGroundCoveragePercent: z.number().min(0).max(100),
             rainwaterAbsorptionPercent: z.number().min(0).max(100),
           }).strict(),
-        ).min(1),
+        ).min(1).max(100),
         occupancyOverrides: z.array(
           z.object({
-            occupancyCodes: z.array(z.string().trim().min(1)).min(1),
+            occupancyCodes: z
+              .array(z.string().trim().min(1).max(40))
+              .min(1)
+              .max(50),
             minPlotAreaSqft: z.number().nonnegative().optional(),
           minGroundCoveragePercent: z.number().min(0).max(100).nullable().optional(),
             maxGroundCoveragePercent: z.number().min(0).max(100),
@@ -210,7 +253,7 @@ export const ruleDatasetSchema = z
             mandatoryOpenSpacePercent: z.number().min(0).max(100).optional(),
             rainwaterAbsorptionPercent: z.number().min(0).max(100).optional(),
           }).strict(),
-        ).default([]),
+        ).max(100).default([]),
       })
       .strict()
       .optional(),
@@ -224,8 +267,8 @@ export const ruleDatasetSchema = z
       .strict()
       .optional(),
     surrenderedAreaCompensationFactor: z.number().nonnegative().optional(),
-    sources: z.array(z.string().trim().min(1).max(240)).default([]),
-    notes: z.array(z.string().trim().min(1).max(500)).default([]),
+    sources: z.array(z.string().trim().min(1).max(240)).max(100).default([]),
+    notes: z.array(z.string().trim().min(1).max(500)).max(100).default([]),
   })
   .strict()
   .superRefine((dataset, context) => {
@@ -360,7 +403,7 @@ export const ruleDatasetSchema = z
 
 export const calculationInputSchema = z
   .object({
-    blockId: z.string().min(1),
+    blockId: z.string().min(1).max(80),
     plotArea: z.number().positive(),
     plotAreaUnit: z.enum([
       "sqft",
@@ -389,16 +432,16 @@ export const calculationInputSchema = z
     occupancyMode: z.enum(["single", "mixed"]),
     occupancyShares: z.array(
       z.object({
-        code: z.string().min(1),
+        code: z.string().min(1).max(40),
         sharePercent: z.number().positive().max(100),
       }),
-    ).min(1),
+    ).min(1).max(50),
     zoneOverride: z.string().nullable(),
-    incentiveIds: z.array(z.string()).default([]),
+    incentiveIds: z.array(z.string().max(80)).max(100).default([]),
     manualFarEnabled: z.boolean().default(false),
     manualFar: z.number().positive().nullable(),
-    designValues: z.record(z.string(), z.number().finite()).default({}),
-    lockedInputs: z.array(z.string()).default([]),
+    designValues: z.record(z.string().max(80), z.number().finite()).default({}),
+    lockedInputs: z.array(z.string().max(80)).max(50).default([]),
   })
   .strict()
   .superRefine((input, context) => {
