@@ -3691,6 +3691,26 @@
       "min": 0.1,
       "step": 0.1,
       "hint": "Appendix 3.6 lists a UPK cap per block; enter the one for the selected block."
+    },
+    {
+      "id": "targetUnitSizeSqft",
+      "label": "Desired apartment size (optional)",
+      "section": "layout",
+      "unit": "sft",
+      "min": 300,
+      "step": 10,
+      "hint": "Leave empty to set apartments per floor from the density cap (units per katha). Enter a size to fit as many apartments of that size per floor."
+    },
+    {
+      "id": "circulationPercent",
+      "label": "Stair, lift & lobby share of a floor",
+      "section": "layout",
+      "unit": "%",
+      "defaultValue": 15,
+      "min": 5,
+      "max": 40,
+      "step": 1,
+      "hint": "Design assumption, not a rule. Deducted from the floor plate before dividing into apartments."
     }
   ],
   "reportFields": [

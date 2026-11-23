@@ -10,6 +10,7 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import type { Feature } from "geojson";
+import "leaflet/dist/leaflet.css";
 import type { RuleDataset } from "@/lib/rules";
 
 type Props = {

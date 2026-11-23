@@ -45,3 +45,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large GIS source data (600+ MB), keep out of git
+rajuk_rs_plots_shapefile/

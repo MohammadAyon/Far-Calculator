@@ -13,8 +13,8 @@ const nextConfig: NextConfig = {
     const securityHeaders = [
       {
         key: "Content-Security-Policy",
-        value:
-          "default-src 'self'; img-src 'self' data: https://*.tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+        // React dev mode needs eval() for debugging; production never uses it.
+        value: `default-src 'self'; img-src 'self' data: https://*.tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "production" ? "" : " 'unsafe-eval'"}; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'`,
       },
       { key: "X-Content-Type-Options", value: "nosniff" },
       {

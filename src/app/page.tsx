@@ -120,6 +120,7 @@ export default function Home() {
     useState<(typeof areaUnits)[number]["value"]>("sqft");
   const [existingRoadFt, setExistingRoadFt] = useState("");
   const [proposedRoadFt, setProposedRoadFt] = useState("");
+  const [frontageFt, setFrontageFt] = useState("");
   const [roadWideningNotPossible, setRoadWideningNotPossible] = useState(false);
   const [surrenderedValue, setSurrenderedValue] = useState("0");
   const [surrenderedUnit, setSurrenderedUnit] =
@@ -552,6 +553,7 @@ export default function Home() {
           incentiveIds,
           manualFarEnabled,
           manualFar: manualFarEnabled && manualFar ? Number(manualFar) : null,
+          plotFrontageFt: Number(frontageFt) > 0 ? Number(frontageFt) : null,
           designValues: Object.fromEntries(
             dataset.designInputs.flatMap((item) => {
               const value = designValues[item.id] ?? item.defaultValue;
@@ -1011,6 +1013,14 @@ export default function Home() {
                 onFeetChange={(value) => { setProposedRoadFt(value); setResult(null); }}
                 onMetersChange={(value) => setRoadWidthFromMeters(value, setProposedRoadFt)}
                 optional={!proposedRoadRequired}
+              />
+              <RoadWidthField
+                id="plot-frontage"
+                label="Plot road frontage (for setbacks)"
+                valueFt={frontageFt}
+                onFeetChange={(value) => { setFrontageFt(value); setResult(null); }}
+                onMetersChange={(value) => setRoadWidthFromMeters(value, setFrontageFt)}
+                optional
               />
             </div>
             <p className="field-hint">
@@ -1475,6 +1485,15 @@ export default function Home() {
                 <small>Net plot area: {formatNumber(result.netPlotAreaSqft, 0)} sq ft</small>
               )}
             </div>
+            {result?.buildingSummary && (
+              <div className="result-lines" aria-label="Simple building result">
+                <div><span>Building</span><b>G+{result.buildingSummary.upperFloors} ({result.buildingSummary.storeys} storeys)</b></div>
+                <div><span>Apartments / floor</span><b>{result.buildingSummary.unitsPerFloor}</b></div>
+                <div><span>Apartment size</span><b>{formatNumber(result.buildingSummary.unitSizeSqft, 0)} sq ft</b></div>
+                <div><span>Total apartments</span><b>{result.buildingSummary.totalUnits}</b></div>
+                <div><span>Car parking</span><b>{result.buildingSummary.carsRequired}{result.buildingSummary.bikesRequired > 0 ? ` + ${result.buildingSummary.bikesRequired} bikes` : ""}</b></div>
+              </div>
+            )}
             {result && (
               <>
                 <button className="button-report" onClick={printReport} type="button">
