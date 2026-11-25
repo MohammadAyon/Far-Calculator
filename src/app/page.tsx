@@ -1,25 +1,24 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import {
-  ArrowDownToLine,
   ArrowRight,
   BadgeCheck,
   Building2,
   Check,
   ChevronDown,
   CircleHelp,
-  Database,
   Download,
-  FileUp,
   Layers3,
-  Link2,
+  Mail,
   MapPin,
+  Phone,
   Printer,
   Search,
+  Share2,
   ShieldCheck,
-  Upload,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -38,6 +37,16 @@ const LocationMap = dynamic(() => import("@/components/location-map"), {
   ssr: false,
   loading: () => <div className="map-loading">Loading map...</div>,
 });
+
+const foundrio = {
+  name: "Foundrio Design & Consultant",
+  site: "https://foundrio-bd.com",
+  phone: "01813-366009",
+  tel: "tel:+8801813366009",
+  email: "foundriodesign@foundrio-bd.com",
+  address: "House-21, Road-17, Banani C/A, Dhaka-1213",
+  facebook: "https://www.facebook.com/foundrio.bd",
+};
 
 type ApiError = {
   error?: string;
@@ -101,6 +110,14 @@ function amountWithUnit(value: number | null, unit?: string, precision = 2) {
   return unit ? `${formatted} ${unit}` : formatted;
 }
 
+function resultSummary(result: CalculationResult) {
+  const where = `${formatNumber(result.plotAreaSqft / 720, 1)} katha in ${result.blockLabel}`;
+  const building = result.buildingSummary;
+  return building
+    ? `That is about G+${building.upperFloors} (${building.storeys} storeys) with ${building.totalUnits} apartments of ~${formatNumber(building.unitSizeSqft, 0)} sq ft and ${building.carsRequired} car parking, on ${where}.`
+    : `Total floor area allowed for ${result.occupancyLabels.join(" / ")} on ${where}.`;
+}
+
 function resultErrorMessage(body: ApiError) {
   const detail = body.issues?.length
     ? ` ${body.issues
@@ -145,9 +162,6 @@ export default function Home() {
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [resultTab, setResultTab] = useState<ResultTab>("far");
   const [isCalculating, setIsCalculating] = useState(false);
-  const [importToken, setImportToken] = useState("");
-  const [isImporting, setIsImporting] = useState(false);
-  const fileInput = useRef<HTMLInputElement>(null);
   const errorSummaryRef = useRef<HTMLDivElement>(null);
   const resultHeadingRef = useRef<HTMLHeadingElement>(null);
 
@@ -331,7 +345,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!result) return;
-    document.title = `${formatNumber(result.plotAreaSqft / 720, 1)} Katha ${result.blockLabel} (FAR ${formatNumber(result.appliedFar)}) | RAJUK FAR Calculator`;
+    document.title = `${formatNumber(result.plotAreaSqft / 720, 1)} katha in ${result.blockLabel}: ${formatNumber(result.floorAreaSqft, 0)} sq ft buildable | Foundrio FAR Calculator`;
   }, [result]);
 
   function shareQuery() {
@@ -344,10 +358,19 @@ export default function Home() {
     return q.toString();
   }
 
-  function copyShareLink() {
+  function shareResult() {
+    const url = window.location.href;
+    const text = result
+      ? `My ${formatNumber(result.plotAreaSqft / 720, 1)} katha plot in ${result.blockLabel} can have about ${formatNumber(result.floorAreaSqft, 0)} sq ft of floor area (FAR ${formatNumber(result.appliedFar)}). Check yours free with the Foundrio FAR Calculator:`
+      : "Check how much you can build on your plot with the Foundrio FAR Calculator:";
+    if (typeof navigator.share === "function") {
+      // A rejection here just means the user closed the share sheet.
+      navigator.share({ title: "Foundrio FAR Calculator", text, url }).catch(() => undefined);
+      return;
+    }
     navigator.clipboard
-      .writeText(window.location.href)
-      .then(() => setNotice("Link copied. It reopens this plot, block, road and occupancy."))
+      .writeText(`${text} ${url}`)
+      .then(() => setNotice("Link copied. It reopens this plot's details; press Calculate to see the result."))
       .catch(() => setFormError("Could not copy the link. Copy it from the address bar instead."));
   }
 
@@ -359,12 +382,12 @@ export default function Home() {
         [section, field.label, field.value === null ? "" : Number(field.value.toFixed(field.precision ?? 2)), field.unit].map(cell).join(","),
       ),
     );
-    const header = [["Block", result.blockLabel], ["Applied FAR", formatNumber(result.appliedFar)], ["Floor area (sft)", formatNumber(result.floorAreaSqft, 0)]]
+    const header = [["Prepared with", `Foundrio FAR Calculator (${foundrio.site})`], ["Block", result.blockLabel], ["Applied FAR", formatNumber(result.appliedFar)], ["Floor area (sft)", formatNumber(result.floorAreaSqft, 0)]]
       .map((pair) => pair.map(cell).join(","));
-    const blob = new Blob(["\uFEFF" + [...header, "", "Section,Item,Value,Unit", ...rows].join("\r\n")], { type: "text/csv;charset=utf-8" });
+    const blob = new Blob(["\uFEFF" + [...header, "", "Section,Item,Value,Unit", ...rows, "", cell(`Estimate only, not RAJUK approval. Talk to ${foundrio.name}: ${foundrio.phone}, ${foundrio.email}, ${foundrio.site}`)].join("\r\n")], { type: "text/csv;charset=utf-8" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `far-${result.blockLabel.replace(/[^\w\u0980-\u09FF]+/g, "-")}.csv`;
+    link.download = `foundrio-far-${result.blockLabel.replace(/[^\w\u0980-\u09FF]+/g, "-")}.csv`;
     link.click();
     URL.revokeObjectURL(link.href);
   }
@@ -644,7 +667,7 @@ export default function Home() {
             behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
             block: "start",
           });
-          if (window.matchMedia("(max-width: 760px)").matches) {
+          if (window.matchMedia("(max-width: 768px)").matches) {
             resultHeadingRef.current?.focus();
           }
         },
@@ -656,49 +679,9 @@ export default function Home() {
           ? error.message
           : "The calculation service is unavailable.",
       );
+      window.setTimeout(() => errorSummaryRef.current?.focus(), 0);
     } finally {
       setIsCalculating(false);
-    }
-  }
-
-  async function importDataset(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    setFormError("");
-    setNotice("");
-    setIsImporting(true);
-    try {
-      if (file.size > 8 * 1024 * 1024) {
-        throw new Error("The import file must be 8 MB or smaller.");
-      }
-      const response = await fetch("/api/rules/import", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(importToken ? { "x-data-import-token": importToken } : {}),
-        },
-        body: await file.text(),
-      });
-      const body = (await response.json()) as
-        | { dataset: RuleDataset }
-        | ApiError;
-      if (!response.ok || !("dataset" in body)) {
-        throw new Error(resultErrorMessage(body as ApiError));
-      }
-      setDataset(body.dataset);
-      setBlockId("");
-      setZoneOverride("");
-      setRoadWideningNotPossible(false);
-      setOccupancyShares([]);
-      setIncentiveIds([]);
-      setDesignValues({});
-      setResult(null);
-      setNotice(`Loaded "${body.dataset.name}" into the active rule database.`);
-    } catch (error) {
-      setFormError(error instanceof Error ? error.message : "The import failed.");
-    } finally {
-      setIsImporting(false);
-      event.target.value = "";
     }
   }
 
@@ -822,40 +805,47 @@ export default function Home() {
     occupancyMode === "mixed" && !dataset.mixedOccupancyCapMethod;
 
   return (
-    <main className="app-shell">
+    <div className="app-shell">
       <header className="topbar">
         <a className="skip-link" href="#calculator">Skip to calculator</a>
-        <Link className="brand" href="/" aria-label="FAR Calculator home">
-          <span className="brand-mark">F</span>
+        <Link className="brand" href="/" aria-label="Foundrio FAR Calculator home">
+          <Image className="brand-mark" src="/brand/foundrio-mark.png" alt="" width={40} height={40} loading="eager" />
           <span>
-            <strong>FAR Calculator</strong>
-            <small>Plot assessment workspace</small>
+            <strong>FOUNDRIO</strong>
+            <small>FAR Calculator</small>
           </span>
         </Link>
         <nav className="top-nav" aria-label="Main navigation">
-          <a className="nav-active" href="#calculator">Calculator</a>
-          <a href="#results">Results</a>
-          <a href="#data">Rule data</a>
-          <a href="#references">References</a>
+          <a href="#calculator">Calculator</a>
+          <a href="#results">Your result</a>
+          <a href={`${foundrio.site}/services/`}>Services</a>
+          <a href={`${foundrio.site}/projects/`}>Projects</a>
         </nav>
-        <div className="top-status" aria-live="polite">
-          <span className={`status-dot ${hasCalculationData ? "ready" : ""}`} />
-          {hasCalculationData ? "Rules loaded" : "Awaiting rules"}
-        </div>
+        <a className="button-call" href={foundrio.tel} aria-label={`Call Foundrio ${foundrio.phone}`}>
+          <Phone size={16} aria-hidden="true" />
+          <span>Call <span className="call-number">{foundrio.phone}</span></span>
+        </a>
       </header>
 
+      <main id="main">
       <section className="hero-strip">
         <div>
-          <div className="eyebrow"><span /> PLOT FEASIBILITY / BANGLADESH</div>
-          <h1>A clearer path from plot to plan.</h1>
+          <div className="eyebrow"><span /> Free tool by Foundrio · RAJUK DAP 2022–2035</div>
+          <h1>How much can you <em>build</em> on your plot?</h1>
           <p>
-            Add your site details, then review FAR, building layout, parking and
-            design constraints in one organized assessment.
+            Enter your plot size, road width and building use. You get the allowed
+            floor area, storeys, apartments and parking under Dhaka&apos;s DAP and
+            Building Rules 2025.
           </p>
+          <ul className="trust-line" aria-label="About Foundrio">
+            <li><b>250+</b> projects delivered</li>
+            <li><b>10+</b> years in practice</li>
+            <li>Architecture · Structure · Interiors · MEP</li>
+          </ul>
         </div>
         <div className="hero-note">
-          <ShieldCheck size={17} />
-          <span>Planning aid only - not an approval or permit.</span>
+          <ShieldCheck size={17} aria-hidden="true" />
+          <span>Estimate only, not RAJUK approval. Foundrio&apos;s architects can review it for your plot.</span>
         </div>
       </section>
 
@@ -868,7 +858,7 @@ export default function Home() {
               <small>Five sections. Start with the three required site details.</small>
             </div>
             <div className="progress-track" aria-hidden="true">
-                <span style={{ width: result ? "100%" : `${(coreDetailsComplete / 3) * 100}%` }} />
+                <span style={{ transform: `scaleX(${result ? 1 : coreDetailsComplete / 3})` }} />
             </div>
             <span className={`progress-state ${result ? "done" : ""}`}>
                 {result ? "Assessment ready" : `${coreDetailsComplete} of 3 core details`}
@@ -897,13 +887,14 @@ export default function Home() {
               )}
             </div>
             <div className="block-tools">
-              <div className="filter-pills" aria-label="Block type filters">
+              <div className="filter-pills" role="group" aria-label="Block type filters">
                 {([
                   ["all", "All"],
                   ["planned", "Planned"],
                   ["spontaneous", "Spontaneous"],
                 ] as const).map(([id, label]) => (
                   <button
+                    aria-pressed={blockFilter === id}
                     className={blockFilter === id ? "selected" : ""}
                     key={id}
                     onClick={() => setBlockFilter(id)}
@@ -968,7 +959,7 @@ export default function Home() {
                 <div className="empty-list">
                   {dataset.blocks.length
                     ? "No blocks match those filters."
-                    : "Import a ruleset with DAP blocks to get started."}
+                    : "No DAP blocks are loaded yet."}
                 </div>
               )}
             </div>
@@ -1191,7 +1182,7 @@ export default function Home() {
               </p>
             )}
             {occupancyMode === "single" ? (
-              <div className="field" id="occupancy">
+              <div className="field">
                 <label htmlFor="occupancy">Building purpose / occupancy type</label>
                 <Select
                   id="occupancy"
@@ -1361,12 +1352,13 @@ export default function Home() {
             )}
           </section>
 
-          <section className="panel input-panel">
-            <div className="step-heading">
-              <span className="step-number">05</span>
-              <div><h2>Building &amp; parking inputs</h2><p>Optional inputs used by the detailed design rules.</p></div>
-              <Building2 className="heading-icon" size={19} />
-            </div>
+          <details className="panel input-panel optional-step">
+            <summary className="step-heading">
+              <span className="step-number" aria-hidden="true">05</span>
+              <h2>Building &amp; parking inputs <span className="optional-tag">Optional</span></h2>
+              <ChevronDown className="heading-icon" size={19} aria-hidden="true" />
+            </summary>
+            <p className="step-intro">Fine-tune storey height, units and parking.</p>
             {(layoutInputs.length > 0 || parkingInputs.length > 0) ? (
               <>
                 {layoutInputs.length > 0 && (
@@ -1432,14 +1424,13 @@ export default function Home() {
                 </div>
               )}
             </div>
-          </section>
+          </details>
 
           {(formError || notice || loadError) && (
             <div
               ref={errorSummaryRef}
               className={`alert ${formError || loadError ? "alert-error" : "alert-success"}`}
               role={formError || loadError ? "alert" : "status"}
-              aria-live="polite"
               tabIndex={formError || loadError ? -1 : undefined}
             >
               {Object.entries(fieldErrors).length > 0 && (
@@ -1465,83 +1456,43 @@ export default function Home() {
           </button>
           {!hasCalculationData && (
             <p className="calculate-hint">
-              {isLoadingRules ? "Connecting to your rule database..." : "Import your verified rules to enable calculations."}
+              {isLoadingRules ? "Loading the building rules..." : "The building rules could not be loaded. Please refresh the page."}
             </p>
           )}
 
-          <section className="panel data-panel" id="data">
-            <div className="data-panel-title">
-              <Database size={16} />
-              <div><strong>Rules &amp; sources</strong><small>{dataset.name} / {dataset.blocks.length} blocks</small></div>
-              <span className={`dataset-state ${hasCalculationData ? "state-ready" : ""}`}>{hasCalculationData ? "Ready" : "Needs data"}</span>
-            </div>
-            <details className="import-details">
-              <summary><span><FileUp size={16} /> Import or replace rules</span><ChevronDown size={15} /></summary>
-              <div className="import-content">
-                <p>Imports are validated and saved as versioned data. The latest valid dataset becomes active.</p>
-                <label className="field-label" htmlFor="import-token">Import access token <span>(hosted deployment)</span></label>
-                <input
-                  autoComplete="off"
-                  className="token-input"
-                  id="import-token"
-                  onChange={(event) => setImportToken(event.target.value)}
-                  placeholder="Configured by the administrator"
-                  type="password"
-                  value={importToken}
-                />
-                <input
-                  ref={fileInput}
-                  accept=".json,application/json"
-                  className="visually-hidden"
-                  onChange={importDataset}
-                  type="file"
-                />
-                <button className="button-secondary" disabled={isImporting} onClick={() => fileInput.current?.click()} type="button">
-                  <Upload size={15} /> {isImporting ? "Validating..." : "Choose JSON ruleset"}
-                </button>
-                <a className="template-link" download href="/templates/ruleset.template.json">
-                  <ArrowDownToLine size={14} /> Download the ruleset template
-                </a>
-              </div>
-            </details>
-            {dataset.sources.length > 0 && (
-              <div className="source-list">
-                <strong>References</strong>
-                {dataset.sources.map((source) => <span key={source}>{source}</span>)}
-              </div>
-            )}
-            {dataset.notes.length > 0 && (
-              <div className="source-list rule-notes">
-                <strong>How the DAP rules are applied</strong>
-                {dataset.notes.map((note) => <span key={note}>{note}</span>)}
-              </div>
-            )}
-            <div className="reference-links" id="references">
-              <strong>Rule sources</strong>
-              {dataset.sources.map((source) => <span key={source}>{source}</span>)}
-              <a download href="/rulesets/dhaka-metropolitan-building-construction-rules-2025.json">
-                Download this DAP 2025 ruleset
-              </a>
-            </div>
-          </section>
         </div>
 
         <aside className="result-column" id="results">
-          <section className={`result-card ${result ? "has-result" : ""}`} aria-live="polite">
+          <p className="visually-hidden" role="status">
+            {result ? `You can build about ${formatNumber(result.floorAreaSqft, 0)} square feet. ${resultSummary(result)}` : ""}
+          </p>
+          <section className={`result-card ${result ? "has-result" : ""}`} aria-labelledby="results-heading">
             <div className="result-topline">
-              <span><BadgeCheck size={15} /> PLOT ASSESSMENT</span>
-              <span className="result-chip">{result ? "Calculated" : "Ready when you are"}</span>
+              <span><BadgeCheck size={15} aria-hidden="true" /> Your plot</span>
+              <span className="result-chip">{result ? result.blockLabel : "Ready when you are"}</span>
             </div>
-            <h2 ref={resultHeadingRef} id="results-heading" tabIndex={-1}>{result ? result.blockLabel : "Your result, clearly summarized."}</h2>
+            {/* Keyed so each new result remounts and replays the reveal. */}
+            <div key={result ? `${result.blockLabel}-${result.appliedFar}-${result.floorAreaSqft}` : "empty"} className={result ? "reveal" : undefined}>
+            <h2 ref={resultHeadingRef} id="results-heading" tabIndex={-1}>
+              {result
+                ? <>You can build about <span className="nowrap">{formatNumber(result.floorAreaSqft, 0)} sq ft</span></>
+                : "Your plot's building potential appears here."}
+            </h2>
             <p className="result-description">
               {result
-                ? result.occupancyLabels.join(" / ")
-                : "Complete the site inputs, then calculate to see your FAR and planning outputs."}
+                ? resultSummary(result)
+                : "Fill in the three required details, then tap Calculate."}
             </p>
             <div className="far-display">
-              <span>Applied FAR</span>
+              <span>{result && result.manualFar !== null ? "Your FAR (manual entry)" : "Allowed FAR (floor area ratio)"}</span>
               <strong>{result ? formatNumber(result.appliedFar) : "--"}</strong>
-              <small>{result ? `Calculated FAR ${formatNumber(result.calculatedFar)}` : "Based on the active ruleset"}</small>
+              <small>
+                {!result
+                  ? "Based on the active ruleset"
+                  : result.manualFar !== null
+                    ? `Rules calculate ${formatNumber(result.calculatedFar)}`
+                    : "Floor area = plot area × FAR"}
+              </small>
             </div>
             <div className="result-lines">
               <div><span>Area FAR</span><b>{result ? formatNumber(result.areaFar) : "--"}</b></div>
@@ -1565,6 +1516,7 @@ export default function Home() {
                 <div><span>Car parking</span><b>{result.buildingSummary.carsRequired}{result.buildingSummary.bikesRequired > 0 ? ` + ${result.buildingSummary.bikesRequired} bikes` : ""}</b></div>
               </div>
             )}
+            </div>
             {result && (
               <>
                 <button className="button-report" onClick={printReport} type="button">
@@ -1573,13 +1525,15 @@ export default function Home() {
                 <button className="button-report" onClick={downloadCsv} type="button">
                   <Download size={15} /> Download report (CSV)
                 </button>
-                <button className="button-report" onClick={copyShareLink} type="button">
-                  <Link2 size={15} /> Copy share link
+                <button className="button-report" onClick={shareResult} type="button">
+                  <Share2 size={15} aria-hidden="true" /> Share result
                 </button>
                 <div className="result-disclaimer"><CircleHelp size={14} /><span>Informational estimate only. Confirm all constraints with RAJUK.</span></div>
               </>
             )}
           </section>
+
+          <FoundrioCard key={result ? "result" : "empty"} result={result} />
 
           {result && (
             <section className="panel detail-results">
@@ -1680,9 +1634,9 @@ export default function Home() {
                     : "Parking, basement, stair, and lift rules are not included yet. Add the source values to the dataset."}
                 </div>
               )}
-              {resultTab === "far" && (
-                <div className="method-note">
-                  <ShieldCheck size={15} />
+              <details className="rule-details">
+                <summary><span>How the rules are applied</span><ChevronDown size={15} aria-hidden="true" /></summary>
+                <div className="source-list rule-notes">
                   <span>
                     {dataset.calculationMode === "dap-2025"
                       ? selectedUsesAreAllNonResidential
@@ -1697,41 +1651,55 @@ export default function Home() {
                       : ""}
                     {result.zone ? ` Zone: ${result.zone}.` : ""}
                   </span>
+                  {dataset.notes.map((note) => <span key={note}>{note}</span>)}
                 </div>
-              )}
-              <div className="source-list result-sources">
-                <strong>Rule references</strong>
-                {result.sources.length
-                  ? result.sources.map((source) => <span key={source}>{source}</span>)
-                  : <span>No source reference was supplied with this ruleset.</span>}
-              </div>
+              </details>
+              <details className="rule-details">
+                <summary><span>Rule references</span><ChevronDown size={15} aria-hidden="true" /></summary>
+                <div className="source-list">
+                  {result.sources.length
+                    ? result.sources.map((source) => <span key={source}>{source}</span>)
+                    : <span>No source reference was supplied with this ruleset.</span>}
+                </div>
+              </details>
             </section>
           )}
 
-          {!result && (
-            <section className="side-help">
-              <div className="help-icon"><ShieldCheck size={17} /></div>
-              <div><strong>Results stay honest</strong><p>Missing rule sections are labeled, not guessed.</p></div>
-            </section>
-          )}
         </aside>
       </form>
 
-      <div className="mobile-action-bar" aria-live="polite">
+      <div className="mobile-action-bar">
         <div>
-          <strong>{result ? `Applied FAR ${formatNumber(result.appliedFar)}` : `${coreDetailsComplete} of 3 core details`}</strong>
-          {result && <span>{formatNumber(result.floorAreaSqft, 0)} sq ft</span>}
+          <strong>{result ? `${formatNumber(result.floorAreaSqft, 0)} sq ft buildable` : `${coreDetailsComplete} of 3 core details`}</strong>
+          {result && <span>FAR {formatNumber(result.appliedFar)}{result.buildingSummary ? ` · G+${result.buildingSummary.upperFloors}` : ""}</span>}
         </div>
-        <button className="button-primary" disabled={isCalculating || isLoadingRules} form="calculator" type="submit">
-          {isCalculating ? "Calculating..." : "Calculate"}
-        </button>
+        {result ? (
+          <span className="mobile-actions">
+            <a className="button-icon" href={foundrio.tel} aria-label={`Call Foundrio ${foundrio.phone}`}>
+              <Phone size={18} aria-hidden="true" />
+            </a>
+            <a className="button-primary" href="#results">See result</a>
+          </span>
+        ) : (
+          <button className="button-primary" disabled={isCalculating || isLoadingRules} form="calculator" type="submit">
+            {isCalculating ? "Calculating..." : "Calculate"}
+          </button>
+        )}
       </div>
+
+      </main>
 
       {result && (
         <section className="print-report" aria-hidden="true">
-          <div className="print-brand">FAR CALCULATOR / BANGLADESH</div>
-          <h1>Plot assessment</h1>
-          <p>Generated {new Date().toLocaleString()} / Informational, not an approval</p>
+          <div className="print-brand">
+            <Image src="/brand/foundrio-mark.png" alt="" width={28} height={28} />
+            Foundrio Design &amp; Consultant · FAR Calculator
+          </div>
+          <h1>Plot building potential: {result.blockLabel}</h1>
+          <p>Prepared {new Date().toLocaleString()} with the Foundrio FAR Calculator · Estimate, not an approval</p>
+          <p className="print-summary">
+            You can build about {formatNumber(result.floorAreaSqft, 0)} sq ft. {resultSummary(result)}
+          </p>
           <table>
             <tbody>
               <tr><th>DAP block</th><td>{result.blockLabel}</td></tr>
@@ -1762,15 +1730,68 @@ export default function Home() {
             determination, permit, or guarantee of approval. Verify source rules and project
             constraints with the relevant authorities.
           </p>
+          <p className="print-contact">
+            Next step: have this checked and designed by {foundrio.name}. Call {foundrio.phone} ·
+            {" "}{foundrio.email} · foundrio-bd.com · {foundrio.address}
+          </p>
         </section>
       )}
 
       <footer className="footer">
-        <span>FAR Calculator</span>
-        <span><ShieldCheck size={14} /> DAP 2022–2035 / Building Rules 2025</span>
-        <a download href="/templates/ruleset.template.json">Ruleset template</a>
+        <div className="footer-brand">
+          <Image src="/brand/foundrio-mark.png" alt="" width={40} height={40} />
+          <div>
+            <strong>{foundrio.name}</strong>
+            <span>Architecture, structure, interiors, MEP and construction. 250+ projects, 10+ years.</span>
+          </div>
+        </div>
+        <ul className="footer-contact">
+          <li><a href={foundrio.tel}><Phone size={15} aria-hidden="true" /> {foundrio.phone}</a></li>
+          <li><a href={`mailto:${foundrio.email}`}><Mail size={15} aria-hidden="true" /> {foundrio.email}</a></li>
+          <li><MapPin size={15} aria-hidden="true" /> {foundrio.address}</li>
+        </ul>
+        <nav className="footer-links" aria-label="Foundrio">
+          <a href={foundrio.site}>foundrio-bd.com</a>
+          <a href={`${foundrio.site}/services/`}>Services</a>
+          <a href={`${foundrio.site}/projects/`}>Projects</a>
+          <a href={`${foundrio.site}/contact/`}>Contact</a>
+          <a href={foundrio.facebook}>Facebook</a>
+        </nav>
+        <p className="footer-note">
+          <ShieldCheck size={14} aria-hidden="true" />
+          Estimates follow DAP 2022–2035 and the Dhaka Building Construction Rules 2025.
+          They are not RAJUK approval, a permit or legal advice.
+        </p>
       </footer>
-    </main>
+    </div>
+  );
+}
+
+function FoundrioCard({ result }: { result: CalculationResult | null }) {
+  const mail = result
+    ? `mailto:${foundrio.email}?subject=${encodeURIComponent(`FAR enquiry: ${result.blockLabel}`)}&body=${encodeURIComponent(
+        `Hello Foundrio,\n\nPlease contact me about this plot.\n\nPlot: ${formatNumber(result.plotAreaSqft / 720, 1)} katha, ${result.blockLabel}\n${result.manualFar !== null ? "FAR (manual entry)" : "Allowed FAR"}: ${formatNumber(result.appliedFar)}\nFloor area: ${formatNumber(result.floorAreaSqft, 0)} sq ft\nPlot link: ${window.location.href}\n\nName:\nPhone:`,
+      )}`
+    : `mailto:${foundrio.email}?subject=${encodeURIComponent("Plot consultation")}`;
+  return (
+    <section className={`promo-card${result ? " reveal reveal-late" : ""}`} aria-labelledby="promo-title">
+      <Image className="promo-mark" src="/brand/foundrio-mark.png" alt="" width={36} height={36} />
+      <h2 id="promo-title">
+        {result ? <>Turn this estimate into a <em>real design</em></> : <>Planning a building in <em>Dhaka?</em></>}
+      </h2>
+      <p>
+        {result
+          ? "Foundrio's architects can check this result against your site, then design the most efficient building the rules allow: layout, structure, MEP and fire safety."
+          : "Foundrio Design & Consultant has delivered 250+ projects in 10+ years, from architecture and structural design to interiors, MEP and construction."}
+      </p>
+      <div className="promo-actions">
+        <a className="button-primary" href={foundrio.tel}><Phone size={16} aria-hidden="true" /> Call {foundrio.phone}</a>
+        <a className="button-secondary" href={mail}><Mail size={16} aria-hidden="true" /> {result ? "Email this result" : "Email us"}</a>
+      </div>
+      <a className="promo-link" href={`${foundrio.site}${result ? "/contact/" : "/projects/"}`}>
+        {result ? "Book a consultation" : "See our projects"} <ArrowRight size={15} aria-hidden="true" />
+      </a>
+    </section>
   );
 }
 

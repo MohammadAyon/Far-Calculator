@@ -85,7 +85,7 @@ export default function LocationMap({
     <MapContainer
       center={[23.8103, 90.4125]}
       zoom={11}
-      scrollWheelZoom
+      scrollWheelZoom={false} // the map sits inside a long page; wheel should scroll the page
       className="map-canvas"
     >
       <TileLayer
@@ -98,9 +98,9 @@ export default function LocationMap({
           key={`${id}-${id === selectedBlockId}`} // GeoJSON styles are set once; remount to re-highlight
           data={feature}
           style={{
-            color: id === selectedBlockId ? "#1b6c58" : "#438b79",
+            color: id === selectedBlockId ? "#8b5a3c" : "#af7b5b",
             weight: id === selectedBlockId ? 3 : 1,
-            fillColor: id === selectedBlockId ? "#70c2a3" : "#acd9c7",
+            fillColor: id === selectedBlockId ? "#d9a988" : "#ead7c9",
             fillOpacity: id === selectedBlockId ? 0.42 : 0.2,
           }}
           onEachFeature={(_feature, layer) => {
@@ -120,9 +120,9 @@ export default function LocationMap({
             center={block.center}
             radius={block.id === selectedBlockId ? 9 : 6}
             pathOptions={{
-              color: block.buildable === false ? "#8a4b0a" : block.id === selectedBlockId ? "#1b6c58" : "#438b79",
+              color: block.buildable === false ? "#8a4b0a" : block.id === selectedBlockId ? "#8b5a3c" : "#af7b5b",
               weight: block.id === selectedBlockId ? 3 : 1.5,
-              fillColor: block.id === selectedBlockId ? "#70c2a3" : "#acd9c7",
+              fillColor: block.id === selectedBlockId ? "#d9a988" : "#ead7c9",
               fillOpacity: 0.8,
             }}
             eventHandlers={{
