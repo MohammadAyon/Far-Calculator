@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { FEET_PER_METER, solveLayout, type LayoutResult } from "./layout";
 
 const positionSchema = z.tuple([z.number(), z.number()]);
 const ringSchema = z.array(positionSchema).min(4).max(20_000);
@@ -139,6 +140,11 @@ export const ruleDatasetSchema = z
           areaFar: z.number().nonnegative(),
           areaFarByZone: z.record(z.string(), z.number().nonnegative()).optional(),
           densityPerAcre: z.number().nonnegative().optional(),
+          unitsPerKatha: z.number().nonnegative().optional(),
+          avgUnitSizeSqft: z.number().nonnegative().optional(),
+          englishName: z.string().trim().max(160).optional(),
+          keywords: z.string().trim().max(400).optional(),
+          center: z.tuple([z.number().min(-90).max(90), z.number().min(-180).max(180)]).optional(),
           buildable: z.boolean().optional(),
           geometry: geometrySchema.optional(),
         })
@@ -584,7 +590,6 @@ export type CalculationResult = {
 export class CalculationError extends Error {}
 
 const SQFT_PER_SQM = 10.7639104167;
-const FEET_PER_METER = 3.280839895;
 
 function convertAreaToSqft(
   value: number,
@@ -835,6 +840,10 @@ export function calculateFar(
       );
     }
     effectiveDesignValues[designInput.id] = value;
+  }
+  // DAP Appendix 3.6: units per katha belong to the block unless the user overrides them.
+  if (effectiveDesignValues.unitsPerKatha === undefined && block.unitsPerKatha) {
+    effectiveDesignValues.unitsPerKatha = block.unitsPerKatha;
   }
   const farAreaSqft =
     dataset.plotAreaBasis === "net-after-surrender"
@@ -1337,20 +1346,34 @@ export function calculateFar(
     occupancyEntries.length === 1 &&
     occupancyEntries[0].occupancy.code === "A3"
   ) {
-    const program = suggestFlatProgram({
-      floorAreaSqft,
-      netPlotAreaSqft,
-      mgcSqft: siteCoverage.groundCoverageSqft,
-      frontageFt: input.plotFrontageFt,
-      roadWidthFt: Math.max(input.existingRoadWidthFt, input.proposedRoadWidthFt ?? 0),
-      unitsPerKatha: effectiveDesignValues.unitsPerKatha ?? 2,
-      targetUnitSqft: effectiveDesignValues.targetUnitSizeSqft,
-      circulationPercent: effectiveDesignValues.circulationPercent ?? 15,
-    });
+    const roadWidthFt = Math.max(input.existingRoadWidthFt, input.proposedRoadWidthFt ?? 0);
+    const target = effectiveDesignValues.targetUnitSizeSqft;
+    const program = layoutReport(
+      solveLayout({
+        farAreaSqft: floorAreaSqft,
+        plotAreaSqft: netPlotAreaSqft,
+        minMgcPercent: siteCoverage.minGroundCoveragePercent,
+        maxMgcPercent: siteCoverage.maxGroundCoveragePercent,
+        unitsPerKatha: effectiveDesignValues.unitsPerKatha ?? 2,
+        frontLengthFt: input.plotFrontageFt ?? undefined,
+        roadWidthFt,
+        values: target ? { avgUnitSqft: target } : {},
+        locked: target ? ["avgUnitSqft"] : [],
+      }),
+      {
+        floorAreaSqft,
+        netPlotAreaSqft,
+        roadWidthFt,
+        frontageEntered: input.plotFrontageFt !== null,
+        floorHeightM: effectiveDesignValues.floorHeightM ?? 3,
+        groundFloorHeightM: effectiveDesignValues.groundFloorHeightM ?? 3.6,
+      },
+    );
     buildingSummary = program.summary;
     reportFields.setbacks.push(...program.setbacks);
     reportFields.layout.unshift(...program.layout);
     reportFields.parking.push(...program.parking);
+    reportFields.stairsElevator.push(...program.stairsElevator);
   }
 
   return {
@@ -1392,22 +1415,12 @@ export function calculateFar(
 
 // Rule 53 Table 8 (A3 flats) car spaces for `units` flats of `unitSqm` gross area each.
 function requiredCars(units: number, unitSqm: number, roadWidthFt: number) {
-  if (roadWidthFt < 6 * FEET_PER_METER) return 0; // Table 8 row 1: road under 6 m
+  if (roadWidthFt < 2.5 * FEET_PER_METER) return 0; // Table 8 row 1: road 1.8 m to under 2.5 m
   if (unitSqm > 200) return units + Math.ceil(units * 0.05);
   // Overlapping tier bounds (90, 140) take the stricter tier.
   const ratio = unitSqm >= 140 ? 2 / 3 : unitSqm >= 90 ? 1 / 2 : unitSqm >= 60 ? 1 / 4 : 0;
   return Math.max(0, Math.ceil(units * ratio - 1e-9));
 }
-
-// Rule 41(3) Table 1: [max storeys incl. ground, side setback m, rear setback m].
-const SETBACK_TIERS = [
-  [7, 1.0, 1.25],
-  [10, 1.25, 2.0],
-  [15, 3.0, 3.0],
-  [20, 3.25, 3.25],
-  [30, 3.5, 3.5],
-  [Infinity, 4.5, 4.5],
-] as const;
 
 export type BuildingSummary = {
   storeys: number;
@@ -1419,118 +1432,90 @@ export type BuildingSummary = {
   bikesRequired: number;
 };
 
-/**
- * Suggested flat program: ground floor = parking, each upper floor = the
- * smaller of the max ground coverage and the area inside the Rule 41 setbacks.
- * Car bays (Table 6, 2.4 × 4.6 m) count toward FAR because Rule 49(c)/(o)
- * excludes only ramps, driveways, stairs, lifts and service rooms.
- */
-export function suggestFlatProgram(options: {
-  floorAreaSqft: number;
-  netPlotAreaSqft: number;
-  mgcSqft: number;
-  frontageFt: number | null;
-  roadWidthFt: number;
-  unitsPerKatha: number;
-  targetUnitSqft?: number;
-  circulationPercent: number;
-}) {
-  const { floorAreaSqft, netPlotAreaSqft, mgcSqft, roadWidthFt, targetUnitSqft } = options;
-  const carBaySqft = 2.4 * 4.6 * SQFT_PER_SQM;
-  const bikeBaySqft = 1 * 2 * SQFT_PER_SQM;
-  const usable = 1 - options.circulationPercent / 100;
-  const widthFt = options.frontageFt ?? Math.sqrt(netPlotAreaSqft); // no frontage: square plot
-  const depthFt = netPlotAreaSqft / widthFt;
-  const frontM = Math.max(4.5 - roadWidthFt / FEET_PER_METER / 2, 1.5); // Rule 41(1)
-  const densityCap = Math.floor((netPlotAreaSqft / 720) * options.unitsPerKatha * 1.1 + 1e-6);
-
-  const fit = (plate: number, maxFloors: number) => {
-    const build = (floors: number) => {
-      let unitsPerFloor = Math.max(
-        1,
-        targetUnitSqft ? Math.floor((plate * usable) / targetUnitSqft) : Math.floor(densityCap / Math.max(floors, 1)),
-      );
-      if (targetUnitSqft && unitsPerFloor * floors > densityCap) {
-        unitsPerFloor = Math.max(1, Math.floor(densityCap / Math.max(floors, 1)));
-      }
-      const units = floors * unitsPerFloor;
-      const unitSqft = (plate * usable) / unitsPerFloor;
-      const unitSqm = unitSqft / SQFT_PER_SQM;
-      const cars = requiredCars(units, unitSqm, roadWidthFt);
-      const bikes = unitSqm < 60 ? Math.ceil(units / 5) : 0;
-      const area = floors * plate + cars * carBaySqft + bikes * bikeBaySqft;
-      return { floors, plate, unitsPerFloor, units, unitSqft, unitSqm, cars, bikes, area };
-    };
-    let floors = plate > 0 ? Math.min(Math.floor(floorAreaSqft / plate), maxFloors) : 0;
-    while (floors > 0 && build(floors).area > floorAreaSqft + 1e-6) floors -= 1;
-    return build(floors);
-  };
-
-  // Each tier is valid only if its storey count falls inside that tier; keep the one building the most floor area.
-  let best: (ReturnType<typeof fit> & { sideM: number; rearM: number; envelopeSqft: number }) | null = null;
-  let minStoreys = 1;
-  for (const [maxStoreys, sideM, rearM] of SETBACK_TIERS) {
-    const envelopeSqft =
-      Math.max(0, widthFt - 2 * sideM * FEET_PER_METER) *
-      Math.max(0, depthFt - (frontM + rearM) * FEET_PER_METER);
-    const candidate = { ...fit(Math.min(mgcSqft, envelopeSqft), maxStoreys - 1), sideM, rearM, envelopeSqft };
-    const valid = candidate.floors + 1 >= minStoreys;
-    if (!best || (valid && candidate.floors * candidate.plate > best.floors * best.plate)) best = candidate;
-    minStoreys = maxStoreys + 1;
-  }
-  const p = best!; // first tier always valid (min 1 storey)
+/** Report rows for an A3 building laid out by the layout engine (ground floor = parking). */
+function layoutReport(
+  p: LayoutResult,
+  o: { floorAreaSqft: number; netPlotAreaSqft: number; roadWidthFt: number; frontageEntered: boolean; floorHeightM: number; groundFloorHeightM: number },
+) {
+  const row = (id: string, label: string, value: number, unit: string, precision = 0) => ({ id, label, value, unit, precision });
+  const storeys = p.floors + 1;
+  const unitSqm = p.farUsedSqft / p.totalUnits / SQFT_PER_SQM; // FAR area per flat, core share included
+  const cars = requiredCars(p.totalUnits, unitSqm, o.roadWidthFt);
+  const bikes = unitSqm <= 60 ? Math.ceil(p.totalUnits / 5) : 0; // Table 8 row 9
   // shortcut: 25 m² gross per car incl. driveway share, replace with a real parking layout when available.
-  const groundCarCapacity = Math.floor(p.plate / (25 * SQFT_PER_SQM));
-  const row = (id: string, label: string, value: number, unit: string, precision = 0) =>
-    ({ id, label, value, unit, precision });
+  const groundCars = Math.floor(p.plateSqft / (25 * SQFT_PER_SQM));
+  // Rule 59: height to the roof of the highest usable floor.
+  const heightM = o.groundFloorHeightM + p.floors * o.floorHeightM;
+  const lifts = heightM > 33 || storeys > 10 ? 2 : heightM > 18 ? 1 : 0;
   const summary: BuildingSummary = {
-    storeys: p.floors + 1,
+    storeys,
     upperFloors: p.floors,
     unitsPerFloor: p.unitsPerFloor,
-    unitSizeSqft: p.unitSqft,
-    totalUnits: p.units,
-    carsRequired: p.cars,
-    bikesRequired: p.bikes,
+    unitSizeSqft: p.avgUnitSqft,
+    totalUnits: p.totalUnits,
+    carsRequired: cars,
+    bikesRequired: bikes,
   };
   return {
     summary,
     setbacks: [
-      row("sb-plot-width", options.frontageFt ? "Plot frontage (entered)" : "Plot frontage (square plot assumed)", widthFt, "ft", 1),
-      row("sb-plot-depth", "Plot depth (net area ÷ frontage)", depthFt, "ft", 1),
-      row("sb-front-m", "Front setback, Rule 41(1)", frontM, "m", 2),
-      row("sb-front-ft", "Front setback", frontM * FEET_PER_METER, "ft", 2),
-      row("sb-side-m", `Side setback each side, Table 1 (G+${p.floors})`, p.sideM, "m", 2),
-      row("sb-side-ft", "Side setback each side", p.sideM * FEET_PER_METER, "ft", 2),
-      row("sb-rear-m", "Rear setback, Table 1", p.rearM, "m", 2),
-      row("sb-rear-ft", "Rear setback", p.rearM * FEET_PER_METER, "ft", 2),
+      row("sb-plot-width", o.frontageEntered ? "Plot frontage (entered)" : "Plot frontage (square plot assumed)", p.plotWidthFt, "ft", 1),
+      row("sb-plot-depth", "Plot depth (net area ÷ frontage)", p.plotDepthFt, "ft", 1),
+      row("sb-front-m", "Front setback, Rule 41(1)", p.frontSetbackM, "m", 2),
+      row("sb-front-ft", "Front setback", p.frontSetbackM * FEET_PER_METER, "ft", 2),
+      row("sb-side-m", `Side setback each side, Table 1 (G+${p.floors})`, p.sideSetbackM, "m", 2),
+      row("sb-side-ft", "Side setback each side", p.sideSetbackM * FEET_PER_METER, "ft", 2),
+      row("sb-rear-m", "Rear setback, Table 1", p.rearSetbackM, "m", 2),
+      row("sb-rear-ft", "Rear setback", p.rearSetbackM * FEET_PER_METER, "ft", 2),
       row("sb-envelope", "Buildable area inside setbacks", p.envelopeSqft, "sft"),
-      row("sb-mgc", "Max ground coverage area", mgcSqft, "sft"),
       row(
         "sb-plate",
-        p.envelopeSqft < mgcSqft ? "Floor plate used (setbacks govern)" : "Floor plate used (max ground coverage governs)",
-        p.plate,
+        p.envelopeSqft <= p.maxPlateSqft ? "Maximum floor plate (setbacks govern)" : "Maximum floor plate (ground coverage governs)",
+        p.maxPlateSqft,
         "sft",
       ),
     ],
     layout: [
-      row("auto-upper-floors", "Suggested residential floors above ground (n)", p.floors, "floors"),
-      row("auto-storeys", "Suggested building (G + n), ground floor parking", p.floors + 1, "storeys"),
-      row("auto-floor-plate", "Typical floor plate", p.plate, "sft"),
-      row("auto-units-per-floor", targetUnitSqft ? "Apartments per floor (from desired size)" : "Apartments per floor (from density cap)", p.unitsPerFloor, "units"),
-      row("auto-unit-size", "Apartment size (gross, each)", p.unitSqft, "sft"),
-      row("auto-unit-size-sqm", "Apartment size (gross, each)", p.unitSqm, "sqm", 1),
-      row("auto-total-units", "Total apartments", p.units, "units"),
-      row("auto-density-cap", "Density cap (units per katha × katha + 10%)", densityCap, "units"),
-      ...(p.units > densityCap
-        ? [row("auto-density-over", "Apartments above density cap (reduce or confirm with RAJUK)", p.units - densityCap, "units")]
+      row("auto-upper-floors", "Residential floors above ground (n)", p.floors, "floors"),
+      row("auto-storeys", "Building (G + n), ground floor parking", storeys, "storeys"),
+      row("auto-floor-plate", "Typical floor plate", p.plateSqft, "sft"),
+      row("auto-units-per-floor", "Apartments per floor", p.unitsPerFloor, "units"),
+      row("auto-unit-size", "Average apartment size", p.avgUnitSqft, "sft"),
+      row("auto-unit-size-sqm", "Average apartment size", p.avgUnitSqft / SQFT_PER_SQM, "sqm", 1),
+      row("auto-total-units", "Total apartments", p.totalUnits, "units"),
+      row("auto-density-cap", "Density cap (units per katha × katha + 10%)", p.maxUnits, "units"),
+      ...(p.totalUnits > p.maxUnits
+        ? [row("auto-density-over", "Apartments above density cap (reduce or confirm with RAJUK)", p.totalUnits - p.maxUnits, "units")]
         : []),
-      row("auto-unused-floor-area", "Permissible floor area left unused", floorAreaSqft - p.area, "sft"),
+      row("auto-circulation", "Circulation per floor per building (counted in FAR)", p.circulationSqft, "sft"),
+      row("auto-side-balcony", "Side balcony per floor, Rule 49(ণ) (outside FAR)", p.sideBalconySqft, "sft"),
+      row("auto-unused-floor-area", "Permissible floor area left unused", o.floorAreaSqft - p.farUsedSqft, "sft"),
+      // Rule 57(চ)(1): residential FAR area over 3,000 sqm keeps 5% of it as community space.
+      ...(o.floorAreaSqft > 3000 * SQFT_PER_SQM
+        ? [row("auto-community-space", "Community space required, Rule 57(চ)(1) (5% of FAR area)", o.floorAreaSqft * 0.05, "sft")]
+        : []),
+      // Rule 57(চ)(2): residential land of 1,300 sqm or more keeps 10% as a playground.
+      ...(o.netPlotAreaSqft >= 1300 * SQFT_PER_SQM
+        ? [row("auto-playground", "Playground required, Rule 57(চ)(2) (10% of land)", o.netPlotAreaSqft * 0.1, "sft")]
+        : []),
     ],
     parking: [
-      row("auto-cars-required", "Car parking required (Rule 53, Table 8)", p.cars, "cars"),
-      row("auto-bikes-required", "Motorcycle parking required (flats up to 60 sqm)", p.bikes, "bikes"),
-      row("auto-ground-car-capacity", "Ground floor fits about (25 sqm per car)", groundCarCapacity, "cars"),
-      row("auto-basement-cars", "Cars needing basement / other floor", Math.max(0, p.cars - groundCarCapacity), "cars"),
+      row("auto-cars-required", "Car parking required (Rule 53, Table 8)", cars, "cars"),
+      row("auto-bikes-required", "Motorcycle parking required (flats up to 60 sqm)", bikes, "bikes"),
+      row("auto-ground-car-capacity", "Ground floor fits about (25 sqm per car)", groundCars, "cars"),
+      row("auto-basement-cars", "Cars needing basement / other floor", Math.max(0, cars - groundCars), "cars"),
+    ],
+    stairsElevator: [
+      row("stair-count", "Staircases per building (main)", 1, "stairs"),
+      row("stair-main-width", "Main stair flight width, Table 10 (A3)", 1.15, "m", 2),
+      row("stair-parking-width", "Parking connecting stair width, Table 10 note 1", 1.15, "m", 2),
+      row("lift-height", "Building height to top floor roof (ground + typical × floors)", heightM, "m", 1),
+      row(
+        "lift-count",
+        lifts === 2 ? "Lifts required, Rule 59(2) (min. 2, one stretcher lift)" : lifts === 1 ? "Lifts required, Rule 59(1) (height over 18 m)" : "Lift not required, Rule 59(1) (height 18 m or less)",
+        lifts,
+        "lifts",
+      ),
     ],
   };
 }

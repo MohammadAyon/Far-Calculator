@@ -5,7 +5,6 @@ import {
   calculateFar,
   calculationInputSchema,
   ruleDatasetSchema,
-  suggestFlatProgram,
 } from "./rules";
 
 const dataset = ruleDatasetSchema.parse(bundled);
@@ -32,79 +31,47 @@ function input(overrides: Record<string, unknown> = {}) {
   });
 }
 
-describe("suggestFlatProgram", () => {
-  const value = (rows: { id: string; value: number | null }[], id: string) =>
-    rows.find((row) => row.id === id)?.value;
+describe("A3 building layout (layout engine)", () => {
+  const a3 = (overrides: Record<string, unknown>) =>
+    calculateFar(dataset, input({ plotAreaUnit: "katha", occupancyShares: [{ code: "A3", sharePercent: 100 }], ...overrides }));
+  const row = (rows: { id: string; value: number | null; label: string }[], id: string) => rows.find((item) => item.id === id);
 
-  // 5 katha square plot (60 × 60 ft), 20 ft road, FAR 3.45, MGC 62.5%.
-  const fiveKatha = {
-    floorAreaSqft: 12_420,
-    netPlotAreaSqft: 3_600,
-    mgcSqft: 2_250,
-    frontageFt: null,
-    roadWidthFt: 20,
-    unitsPerKatha: 2,
-    circulationPercent: 15,
-  };
-
-  it("gives storeys, apartments per floor and parking for a square plot", () => {
-    const program = suggestFlatProgram(fiveKatha);
-    expect(program.summary).toMatchObject({ storeys: 6, upperFloors: 5, unitsPerFloor: 2, totalUnits: 10, carsRequired: 3 });
-    expect(program.summary.unitSizeSqft).toBeCloseTo(956.25);
-    expect(value(program.setbacks, "sb-front-m")).toBe(1.5); // 4.5 − 3.05 < 1.5
-    expect(value(program.setbacks, "sb-envelope")).toBeCloseTo(2724.2, 0);
-    expect(value(program.setbacks, "sb-plate")).toBe(2_250); // MGC governs
-  });
-
-  it("uses the entered frontage and lets setbacks govern the plate", () => {
-    const program = suggestFlatProgram({ ...fiveKatha, frontageFt: 40, mgcSqft: 10_000 });
-    expect(value(program.setbacks, "sb-plot-depth")).toBe(90);
-    expect(value(program.setbacks, "sb-plate")).toBeCloseTo(2707.7, 0);
+  it("summarises the engine layout and uses all the FAR area", () => {
+    const result = a3({ plotArea: 5, existingRoadWidthFt: 25 });
+    expect(result.buildingSummary).toMatchObject({ storeys: 8, upperFloors: 7, unitsPerFloor: 1, totalUnits: 7 });
+    expect(result.reportFields.layout[0].id).toBe("auto-upper-floors");
+    expect(row(result.reportFields.layout, "auto-unused-floor-area")?.value).toBeCloseTo(0, 3);
   });
 
   it("applies the 4.5 m from road centre front setback on narrow roads", () => {
-    const program = suggestFlatProgram({ ...fiveKatha, roadWidthFt: 6 });
-    expect(value(program.setbacks, "sb-front-m")).toBeCloseTo(3.586, 3);
-    expect(program.summary.carsRequired).toBe(0); // road under 6 m
+    const result = a3({ plotArea: 5, existingRoadWidthFt: 12, roadWideningNotPossible: true });
+    expect(row(result.reportFields.setbacks, "sb-front-m")?.value).toBeCloseTo(4.5 - (12 * 0.3048) / 2, 3);
   });
 
-  it("moves to the Table 1 tier that matches the storey count", () => {
-    const program = suggestFlatProgram({
-      ...fiveKatha,
-      floorAreaSqft: 60_000,
-      netPlotAreaSqft: 10_000,
-      mgcSqft: 5_500,
-      roadWidthFt: 60,
-    });
-    expect(program.summary.storeys).toBe(11);
-    expect(value(program.setbacks, "sb-side-m")).toBe(3);
-    expect(value(program.setbacks, "sb-rear-m")).toBe(3);
+  it("lets the setbacks govern the floor plate on a narrow plot", () => {
+    const plate = row(a3({ plotArea: 5, existingRoadWidthFt: 25, plotFrontageFt: 15 }).reportFields.setbacks, "sb-plate");
+    expect(plate?.value).toBeLessThan(3_600 * 0.625);
+    expect(plate?.label).toContain("setbacks govern");
   });
 
-  it("fits apartments per floor from a desired flat size", () => {
-    const auto = suggestFlatProgram({ ...fiveKatha, unitsPerKatha: 4 });
-    expect(auto.summary.unitsPerFloor).toBe(4); // density cap 22 ÷ 5 floors
-    const sized = suggestFlatProgram({ ...fiveKatha, unitsPerKatha: 4, targetUnitSqft: 600 });
-    expect(sized.summary).toMatchObject({ unitsPerFloor: 3, carsRequired: 0, bikesRequired: 3 });
-  });
-
-  it("appears in the A3 result", () => {
-    const result = calculateFar(
-      dataset,
-      input({ plotArea: 5, plotAreaUnit: "katha", occupancyShares: [{ code: "A3", sharePercent: 100 }] }),
-    );
-    expect(result.buildingSummary?.storeys).toBeGreaterThan(1);
-    expect(result.reportFields.layout[0].id).toBe("auto-upper-floors");
-    expect(result.reportFields.setbacks.some((row) => row.id === "sb-front-m")).toBe(true);
-    expect(result.reportFields.parking.some((row) => row.id === "auto-cars-required")).toBe(true);
+  it("fits a desired flat size", () => {
+    const result = a3({ plotArea: 5, existingRoadWidthFt: 25, designValues: { targetUnitSizeSqft: 1200 } });
+    expect(result.buildingSummary?.unitSizeSqft).toBe(1200);
   });
 });
 
 describe("calculateFar", () => {
   it("calculates a plain case from the bundled ruleset", () => {
+    // 20 ft is just over the 6 m band (19.685 ft), so Rule 47(6) lifts FAR slightly above 2.5.
     const result = calculateFar(dataset, input());
-    expect(result.baseFar).toBe(2.5);
-    expect(result.appliedFar).toBe(2.5);
+    expect(result.baseFar).toBeCloseTo(2.516, 3);
+    expect(result.appliedFar).toBeCloseTo(2.516, 3);
+  });
+
+  it("uses Table 5 values exactly at metre band edges", () => {
+    // Block-03 (Z1), A1, road exactly 6 m → Table 5 gives 2.5.
+    const result = calculateFar(dataset, input({ existingRoadWidthFt: 6 / 0.3048 }));
+    expect(result.existingRoadFar).toBeCloseTo(2.5, 4);
   });
 
   it("interpolates road FAR between bundled road-width steps", () => {
@@ -115,7 +82,7 @@ describe("calculateFar", () => {
         roadWideningNotPossible: true,
       }),
     );
-    expect(result.existingRoadFar).toBeCloseTo(1.625);
+    expect(result.existingRoadFar).toBeCloseTo(1.618, 3); // between 2.5 m (1.5) and 3.66 m (1.75)
   });
 
   it("includes road widening and surrendered land in the result", () => {
@@ -130,8 +97,8 @@ describe("calculateFar", () => {
     );
     expect(result.surrenderedAreaSqft).toBe(500);
     expect(result.netPlotAreaSqft).toBe(9500);
-    expect(result.proposedRoadFar).toBe(2.5);
-    expect(result.roadFar).toBeCloseTo(2.0625);
+    expect(result.proposedRoadFar).toBeCloseTo(2.516, 3);
+    expect(result.roadFar).toBeCloseTo(2.067, 3); // Rule 47(8): average of existing and proposed
     expect(result.floorAreaSqft).toBeGreaterThan(result.netPlotAreaSqft);
   });
 
@@ -190,5 +157,54 @@ describe("calculateFar", () => {
       ],
     };
     expect(ruleDatasetSchema.safeParse(candidate).success).toBe(false);
+  });
+});
+
+describe("stairs and lifts", () => {
+  const rows = (plotArea: number, existingRoadWidthFt: number) =>
+    Object.fromEntries(
+      calculateFar(dataset, input({ plotArea, plotAreaUnit: "katha", existingRoadWidthFt, occupancyShares: [{ code: "A3", sharePercent: 100 }] }))
+        .reportFields.stairsElevator.map((row) => [row.id, row.value]),
+    );
+
+  it("requires one lift above 18 m (Rule 59(1))", () => {
+    // 5 katha → G+7: 3.6 m + 7 × 3.0 m = 24.6 m.
+    expect(rows(5, 25)).toMatchObject({ "stair-count": 1, "stair-main-width": 1.15, "lift-height": 24.6, "lift-count": 1 });
+  });
+
+  it("requires two lifts above 10 storeys (Rule 59(2))", () => {
+    expect(rows(21, 60)["lift-count"]).toBe(2);
+  });
+});
+
+describe("gazette rules (Bidhimala 2025 + DAP amendment)", () => {
+  const a3 = (overrides: Record<string, unknown>) =>
+    calculateFar(dataset, input({ plotAreaUnit: "katha", occupancyShares: [{ code: "A3", sharePercent: 100 }], ...overrides }));
+  const value = (rows: { id: string; value: number | null }[], id: string) => rows.find((row) => row.id === id)?.value;
+
+  it("uses Table 3 ground coverage for a 4–6 katha plot", () => {
+    expect(a3({ plotArea: 5, existingRoadWidthFt: 25 }).siteCoverage).toMatchObject({
+      minGroundCoveragePercent: 46.5,
+      maxGroundCoveragePercent: 62.5,
+      mandatoryOpenSpacePercent: 37.5,
+    });
+  });
+
+  it("requires car parking on a 12 ft road (Table 8 row 1 only waives 1.8–2.5 m roads)", () => {
+    // 1,200 sft flats (~111 sqm) fall in the 1 car per 2 units tier.
+    const result = a3({ plotArea: 5, existingRoadWidthFt: 12, roadWideningNotPossible: true, designValues: { targetUnitSizeSqft: 1200 } });
+    expect(value(result.reportFields.parking, "auto-cars-required")).toBeGreaterThan(0);
+  });
+
+  it("takes units per katha from the block (Appendix 3.6)", () => {
+    // Block-31 lists 1.3 units per katha: 10 katha × 1.3 × 1.1 = 14.3 → 14 units.
+    const result = a3({ blockId: "Block-31", plotArea: 10, existingRoadWidthFt: 30 });
+    expect(value(result.reportFields.layout, "auto-density-cap")).toBe(14);
+  });
+
+  it("asks for community space above 3,000 sqm of residential FAR area (Rule 57(চ)(1))", () => {
+    const result = a3({ plotArea: 40, existingRoadWidthFt: 60 });
+    expect(result.floorAreaSqft).toBeGreaterThan(3000 * 10.7639);
+    expect(value(result.reportFields.layout, "auto-community-space")).toBeCloseTo(result.floorAreaSqft * 0.05);
   });
 });

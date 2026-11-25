@@ -48,3 +48,6 @@ next-env.d.ts
 
 # Large GIS source data (600+ MB), keep out of git
 rajuk_rs_plots_shapefile/
+
+# Reference books and source PDFs (hundreds of MB), keep out of git and deployments
+*.pdf

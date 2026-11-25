@@ -2,14 +2,17 @@
 
 import { useEffect, useMemo } from "react";
 import {
+  CircleMarker,
   GeoJSON,
   MapContainer,
   Marker,
   TileLayer,
+  Tooltip,
   useMap,
   useMapEvents,
 } from "react-leaflet";
 import type { Feature } from "geojson";
+import { DomEvent } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { RuleDataset } from "@/lib/rules";
 
@@ -92,7 +95,7 @@ export default function LocationMap({
       <MapResizeHandler />
       {mappedBlocks.map(({ id, feature }) => (
         <GeoJSON
-          key={id}
+          key={`${id}-${id === selectedBlockId}`} // GeoJSON styles are set once; remount to re-highlight
           data={feature}
           style={{
             color: id === selectedBlockId ? "#1b6c58" : "#438b79",
@@ -101,10 +104,42 @@ export default function LocationMap({
             fillOpacity: id === selectedBlockId ? 0.42 : 0.2,
           }}
           onEachFeature={(_feature, layer) => {
-            layer.on("click", () => onSelectBlock(id));
+            const block = dataset.blocks.find((item) => item.id === id);
+            if (block) layer.bindTooltip(`${block.id} · ${block.label}${block.englishName ? ` · ${block.englishName}` : ""} · Area FAR ${block.areaFar.toFixed(2)}`, { sticky: true });
+            layer.on("click", (event) => {
+              DomEvent.stopPropagation(event); // choosing a block should not also drop a point
+              if (block && block.buildable !== false && block.areaFar > 0) onSelectBlock(id);
+            });
           }}
         />
       ))}
+      {dataset.blocks.map((block) =>
+        block.geometry || !block.center ? null : (
+          <CircleMarker
+            key={block.id}
+            center={block.center}
+            radius={block.id === selectedBlockId ? 9 : 6}
+            pathOptions={{
+              color: block.buildable === false ? "#8a4b0a" : block.id === selectedBlockId ? "#1b6c58" : "#438b79",
+              weight: block.id === selectedBlockId ? 3 : 1.5,
+              fillColor: block.id === selectedBlockId ? "#70c2a3" : "#acd9c7",
+              fillOpacity: 0.8,
+            }}
+            eventHandlers={{
+              // Stop the map click so choosing a block does not also drop a point.
+              click: (event) => {
+                DomEvent.stopPropagation(event);
+                if (block.buildable !== false && block.areaFar > 0) onSelectBlock(block.id);
+              },
+            }}
+          >
+            <Tooltip>
+              {block.id} · {block.label}
+              {block.englishName ? ` · ${block.englishName}` : ""} · Area FAR {block.areaFar.toFixed(2)}
+            </Tooltip>
+          </CircleMarker>
+        ),
+      )}
       {point && <Marker position={point} />}
       <MapClickHandler onSelectPoint={onSelectPoint} />
     </MapContainer>

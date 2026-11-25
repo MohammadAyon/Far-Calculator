@@ -11,9 +11,10 @@ import {
   ChevronDown,
   CircleHelp,
   Database,
-  ExternalLink,
+  Download,
   FileUp,
   Layers3,
+  Link2,
   MapPin,
   Printer,
   Search,
@@ -30,6 +31,8 @@ import {
   type ReportSection,
   type RuleDataset,
 } from "@/lib/rules";
+import { nearestMrtStation } from "@/lib/mrt";
+import LayoutEngine from "@/components/layout-engine";
 
 const LocationMap = dynamic(() => import("@/components/location-map"), {
   ssr: false,
@@ -169,7 +172,7 @@ export default function Home() {
     return dataset.blocks.filter((block) => {
       const matchesQuery =
         !query ||
-        `${block.id} ${block.label} ${block.zone ?? ""}`
+        `${block.id} ${block.label} ${block.englishName ?? ""} ${block.keywords ?? ""} ${block.zone ?? ""}`
           .toLocaleLowerCase()
           .includes(query);
       const matchesZone =
@@ -270,6 +273,26 @@ export default function Home() {
     (item) => item.section === "parking",
   );
 
+  // Share links (?b=&a=&u=&r=...) restore the main inputs once the ruleset is loaded.
+  function restoreFromLink(loaded: RuleDataset) {
+    const q = new URLSearchParams(window.location.search);
+    const unit = (value: string | null) => areaUnits.find((item) => item.value === value)?.value;
+    if (q.get("b") && loaded.blocks.some((block) => block.id === q.get("b"))) setBlockId(q.get("b")!);
+    if (q.get("a")) setAreaValue(q.get("a")!);
+    if (unit(q.get("u"))) setAreaUnit(unit(q.get("u"))!);
+    if (q.get("r")) setExistingRoadFt(q.get("r")!);
+    if (q.get("p")) setProposedRoadFt(q.get("p")!);
+    if (q.get("s")) setSurrenderedValue(q.get("s")!);
+    if (unit(q.get("su"))) setSurrenderedUnit(unit(q.get("su"))!);
+    if (q.get("f")) setFrontageFt(q.get("f")!);
+    if (q.get("w") === "1") setRoadWideningNotPossible(true);
+    const code = q.get("o");
+    if (code && loaded.occupancies.some((item) => item.code === code)) {
+      setOccupancyMode("single");
+      setOccupancyShares([{ code, sharePercent: 100 }]);
+    }
+  }
+
   useEffect(() => {
     let active = true;
     fetch("/api/rules")
@@ -284,7 +307,10 @@ export default function Home() {
               : "Could not load the active rule dataset.",
           );
         }
-        if (active) setDataset(body.dataset);
+        if (active) {
+          setDataset(body.dataset);
+          restoreFromLink(body.dataset);
+        }
       })
       .catch((error: unknown) => {
         if (active) {
@@ -302,6 +328,46 @@ export default function Home() {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (!result) return;
+    document.title = `${formatNumber(result.plotAreaSqft / 720, 1)} Katha ${result.blockLabel} (FAR ${formatNumber(result.appliedFar)}) | RAJUK FAR Calculator`;
+  }, [result]);
+
+  function shareQuery() {
+    const q = new URLSearchParams({ b: blockId, a: areaValue, u: areaUnit, r: existingRoadFt });
+    if (proposedRoadFt) q.set("p", proposedRoadFt);
+    if (Number(surrenderedValue) > 0) { q.set("s", surrenderedValue); q.set("su", surrenderedUnit); }
+    if (frontageFt) q.set("f", frontageFt);
+    if (roadWideningNotPossible) q.set("w", "1");
+    if (occupancyMode === "single" && occupancyShares[0]?.code) q.set("o", occupancyShares[0].code);
+    return q.toString();
+  }
+
+  function copyShareLink() {
+    navigator.clipboard
+      .writeText(window.location.href)
+      .then(() => setNotice("Link copied. It reopens this plot, block, road and occupancy."))
+      .catch(() => setFormError("Could not copy the link. Copy it from the address bar instead."));
+  }
+
+  function downloadCsv() {
+    if (!result) return;
+    const cell = (value: string | number | null | undefined) => `"${String(value ?? "").replace(/"/g, '""')}"`;
+    const rows = Object.entries(result.reportFields).flatMap(([section, fields]) =>
+      [...fields, ...(section === "groundCoverage" ? siteCoverageReportFields : [])].map((field) =>
+        [section, field.label, field.value === null ? "" : Number(field.value.toFixed(field.precision ?? 2)), field.unit].map(cell).join(","),
+      ),
+    );
+    const header = [["Block", result.blockLabel], ["Applied FAR", formatNumber(result.appliedFar)], ["Floor area (sft)", formatNumber(result.floorAreaSqft, 0)]]
+      .map((pair) => pair.map(cell).join(","));
+    const blob = new Blob(["\uFEFF" + [...header, "", "Section,Item,Value,Unit", ...rows].join("\r\n")], { type: "text/csv;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `far-${result.blockLabel.replace(/[^\w\u0980-\u09FF]+/g, "-")}.csv`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+  }
 
   function setOccupancySelection(code: string) {
     setOccupancyShares(code ? [{ code, sharePercent: 100 }] : []);
@@ -571,6 +637,7 @@ export default function Home() {
       }
       setResult(body.result);
       setResultTab("far");
+      window.history.replaceState(null, "", `?${shareQuery()}`);
       window.setTimeout(
         () => {
           document.getElementById("results")?.scrollIntoView({
@@ -731,6 +798,15 @@ export default function Home() {
             unit: "sq ft",
             precision: 0,
           },
+          {
+            id: "site-basement",
+            label: "Max basement footprint (max MGC + ½ open space)",
+            value:
+              result.siteCoverage.maxGroundCoveragePercent +
+              result.siteCoverage.mandatoryOpenSpacePercent / 2,
+            unit: "%",
+            precision: 2,
+          },
         ]
       : [];
   const resultRows = result
@@ -762,15 +838,6 @@ export default function Home() {
           <a href="#data">Rule data</a>
           <a href="#references">References</a>
         </nav>
-        <a
-          className="reference-cta"
-          href="/reference/rajuk-far-calculator.html"
-          rel="noreferrer"
-          target="_blank"
-        >
-          <ExternalLink size={14} />
-          View reference calculator
-        </a>
         <div className="top-status" aria-live="polite">
           <span className={`status-dot ${hasCalculationData ? "ready" : ""}`} />
           {hasCalculationData ? "Rules loaded" : "Awaiting rules"}
@@ -858,7 +925,7 @@ export default function Home() {
               </label>
             </div>
             <div className="block-list" id="block">
-              {filteredBlocks.length ? filteredBlocks.slice(0, 8).map((block) => (
+              {filteredBlocks.length ? filteredBlocks.map((block) => (
                 <button
                   aria-pressed={blockId === block.id}
                   className={`block-option ${blockId === block.id ? "active" : ""}`}
@@ -885,7 +952,7 @@ export default function Home() {
                     <small>
                       {block.buildable === false
                         ? "Reserved / restricted — no development FAR"
-                        : block.zone ?? "DAP block"}
+                        : [block.englishName, block.zone].filter(Boolean).join(" · ") || "DAP block"}
                     </small>
                   </span>
                   <span className="block-value">
@@ -905,9 +972,9 @@ export default function Home() {
                 </div>
               )}
             </div>
-            {dataset.blocks.length > 8 && (
+            {dataset.blocks.length > 0 && (
               <small className="list-hint">
-                Showing up to 8 matching blocks. Refine the search to find others.
+                {filteredBlocks.length} of {dataset.blocks.length} blocks. Scroll the list or search by name, ward or area.
               </small>
             )}
             <details className="map-details" open={showMap} onToggle={(event) => setShowMap(event.currentTarget.open)}>
@@ -934,8 +1001,17 @@ export default function Home() {
                   <button onClick={() => setPoint(null)} type="button">Clear</button>
                 </p>
               )}
+              {point && (() => {
+                const nearest = nearestMrtStation(point[0], point[1]);
+                return (
+                  <p className="field-hint">
+                    Nearest MRT-6 station: {nearest.station.name}{"opens" in nearest.station ? ` (opens ${nearest.station.opens})` : ""}, about {formatNumber(nearest.meters, 0)} m away.
+                    The TOD incentive is set by the TOD Guideline 2025 (DAP Table 3.28 row 6); enter only an approved amount.
+                  </p>
+                );
+              })()}
               <p className="field-hint">
-                A map point does not select zoning unless matching boundaries are included in the dataset.
+                Click a block marker to select it. Markers are approximate block centres, not boundaries; confirm the block on the RAJUK masterplan.
               </p>
             </details>
           </section>
@@ -1441,13 +1517,8 @@ export default function Home() {
               </div>
             )}
             <div className="reference-links" id="references">
-              <strong>View the supplied reference pages</strong>
-              <a href="/reference/rajuk-far-calculator.html" rel="noreferrer" target="_blank">
-                Saved RAJUK Building Construction &amp; Dhaka FAR Calculator
-              </a>
-              <a href="/reference/dhaka-building-rules-2025.html" rel="noreferrer" target="_blank">
-                Dhaka Metropolitan Building Construction Rules, 2025 reference tool
-              </a>
+              <strong>Rule sources</strong>
+              {dataset.sources.map((source) => <span key={source}>{source}</span>)}
               <a download href="/rulesets/dhaka-metropolitan-building-construction-rules-2025.json">
                 Download this DAP 2025 ruleset
               </a>
@@ -1498,6 +1569,12 @@ export default function Home() {
               <>
                 <button className="button-report" onClick={printReport} type="button">
                   <Printer size={15} /> Print / Save as PDF
+                </button>
+                <button className="button-report" onClick={downloadCsv} type="button">
+                  <Download size={15} /> Download report (CSV)
+                </button>
+                <button className="button-report" onClick={copyShareLink} type="button">
+                  <Link2 size={15} /> Copy share link
                 </button>
                 <div className="result-disclaimer"><CircleHelp size={14} /><span>Informational estimate only. Confirm all constraints with RAJUK.</span></div>
               </>
@@ -1573,6 +1650,20 @@ export default function Home() {
                   {result.automaticBonuses.map((item) => <Metric key={item.label} label={item.label} value={`+${formatNumber(item.farBonus)}`} />)}
                   {result.selectedBonuses.map((item) => <Metric key={item.label} label={item.label} value={`+${formatNumber(item.farBonus)}`} />)}
                 </div>
+              )}
+              {resultTab === "design" && result.buildingSummary && result.siteCoverage && (
+                <LayoutEngine
+                  key={`${result.floorAreaSqft}-${result.netPlotAreaSqft}`}
+                  farAreaSqft={result.floorAreaSqft}
+                  plotAreaSqft={result.netPlotAreaSqft}
+                  minMgcPercent={result.siteCoverage.minGroundCoveragePercent}
+                  maxMgcPercent={result.siteCoverage.maxGroundCoveragePercent}
+                  unitsPerKatha={designValues.unitsPerKatha ?? selectedBlock?.unitsPerKatha ?? 2}
+                  roadWidthFt={Math.max(result.existingRoadWidthFt, result.proposedRoadWidthFt ?? 0)}
+                  targetUnitSqft={designValues.targetUnitSizeSqft}
+                  referenceUnitSqft={selectedBlock?.avgUnitSizeSqft}
+                  initialFrontLengthFt={Number(frontageFt) > 0 ? Number(frontageFt) : undefined}
+                />
               )}
               {resultRows.map(({ section, fields }) => (
                 <ReportSectionCard
