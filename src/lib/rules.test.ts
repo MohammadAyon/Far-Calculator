@@ -4,6 +4,8 @@ import {
   CalculationError,
   calculateFar,
   calculationInputSchema,
+  customerCalculationInputSchema,
+  customerToEngineInput,
   ruleDatasetSchema,
 } from "./rules";
 
@@ -206,5 +208,47 @@ describe("gazette rules (Bidhimala 2025 + DAP amendment)", () => {
     const result = a3({ plotArea: 40, existingRoadWidthFt: 60 });
     expect(result.floorAreaSqft).toBeGreaterThan(3000 * 10.7639);
     expect(value(result.reportFields.layout, "auto-community-space")).toBeCloseTo(result.floorAreaSqft * 0.05);
+  });
+});
+
+describe("customer input and calculation trace", () => {
+  const customer = {
+    blockId: "Block-03",
+    plotArea: 5,
+    plotAreaUnit: "katha",
+    existingRoadWidthFt: 25,
+    proposedRoadWidthFt: null,
+    surrenderedArea: 0,
+    surrenderedAreaUnit: "sqft",
+    occupancyCode: "A3",
+  };
+
+  it("rejects architect-only parameters from the public calculator", () => {
+    for (const extra of [{ manualFar: 9 }, { manualFarEnabled: true }, { zoneOverride: "Z3" }, { incentiveIds: ["green-building"] }, { designValues: { unitsPerKatha: 9 } }]) {
+      expect(customerCalculationInputSchema.safeParse({ ...customer, ...extra }).success).toBe(false);
+    }
+  });
+
+  it("gives the same result as the full engine input for an equivalent assessment", () => {
+    const viaCustomer = calculateFar(dataset, customerToEngineInput(customerCalculationInputSchema.parse(customer)));
+    const viaArchitect = calculateFar(dataset, input({ plotArea: 5, plotAreaUnit: "katha", existingRoadWidthFt: 25, occupancyShares: [{ code: "A3", sharePercent: 100 }] }));
+    expect(viaCustomer).toEqual(viaArchitect);
+  });
+
+  it("traces the values the result reports", () => {
+    const result = calculateFar(dataset, input({ plotArea: 10_000, existingRoadWidthFt: 10, proposedRoadWidthFt: 20, surrenderedArea: 500 }));
+    const step = (label: string) => result.trace.find((item) => item.label.startsWith(label))?.value;
+    expect(step("Area FAR for the block")).toBe(result.areaFar);
+    expect(step("Base FAR")).toBe(result.baseFar);
+    expect(step("Calculated FAR")).toBe(result.calculatedFar);
+    expect(step("Total buildable floor area")).toBe(result.floorAreaSqft);
+    expect(step("Net plot area")).toBe(result.netPlotAreaSqft);
+    expect(result.trace.some((item) => item.ref === "DAP Article 3.6.4.2")).toBe(true);
+  });
+
+  it("lists the layout assumptions only when a building estimate is made", () => {
+    const flats = calculateFar(dataset, input({ plotArea: 5, plotAreaUnit: "katha", existingRoadWidthFt: 25, occupancyShares: [{ code: "A3", sharePercent: 100 }] }));
+    expect(flats.trace.filter((item) => item.kind === "assumption").map((item) => item.label)).toContain("Square plot assumed for setbacks (no frontage entered)");
+    expect(calculateFar(dataset, input()).trace.some((item) => item.kind === "assumption")).toBe(false);
   });
 });

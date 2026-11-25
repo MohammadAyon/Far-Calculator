@@ -510,6 +510,44 @@ export const calculationInputSchema = z
     }
   });
 
+/** Bump whenever a formula in calculateFar or layout.ts changes, so stored results stay traceable. */
+export const ENGINE_VERSION = "2026.11.1";
+
+const areaUnitSchema = z.enum(["sqft", "katha", "sqm", "decimal", "chatak", "bigha", "acre", "hectare"]);
+
+/** What the public calculator may send. Architect-only parameters are rejected outright. */
+export const customerCalculationInputSchema = z
+  .object({
+    blockId: z.string().min(1).max(80),
+    plotArea: z.number().positive(),
+    plotAreaUnit: areaUnitSchema,
+    existingRoadWidthFt: z.number().positive(),
+    proposedRoadWidthFt: z.number().nonnegative().nullable(),
+    roadWideningNotPossible: z.boolean().default(false),
+    surrenderedArea: z.number().nonnegative(),
+    surrenderedAreaUnit: areaUnitSchema,
+    occupancyCode: z.string().min(1).max(40),
+    plotFrontageFt: z.number().positive().nullable().default(null),
+  })
+  .strict();
+
+export type CustomerCalculationInput = z.infer<typeof customerCalculationInputSchema>;
+
+export function customerToEngineInput(input: CustomerCalculationInput): CalculationInput {
+  const { occupancyCode, ...rest } = input;
+  return calculationInputSchema.parse({
+    ...rest,
+    occupancyMode: "single",
+    occupancyShares: [{ code: occupancyCode, sharePercent: 100 }],
+    zoneOverride: null,
+    incentiveIds: [],
+    manualFarEnabled: false,
+    manualFar: null,
+    designValues: {},
+    lockedInputs: [],
+  });
+}
+
 type CalculationExpression =
   | { type: "constant"; value: number }
   | { type: "input"; key: string }
@@ -520,7 +558,7 @@ type CalculationExpression =
     };
 
 export type RuleDataset = z.infer<typeof ruleDatasetSchema>;
-type CalculationInput = z.infer<typeof calculationInputSchema>;
+export type CalculationInput = z.infer<typeof calculationInputSchema>;
 export type ReportSection = z.infer<typeof sectionNameSchema>;
 type ReportFieldValue = {
   id: string;
@@ -584,7 +622,17 @@ export type CalculationResult = {
   } | null;
   buildingSummary: BuildingSummary | null;
   reportFields: Record<ReportSection, ReportFieldValue[]>;
+  trace: TraceStep[];
   sources: string[];
+};
+
+/** One line of "how this was calculated": where each value came from. */
+export type TraceStep = {
+  kind: "input" | "regulatory" | "derived" | "assumption";
+  label: string;
+  value: number | string;
+  unit?: string;
+  ref?: string;
 };
 
 export class CalculationError extends Error {}
@@ -1155,14 +1203,16 @@ export function calculateFar(
   );
   const regularBonusFar = totalBonusFar - aboveMaximumBonusFar;
   let calculatedFar: number;
+  let gapRuleApplied = false;
+  let eligibleFarExcess = 0;
   if (farCap === null) {
     calculatedFar = baseFar + totalBonusFar;
   } else {
-    const standardCalculatedFar =
-      dapMode && farCap - baseFar <= 0.1
-        ? farCap
-        : Math.min(baseFar + regularBonusFar, farCap);
-    const eligibleFarExcess =
+    gapRuleApplied = dapMode && farCap - baseFar <= 0.1;
+    const standardCalculatedFar = gapRuleApplied
+      ? farCap
+      : Math.min(baseFar + regularBonusFar, farCap);
+    eligibleFarExcess =
       dapMode && standardCalculatedFar >= farCap - 1e-9
         ? Math.min(aboveMaximumBonusFar, 0.5)
         : 0;
@@ -1376,6 +1426,140 @@ export function calculateFar(
     reportFields.stairsElevator.push(...program.stairsElevator);
   }
 
+  const trace: TraceStep[] = [
+    { kind: "input", label: "Plot area entered", value: input.plotArea, unit: input.plotAreaUnit },
+    { kind: "derived", label: "Plot area", value: plotAreaSqft, unit: "sq ft" },
+    ...(surrenderedAreaSqft > 0
+      ? ([
+          { kind: "input", label: "Land surrendered for road widening", value: surrenderedAreaSqft, unit: "sq ft" },
+          { kind: "derived", label: "Net plot area (plot minus surrendered land)", value: netPlotAreaSqft, unit: "sq ft" },
+        ] satisfies TraceStep[])
+      : []),
+    {
+      kind: "regulatory",
+      label:
+        dataset.plotAreaBasis === "net-after-surrender"
+          ? "FAR is applied to the net plot area"
+          : "FAR is applied to the gross plot area",
+      value: farAreaSqft,
+      unit: "sq ft",
+    },
+    { kind: "input", label: "DAP block", value: block.label },
+    ...(effectiveZone
+      ? ([
+          input.zoneOverride
+            ? { kind: "input", label: "Planning zone (override)", value: effectiveZone }
+            : { kind: "regulatory", label: "Planning zone", value: effectiveZone },
+        ] satisfies TraceStep[])
+      : []),
+    { kind: "regulatory", label: "Area FAR for the block", value: areaFar, ref: "DAP Appendix 3.6" },
+    { kind: "input", label: "Widest adjoining road", value: input.existingRoadWidthFt, unit: "ft" },
+    ...(input.proposedRoadWidthFt
+      ? ([{ kind: "input", label: "Proposed road width", value: input.proposedRoadWidthFt, unit: "ft" }] satisfies TraceStep[])
+      : []),
+    ...(input.roadWideningNotPossible
+      ? ([
+          { kind: "assumption", label: "Road widening treated as impossible (needs confirmation)", value: "Yes", ref: "Rule 47(7)" },
+        ] satisfies TraceStep[])
+      : []),
+    ...roadValues.flatMap((item): TraceStep[] => {
+      const who = roadValues.length > 1 ? ` (${item.occupancy.code}, ${item.sharePercent}%)` : "";
+      return [
+        {
+          kind: "regulatory",
+          label: `Road FAR for the existing road${who}`,
+          value: item.existingRoadFar,
+          ref: "Table 5, interpolated between road-width steps",
+        },
+        ...(item.proposedRoadFar !== null
+          ? ([
+              { kind: "regulatory", label: `Road FAR for the proposed road${who}`, value: item.proposedRoadFar, ref: "Table 5" },
+              {
+                kind: "derived",
+                label: `Road FAR used (${dataset.roadFarCombination} of existing and proposed)${who}`,
+                value: item.roadFar,
+                ref: "Rule 47(8)",
+              },
+            ] satisfies TraceStep[])
+          : []),
+      ];
+    }),
+    {
+      kind: "derived",
+      label: roadValues.every((item) => item.occupancy.farTreatment === "road-only")
+        ? "Base FAR (Road FAR only, non-residential use)"
+        : roadValues.every((item) => item.unrestrictedAvailable)
+          ? "Base FAR (Area FAR; Table 5 unrestricted condition met)"
+          : "Base FAR (lower of Area FAR and Road FAR)",
+      value: baseFar,
+      ref: "Rule 47",
+    },
+    ...[...automaticBonuses, ...selectedBonuses].map(
+      (bonus): TraceStep => ({
+        kind: "regulatory",
+        label: `Incentive: ${bonus.label}`,
+        value: bonus.farBonus,
+        ref: "DAP Table 3.28",
+      }),
+    ),
+    farCap === null
+      ? {
+          kind: "regulatory",
+          label: "Maximum FAR",
+          value: uncappedFarEligible ? "No cap (Table 5 unrestricted condition)" : "Not defined by the ruleset",
+        }
+      : { kind: "derived", label: "Maximum FAR (higher of Area FAR and Road FAR)", value: farCap, ref: "Rule 47" },
+    ...(gapRuleApplied && farCap !== null
+      ? ([
+          {
+            kind: "regulatory",
+            label: "Gap of 0.1 or less, so the maximum FAR applies without incentives",
+            value: farCap,
+            ref: "Rule 47(12)",
+          },
+        ] satisfies TraceStep[])
+      : []),
+    ...(eligibleFarExcess > 0
+      ? ([
+          { kind: "regulatory", label: "Exceptional FAR above the maximum", value: eligibleFarExcess, ref: "Rule 47(3)" },
+        ] satisfies TraceStep[])
+      : []),
+    { kind: "derived", label: "Calculated FAR", value: calculatedFar },
+    ...(input.manualFarEnabled && input.manualFar !== null
+      ? ([{ kind: "input", label: "Manual FAR override", value: input.manualFar }] satisfies TraceStep[])
+      : []),
+    ...(surrenderedAreaSqft > 0 && dataset.surrenderedAreaCompensationFactor
+      ? ([
+          {
+            kind: "regulatory",
+            label: `Compensation: surrendered land × ${dataset.surrenderedAreaCompensationFactor} added to the FAR area`,
+            value: surrenderedAreaSqft * dataset.surrenderedAreaCompensationFactor,
+            unit: "sq ft",
+            ref: "DAP Article 3.6.4.2",
+          },
+        ] satisfies TraceStep[])
+      : []),
+    { kind: "derived", label: "Total buildable floor area (FAR area × applied FAR)", value: floorAreaSqft, unit: "sq ft" },
+  ];
+  if (buildingSummary) {
+    const unitsFromBlock = block.unitsPerKatha !== undefined && input.designValues.unitsPerKatha === undefined;
+    trace.push(
+      input.plotFrontageFt === null
+        ? { kind: "assumption", label: "Square plot assumed for setbacks (no frontage entered)", value: "Square" }
+        : { kind: "input", label: "Plot frontage", value: input.plotFrontageFt, unit: "ft" },
+      {
+        kind: input.designValues.unitsPerKatha !== undefined ? "input" : unitsFromBlock ? "regulatory" : "assumption",
+        label: unitsFromBlock ? "Density for the block" : "Density used",
+        value: effectiveDesignValues.unitsPerKatha ?? 2,
+        unit: "units per katha",
+        ...(unitsFromBlock ? { ref: "DAP Appendix 3.6" } : {}),
+      },
+      { kind: "assumption", label: "Ground floor height", value: effectiveDesignValues.groundFloorHeightM ?? 3.6, unit: "m" },
+      { kind: "assumption", label: "Typical floor height", value: effectiveDesignValues.floorHeightM ?? 3, unit: "m" },
+      { kind: "assumption", label: "Ground floor is parking, about 25 m² per car including driveway", value: 25, unit: "m² per car" },
+    );
+  }
+
   return {
     blockLabel: block.label,
     zone: input.zoneOverride ?? block.zone ?? null,
@@ -1409,6 +1593,7 @@ export function calculateFar(
     siteCoverage,
     buildingSummary,
     reportFields,
+    trace,
     sources: dataset.sources,
   };
 }

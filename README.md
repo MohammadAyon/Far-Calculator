@@ -65,6 +65,9 @@ The app uses `@libsql/client`: local development falls back to a file-backed SQL
 - `TURSO_DATABASE_URL`
 - `TURSO_AUTH_TOKEN`
 - `DATA_IMPORT_TOKEN`
+- Optional: `RESEND_API_KEY`, `ENQUIRY_EMAIL_TO`, `ENQUIRY_EMAIL_FROM` to email Foundrio when a customer requests a review. Without them, requests are saved but not emailed.
+
+Every customer calculation is saved as an assessment with a reference such as `FAR-7K2MQ9XD`, together with its inputs, result, engine version (`ENGINE_VERSION` in `src/lib/rules.ts`) and a hash-keyed snapshot of the ruleset it used, so it can be reproduced later. The public `/api/calculate` accepts only customer inputs; manual FAR, zone override and incentive inputs are rejected there.
 
 For local development, set `DATA_IMPORT_TOKEN` before importing or reverting a ruleset. Generate it with `openssl rand -base64 48`. Production requires both Turso variables and the import token; the app never falls back to a local database in production. The browser asks for the import token only when importing and sends it to the server as a request header. Never commit it or share it publicly.
 

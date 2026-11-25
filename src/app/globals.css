@@ -1,32 +1,31 @@
-/* Foundrio FAR Calculator: monochrome black + white, the logo's bronze as the only accent. */
+/* Foundrio FAR Calculator: warm white, deep forest green primary, muted greys. */
 :root {
   color-scheme: light;
 
-  --bg: #ffffff;
+  --bg: #faf8f4;
   --surface: #ffffff;
-  --surface-2: #f4f4f4;
-  --ink: #0a0a0a;
-  --ink-2: #262626;
-  --muted: #525252;
-  --line: #e5e5e5;
-  --line-strong: #d4d4d4;
-  --control-line: #8a8a8a; /* 3:1 on white for input boundaries (WCAG 1.4.11) */
+  --surface-2: #f3f1ec;
+  --ink: #1a1d1b;
+  --ink-2: #2e332f;
+  --muted: #565c58; /* 6.6:1 on the warm background */
+  --line: #e4e1da;
+  --line-strong: #d3cfc6;
+  --control-line: #85827b; /* 3.6:1 on white for input boundaries (WCAG 1.4.11) */
 
-  /* Primary actions are black; bronze #af7b5b (logo) is decoration only on white (3.6:1). */
-  --primary: #0a0a0a;
-  --primary-hover: #333333;
-  --primary-soft: #f4f4f4;
-  --primary-line: #d4d4d4;
-  --accent: #af7b5b;
-  --accent-ink: #8b5a3c; /* bronze for text, links and focus: 5.8:1 on white */
+  --primary: #1f4d3a; /* 9.6:1 on white */
+  --primary-hover: #173b2d;
+  --primary-soft: #edf3ef;
+  --primary-line: #c9d9cf;
+  --accent: #2f6b52;
+  --accent-ink: #1f4d3a;
 
-  /* Result card: black, so the headline numbers carry the page. */
-  --result-bg: #0a0a0a;
-  --result-raised: #161616;
-  --result-line: #2e2e2e;
-  --result-text: #d4d4d4;
-  --result-muted: #a3a3a3;
-  --result-accent: #c99a7c; /* light bronze: 7.9:1 on black */
+  /* Header, hero and result card: deep green, so the headline numbers carry the page. */
+  --result-bg: #173b2d;
+  --result-raised: #1e4838;
+  --result-line: #2d5a47;
+  --result-text: #d7e3dc;
+  --result-muted: #a9c0b3; /* 6.5:1 on the deep green */
+  --result-accent: #b9d8c6;
 
   --warn: #8a4b0a;
   --warn-soft: #fdf5e6;
@@ -55,12 +54,12 @@
   --space-5: 24px;
   --space-6: 32px;
 
-  /* Architectural: square corners and flat surfaces, hierarchy from black, white and line. */
-  --radius-sm: 0;
-  --radius-md: 2px;
-  --radius-lg: 2px;
-  --shadow-card: none;
-  --shadow-raised: none;
+  /* Restrained: soft corners, hairline borders, almost no shadow. */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-card: 0 1px 2px rgb(23 59 45 / 0.05);
+  --shadow-raised: 0 4px 16px rgb(23 59 45 / 0.08);
   --control-h: 44px;
   /* Motion tokens: one shared scale; animate transform and opacity only. */
   --dur-instant: 80ms;
@@ -262,32 +261,32 @@ input[type="number"] {
   color: var(--ink);
 }
 
-/* Black masthead and result card: re-map the tokens so every child flips to light-on-dark. */
+/* Green masthead and result card: re-map the tokens so every child flips to light-on-dark. */
 .topbar,
 .hero-strip,
 .result-card {
   --ink: #ffffff;
-  --ink-2: #e5e5e5;
-  --muted: #a3a3a3;
-  --line: #2e2e2e;
-  --line-strong: #404040;
-  --surface: #0a0a0a;
-  --surface-2: #161616;
-  --accent-ink: #c99a7c;
+  --ink-2: #e3ece6;
+  --muted: var(--result-muted);
+  --line: var(--result-line);
+  --line-strong: #3b6a56;
+  --surface: var(--result-bg);
+  --surface-2: var(--result-raised);
+  --accent-ink: var(--result-accent);
   color: var(--ink);
 }
 
 /* Header and hero bleed edge to edge; clip-path stops the shadow spilling vertically. */
 .topbar,
 .hero-strip {
-  background: #0a0a0a;
-  box-shadow: 0 0 0 100vmax #0a0a0a;
+  background: var(--result-bg);
+  box-shadow: 0 0 0 100vmax var(--result-bg);
   clip-path: inset(0 -100vmax);
 }
 
 .topbar .button-call {
-  background: var(--accent);
-  color: #0a0a0a; /* 5.8:1 on bronze */
+  background: #ffffff;
+  color: var(--result-bg); /* 11:1 */
 }
 
 .topbar .button-call:hover {
@@ -533,7 +532,7 @@ h2 em {
   flex: 0 0 auto;
   place-items: center;
   border-radius: var(--radius-sm);
-  background: var(--ink);
+  background: var(--primary);
   color: #fff;
   font-size: var(--fs-sm);
   font-weight: 600;
@@ -2280,6 +2279,270 @@ select {
     border-top: 1px solid var(--line-strong);
     font-size: 9pt;
   }
+}
+
+/* ---------- Loading, empty and error states ---------- */
+.skeleton-row {
+  height: 58px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--line) 50%, var(--surface-2) 75%) 0 0 / 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.skeleton-row + .skeleton-row {
+  margin-top: var(--space-2);
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-row {
+    animation: none;
+  }
+}
+
+.load-error {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--danger-line);
+  border-radius: var(--radius-md);
+  background: var(--danger-soft);
+  color: var(--ink);
+  font-size: var(--fs-sm);
+}
+
+.load-error .button-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---------- Field guidance ---------- */
+.field-help {
+  margin-top: calc(var(--space-2) * -1);
+  font-size: var(--fs-sm);
+}
+
+.field-help summary {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent-ink);
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+
+.field-help summary::-webkit-details-marker {
+  display: none;
+}
+
+.road-diagram {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+.road-diagram svg {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+}
+
+.road-diagram figcaption {
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+}
+
+.field-optional {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* ---------- Results ---------- */
+.far-display-unit {
+  color: var(--result-muted);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.result-note {
+  margin: 0;
+  color: var(--result-text);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.far-breakdown {
+  width: 100%;
+  margin-bottom: var(--space-4);
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+.far-breakdown th,
+.far-breakdown td {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.far-breakdown th {
+  font-weight: 600;
+  text-align: left;
+}
+
+.far-breakdown th small {
+  display: block;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  font-weight: 400;
+}
+
+.far-breakdown td {
+  padding-left: var(--space-3);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.far-breakdown-total th,
+.far-breakdown-total td {
+  border-top: 2px solid var(--primary);
+  border-bottom: 0;
+  color: var(--primary);
+  font-size: var(--fs-md);
+  font-weight: 700;
+}
+
+.detail-subheading {
+  margin: var(--space-4) 0 var(--space-2);
+  font-size: var(--fs-base);
+  font-weight: 600;
+}
+
+.trace-groups {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+}
+
+.trace-groups h4,
+.trace-unverified-title {
+  margin: 0 0 var(--space-2);
+  color: var(--muted);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.trace-groups dl {
+  margin: 0;
+}
+
+.trace-groups dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: var(--fs-sm);
+}
+
+.trace-groups dt small {
+  display: block;
+  color: var(--muted);
+  font-size: var(--fs-xs);
+}
+
+.trace-groups dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  text-align: right;
+}
+
+.trace-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+.trace-table th,
+.trace-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.trace-table td:nth-child(2) {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.trace-kind {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  font-size: var(--fs-xs);
+}
+
+.trace-regulatory {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.trace-assumption {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+
+/* ---------- Review request ---------- */
+.review-form {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--control-line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  resize: vertical;
+}
+
+.review-form .button-primary {
+  justify-content: center;
+}
+
+.review-success {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--success-line);
+  border-radius: var(--radius-md);
+  background: var(--success-soft);
+  color: var(--success) !important;
+  font-weight: 600;
 }
 
 /* Building layout & constraint engine */
